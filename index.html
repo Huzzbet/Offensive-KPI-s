@@ -6,57 +6,188 @@
   <title>Shot Decision Tracker</title>
   <style>
     /* Reset & base */
-    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    body { margin: 0; padding: 20px; background: #0b1220; color: #f9fafb; }
-    h1 { font-size: 24px; margin: 0 0 8px; text-align: center; }
-    .subheading { font-size: 14px; text-align: center; margin-bottom: 16px; color: #9ca3af; }
-
-    /* Logo */
-    .logo-container {
-      text-align: center;
-      margin-bottom: 12px;
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    .team-logo {
-      width: 120px;
-      max-width: 40%;
-      height: auto;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #0b1220;
+      color: #f9fafb;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 8px;
+      text-align: center;
+    }
+    .subheading {
+      font-size: 14px;
+      text-align: center;
+      margin-bottom: 16px;
+      color: #9ca3af;
     }
 
     /* Container & cards */
-    .container { max-width: 520px; margin: 0 auto; }
-    .card { background: #111827; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
-    .section-title { font-size: 15px; margin-bottom: 8px; font-weight: 600; color: #e5e7eb; }
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #111827;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    .section-title {
+      font-size: 15px;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
 
-    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    button { border: none; border-radius: 999px; padding: 10px 12px; font-size: 13px; font-weight: 600; cursor: pointer; background: #1f2937; color: #e5e7eb; transition: transform 0.05s ease, box-shadow 0.05s ease, background 0.1s ease; }
-    button:active { transform: scale(0.97); box-shadow: 0 0 0 rgba(0,0,0,0.2); }
-    button.selected { background: #10b981; color: #022c22; box-shadow: 0 0 0 1px #6ee7b7; }
-    button.danger.selected { background: #ef4444; color: #7f1d1d; box-shadow: 0 0 0 1px #fecaca; }
-    button.warning.selected { background: #f59e0b; color: #78350f; box-shadow: 0 0 0 1px #fed7aa; }
-    button.small { padding: 8px 10px; font-size: 12px; }
-    .primary-action { width: 100%; margin-top: 12px; padding: 12px; font-size: 16px; border-radius: 999px; background: #3b82f6; color: white; }
-    .primary-action:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #1f2937;
+      color: #e5e7eb;
+      transition: transform 0.05s ease, box-shadow 0.05s ease, background 0.1s ease;
+    }
+    button:active {
+      transform: scale(0.97);
+      box-shadow: 0 0 0 rgba(0,0,0,0.2);
+    }
+    button.selected {
+      background: #10b981;
+      color: #022c22;
+      box-shadow: 0 0 0 1px #6ee7b7;
+    }
+    button.danger.selected {
+      background: #ef4444;
+      color: #7f1d1d;
+      box-shadow: 0 0 0 1px #fecaca;
+    }
+    button.warning.selected {
+      background: #f59e0b;
+      color: #78350f;
+      box-shadow: 0 0 0 1px #fed7aa;
+    }
+    button.small {
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+    .primary-action {
+      width: 100%;
+      margin-top: 12px;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 999px;
+      background: #3b82f6;
+      color: white;
+    }
+    .primary-action:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
 
-    .stats-row { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; margin-top: 6px; }
-    .stat-pill { padding: 6px 10px; border-radius: 999px; background: #020617; border: 1px solid #1f2937; color: #e5e7eb; }
-    .stat-pill.bad { border-color: #b91c1c; color: #fecaca; }
-    .stat-pill.good { border-color: #16a34a; color: #bbf7d0; }
-    .stat-pill.warn { border-color: #f59e0b; color: #fed7aa; }
+    .stats-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+    .stat-pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #1f2937;
+      color: #e5e7eb;
+    }
+    .stat-pill.bad {
+      border-color: #b91c1c;
+      color: #fecaca;
+    }
+    .stat-pill.good {
+      border-color: #16a34a;
+      color: #bbf7d0;
+    }
+    .stat-pill.warn {
+      border-color: #f59e0b;
+      color: #fed7aa;
+    }
 
-    .table-wrapper { max-height: 220px; overflow-y: auto; margin-top: 10px; border-radius: 10px; border: 1px solid #1f2937; }
-    table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    th, td { padding: 6px 8px; text-align: center; border-bottom: 1px solid #111827; white-space: nowrap; }
-    th { position: sticky; top: 0; background: #020617; z-index: 1; }
-    tr:nth-child(even) { background: #020617; }
+    .table-wrapper {
+      max-height: 220px;
+      overflow-y: auto;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: 1px solid #1f2937;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    th, td {
+      padding: 6px 8px;
+      text-align: center;
+      border-bottom: 1px solid #111827;
+      white-space: nowrap;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: #020617;
+      z-index: 1;
+    }
+    tr:nth-child(even) {
+      background: #020617;
+    }
 
-    textarea { width: 100%; min-height: 100px; border-radius: 10px; border: 1px solid #1f2937; padding: 8px; font-size: 12px; resize: vertical; background: #020617; color: #f9fafb; }
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      border-radius: 10px;
+      border: 1px solid #1f2937;
+      padding: 8px;
+      font-size: 12px;
+      resize: vertical;
+      background: #020617;
+      color: #f9fafb;
+    }
 
-    .footer-actions { display: flex; gap: 10px; margin-top: 10px; }
-    .footer-actions button { flex: 1; }
+    .footer-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .footer-actions button {
+      flex: 1;
+    }
 
-    .quarter-box { background: #1f2937; border-radius: 10px; padding: 12px; margin-bottom: 12px; color: #e5e7eb; }
-    .quarter-header { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .quarter-box {
+      background: #1f2937;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+      color: #e5e7eb;
+    }
+    .quarter-header {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
 
     @media (min-width: 768px) {
       body { padding: 40px 0; }
@@ -66,13 +197,6 @@
 </head>
 <body>
   <div class="container">
-
-    <!-- Logo at the top -->
-    <div class="logo-container">
-      <!-- Make sure this file exists in the same folder on GitHub -->
-      <img src="mckinnon-logo.png" alt="McKinnon Logo" class="team-logo">
-    </div>
-
     <h1>Shot Decision Tracker</h1>
     <div class="subheading">Player ● Shot Quality ● Decision Quality (Roles auto: P1 / P2 / NS)</div>
 
@@ -200,7 +324,7 @@
       if (e.target.tagName !== 'BUTTON') return;
       state.quality = e.target.getAttribute('data-quality');
       qualityButtons.querySelectorAll('button').forEach(btn => {
-        btn.classList.remove('selected','danger','warning','good');
+        btn.classList.remove('selected', 'danger', 'warning', 'good');
       });
       e.target.classList.add('selected');
       if (state.quality === 'G') e.target.classList.add('good');
@@ -214,7 +338,7 @@
       if (e.target.tagName !== 'BUTTON') return;
       state.decision = e.target.getAttribute('data-decision');
       decisionButtons.querySelectorAll('button').forEach(btn => {
-        btn.classList.remove('selected','danger');
+        btn.classList.remove('selected', 'danger');
       });
       e.target.classList.add('selected');
       if (state.decision === 'I') e.target.classList.add('danger');
@@ -251,19 +375,19 @@
       const pills = [];
 
       pills.push(`Total shots: ${total}`);
-      pills.push(`P1: ${p1} (${perc(p1,total)}%)`);
-      pills.push(`P2: ${p2} (${perc(p2,total)}%)`);
-      pills.push(`NS: ${ns} (${perc(ns,total)}%)`);
+      pills.push(`P1: ${p1} (${perc(p1, total)}%)`);
+      pills.push(`P2: ${p2} (${perc(p2, total)}%)`);
+      pills.push(`NS: ${ns} (${perc(ns, total)}%)`);
       pills.push(`G/O: ${goodShots}/${total} (${goodShotPerc}%)`);
-      pills.push(`Poor: ${p} (${perc(p,total)}%)`);
+      pills.push(`Poor: ${p} (${perc(p, total)}%)`);
       pills.push(`Correct: ${c}/${total} (${correctPerc}%)`);
-      pills.push(`Incorrect: ${i} (${perc(i,total)}%)`);
+      pills.push(`Incorrect: ${i} (${perc(i, total)}%)`);
 
       pills.forEach(text => {
         const div = document.createElement('div');
         div.classList.add('stat-pill');
 
-        if (text.startsWith('NS') && total && ns/total > 0.2) {
+        if (text.startsWith('NS') && total && ns / total > 0.2) {
           div.classList.add('bad');
         }
         if (text.startsWith('G/O') && goodShotPerc >= 70) {
@@ -330,7 +454,7 @@
       lines.push(``);
       lines.push(`Key messages for team (edit as needed):`);
 
-      if (ns/total > 0.2) {
+      if (ns / total > 0.2) {
         lines.push(`- Too many shots from non-shooters – get the ball back to P1/P2.`);
       } else {
         lines.push(`- Shot volume from primary/secondary shooters is acceptable.`);
@@ -368,11 +492,16 @@
       state.possessions.push(possession);
 
       const row = document.createElement('tr');
-      const idxCell = document.createElement('td'); idxCell.textContent = state.possessions.length;
-      const playerCell = document.createElement('td'); playerCell.textContent = `#${player.number} ${player.name}`;
-      const roleCell = document.createElement('td'); roleCell.textContent = role;
-      const qualCell = document.createElement('td'); qualCell.textContent = possession.quality;
-      const decCell = document.createElement('td'); decCell.textContent = possession.decision;
+      const idxCell = document.createElement('td');
+      idxCell.textContent = state.possessions.length;
+      const playerCell = document.createElement('td');
+      playerCell.textContent = `#${player.number} ${player.name}`;
+      const roleCell = document.createElement('td');
+      roleCell.textContent = role;
+      const qualCell = document.createElement('td');
+      qualCell.textContent = possession.quality;
+      const decCell = document.createElement('td');
+      decCell.textContent = possession.decision;
 
       row.appendChild(idxCell);
       row.appendChild(playerCell);
@@ -419,7 +548,8 @@
       // Create archived box
       const box = document.createElement('div');
       box.classList.add('quarter-box');
-      const header = document.createElement('div'); header.classList.add('quarter-header');
+      const header = document.createElement('div');
+      header.classList.add('quarter-header');
       header.textContent = `Quarter Summary (#${archivesContainer.childElementCount + 1})`;
       box.appendChild(header);
 
