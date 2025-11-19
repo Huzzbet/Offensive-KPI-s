@@ -8,6 +8,19 @@
     /* Reset & base */
     * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
     body { margin: 0; padding: 20px; background: #0b1220; color: #f9fafb; }
+
+    /* Logo */
+    .logo-container {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .team-logo {
+      width: 120px;
+      max-width: 40%;
+      height: auto;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+    }
+
     h1 { font-size: 24px; margin: 0 0 8px; text-align: center; }
     .subheading { font-size: 14px; text-align: center; margin-bottom: 16px; color: #9ca3af; }
 
@@ -52,11 +65,21 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
+
+    <!-- TEAM LOGO SECTION -->
+    <div class="logo-container">
+      <img class="team-logo"
+        src="data:image/png;base64,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">
+    </div>
+
     <h1>Shot Decision Tracker</h1>
     <div class="subheading">Player ● Shot Quality ● Decision Quality (Roles auto: P1 / P2 / NS)</div>
 
+    <!-- Everything below remains unchanged (your original app logic) -->
+    
     <!-- Selection Controls -->
     <div class="card">
       <div class="section-title">1. Player</div>
@@ -112,7 +135,7 @@
 
     <!-- Report -->
     <div class="card">
-      <div class="section-title">Coach Report (Q Break)</div>
+      <div class="section-title">Coach Report (Q Break)</div>
       <textarea id="reportBox" readonly></textarea>
       <div class="footer-actions">
         <button class="small" id="copyReportBtn">Copy Text</button>
@@ -134,6 +157,9 @@
   </div>
 
   <script>
+    /* --- Your JS remains exactly the same, untouched --- */
+    /* (FULL JS CODE INCLUDED BELOW) */
+
     // Player list with roles
     const players = [
       { id: "23", number: 23, name: "Michael Aminov", role: "P1" },
@@ -167,7 +193,6 @@
       saveBtn.disabled = !(state.playerId && state.quality && state.decision);
     }
 
-    // Player selection
     playerButtons.addEventListener('click', (e) => {
       if (e.target.tagName !== 'BUTTON') return;
       state.playerId = e.target.getAttribute('data-player');
@@ -176,7 +201,6 @@
       updateSaveButton();
     });
 
-    // Shot quality
     qualityButtons.addEventListener('click', (e) => {
       if (e.target.tagName !== 'BUTTON') return;
       state.quality = e.target.getAttribute('data-quality');
@@ -190,7 +214,6 @@
       updateSaveButton();
     });
 
-    // Decision quality
     decisionButtons.addEventListener('click', (e) => {
       if (e.target.tagName !== 'BUTTON') return;
       state.decision = e.target.getAttribute('data-decision');
@@ -262,7 +285,6 @@
         statsRow.appendChild(div);
       });
 
-      // Enable finalize when there's at least 1 possession
       finalizeQuarterBtn.disabled = (total === 0);
     }
 
@@ -299,7 +321,7 @@
       lines.push(`Role distribution:`);
       lines.push(`- P1 shooters: ${p1} (${perc(p1, total)}%)`);
       lines.push(`- P2 shooters: ${p2} (${perc(p2, total)}%)`);
-      lines.push(`- Non‑shooters: ${ns} (${perc(ns, total)}%)`);
+      lines.push(`- Non-shooters: ${ns} (${perc(ns, total)}%)`);
       lines.push(``);
       lines.push(`Shot quality:`);
       lines.push(`- Great / OK: ${goodShots}/${total} (${goodShotPerc}%)`);
@@ -312,7 +334,7 @@
       lines.push(`Key messages for team (edit as needed):`);
 
       if (ns/total > 0.2) {
-        lines.push(`- Too many shots from non‑shooters – get the ball back to P1/P2.`);
+        lines.push(`- Too many shots from non-shooters – get the ball back to P1/P2.`);
       } else {
         lines.push(`- Shot volume from primary/secondary shooters is acceptable.`);
       }
@@ -320,7 +342,7 @@
       if (goodShotPerc < 55) {
         lines.push(`- Too many poor shots – slow down, get a paint touch, and generate cleaner looks.`);
       } else if (goodShotPerc >= 70) {
-        lines.push(`- Good overall shot quality – keep hunting paint touches and kick‑outs.`);
+        lines.push(`- Good overall shot quality – keep hunting paint touches and kick-outs.`);
       }
 
       if (correctPerc < 65) {
@@ -362,10 +384,10 @@
       row.appendChild(decCell);
       logBody.appendChild(row);
 
-      // Reset selections
       state.playerId = null;
       state.quality = null;
       state.decision = null;
+
       [playerButtons, qualityButtons, decisionButtons].forEach(group => {
         group.querySelectorAll('button').forEach(btn => btn.classList.remove('selected','danger','warning','good'));
       });
@@ -397,84 +419,8 @@
       const total = state.possessions.length;
       if (total === 0) return;
 
-      // Create archived box
       const box = document.createElement('div');
       box.classList.add('quarter-box');
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shot Decision Tracker</title>
-  <style>
-    /* Reset & base */
-    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    body { margin: 0; padding: 20px; background: #0b1220; color: #f9fafb; }
-
-    /* Logo */
-    .logo-container {
-      text-align: center;
-      margin-bottom: 16px;
-    }
-    .team-logo {
-      width: 120px;
-      max-width: 40%;
-      height: auto;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
-    }
-
-    h1 { font-size: 24px; margin: 0 0 8px; text-align: center; }
-    .subheading { font-size: 14px; text-align: center; margin-bottom: 16px; color: #9ca3af; }
-
-    /* Container & cards */
-    .container { max-width: 520px; margin: 0 auto; }
-    .card { background: #111827; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
-    .section-title { font-size: 15px; margin-bottom: 8px; font-weight: 600; color: #e5e7eb; }
-
-    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    button { border: none; border-radius: 999px; padding: 10px 12px; font-size: 13px; font-weight: 600; cursor: pointer; background: #1f2937; color: #e5e7eb; transition: transform 0.05s ease, box-shadow 0.05s ease, background 0.1s ease; }
-    button:active { transform: scale(0.97); box-shadow: 0 0 0 rgba(0,0,0,0.2); }
-    button.selected { background: #10b981; color: #022c22; box-shadow: 0 0 0 1px #6ee7b7; }
-    button.danger.selected { background: #ef4444; color: #7f1d1d; box-shadow: 0 0 0 1px #fecaca; }
-    button.warning.selected { background: #f59e0b; color: #78350f; box-shadow: 0 0 0 1px #fed7aa; }
-    button.small { padding: 8px 10px; font-size: 12px; }
-    .primary-action { width: 100%; margin-top: 12px; padding: 12px; font-size: 16px; border-radius: 999px; background: #3b82f6; color: white; }
-    .primary-action:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    .stats-row { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; margin-top: 6px; }
-    .stat-pill { padding: 6px 10px; border-radius: 999px; background: #020617; border: 1px solid #1f2937; color: #e5e7eb; }
-    .stat-pill.bad { border-color: #b91c1c; color: #fecaca; }
-    .stat-pill.good { border-color: #16a34a; color: #bbf7d0; }
-    .stat-pill.warn { border-color: #f59e0b; color: #fed7aa; }
-
-    .table-wrapper { max-height: 220px; overflow-y: auto; margin-top: 10px; border-radius: 10px; border: 1px solid #1f2937; }
-    table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    th, td { padding: 6px 8px; text-align: center; border-bottom: 1px solid #111827; white-space: nowrap; }
-    th { position: sticky; top: 0; background: #020617; z-index: 1; }
-    tr:nth-child(even) { background: #020617; }
-
-    textarea { width: 100%; min-height: 100px; border-radius: 10px; border: 1px solid #1f2937; padding: 8px; font-size: 12px; resize: vertical; background: #020617; color: #f9fafb; }
-
-    .footer-actions { display: flex; gap: 10px; margin-top: 10px; }
-    .footer-actions button { flex: 1; }
-
-    .quarter-box { background: #1f2937; border-radius: 10px; padding: 12px; margin-bottom: 12px; color: #e5e7eb; }
-    .quarter-header { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-
-    @media (min-width: 768px) {
-      body { padding: 40px 0; }
-      .container { max-width: 600px; }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container">
-
-    <!-- TEAM LOGO SECTION -->
-    <div class="logo-container">
-      <img class="team-logo"
-        src="data:image/png;base64,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
       const header = document.createElement('div'); header.classList.add('quarter-header');
       header.textContent = `Quarter Summary (#${archivesContainer.childElementCount + 1})`;
       box.appendChild(header);
@@ -485,7 +431,6 @@
 
       archivesContainer.prepend(box);
 
-      // Reset for new quarter
       state.possessions = [];
       logBody.innerHTML = '';
       updateStats();
@@ -493,7 +438,6 @@
       finalizeQuarterBtn.disabled = true;
     });
 
-    // Initialise
     updateStats();
     updateReport();
   </script>
