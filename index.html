@@ -47,11 +47,18 @@
       color: #e5e7eb;
     }
 
+    .pill-label {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+
     .btn-row {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
     }
+
     button {
       border: none;
       border-radius: 999px;
@@ -98,6 +105,51 @@
     .primary-action:disabled {
       opacity: 0.4;
       cursor: not-allowed;
+    }
+
+    /* Player button styling (more professional look) */
+    .player-button {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      min-width: 150px;
+      background: #020617;
+      border: 1px solid #1f2937;
+      border-radius: 12px;
+      padding: 8px 10px;
+    }
+    .player-button.selected {
+      background: #022c22;
+      border-color: #10b981;
+      box-shadow: 0 0 0 1px #6ee7b7;
+    }
+    .player-number {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+    .player-name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .role-chip {
+      margin-top: 2px;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid;
+    }
+    .role-p1 {
+      border-color: #22c55e;
+      color: #bbf7d0;
+    }
+    .role-p2 {
+      border-color: #38bdf8;
+      color: #bae6fd;
+    }
+    .role-ns {
+      border-color: #a855f7;
+      color: #e9d5ff;
     }
 
     .stats-row {
@@ -187,6 +239,26 @@
       font-size: 16px;
       font-weight: 600;
       margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .quarter-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #3b82f6;
+      color: #bfdbfe;
+    }
+
+    .top-quarter-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #9ca3af;
     }
 
     @media (min-width: 768px) {
@@ -200,29 +272,68 @@
     <h1>Shot Decision Tracker</h1>
     <div class="subheading">Player ● Shot Quality ● Decision Quality (Roles auto: P1 / P2 / NS)</div>
 
+    <!-- Quarter info -->
+    <div class="card">
+      <div class="top-quarter-row">
+        <div><strong>Current Quarter:</strong> <span id="currentQuarterLabel">Q1</span></div>
+        <div style="font-size:11px;">Target: shots from P1/P2, 70%+ good looks, 75%+ correct decisions</div>
+      </div>
+    </div>
+
     <!-- Selection Controls -->
     <div class="card">
       <div class="section-title">1. Player</div>
       <div class="btn-row" id="playerButtons">
-        <button data-player="23">#23 Michael Aminov (P1)</button>
-        <button data-player="5">#5 Cal Ralmer (P2)</button>
-        <button data-player="9">#9 Thomas D'Amelio (NS)</button>
-        <button data-player="22">#22 Oliver Mann (P2)</button>
-        <button data-player="32">#32 Oliver Ledger (P2)</button>
-        <button data-player="14">#14 Charlie Watts (NS)</button>
+        <button class="player-button" data-player="23">
+          <span class="player-number">#23</span>
+          <span class="player-name">Michael Aminov</span>
+          <span class="role-chip role-p1">Primary</span>
+        </button>
+        <button class="player-button" data-player="5">
+          <span class="player-number">#5</span>
+          <span class="player-name">Cal Ralmer</span>
+          <span class="role-chip role-p2">Secondary</span>
+        </button>
+        <button class="player-button" data-player="9">
+          <span class="player-number">#9</span>
+          <span class="player-name">Thomas D'Amelio</span>
+          <span class="role-chip role-ns">Non-Shooter</span>
+        </button>
+        <button class="player-button" data-player="22">
+          <span class="player-number">#22</span>
+          <span class="player-name">Oliver Mann</span>
+          <span class="role-chip role-p2">Secondary</span>
+        </button>
+        <button class="player-button" data-player="32">
+          <span class="player-number">#32</span>
+          <span class="player-name">Oliver Ledger</span>
+          <span class="role-chip role-p2">Secondary</span>
+        </button>
+        <button class="player-button" data-player="14">
+          <span class="player-number">#14</span>
+          <span class="player-name">Charlie Watts</span>
+          <span class="role-chip role-ns">Non-Shooter</span>
+        </button>
       </div>
 
       <div class="section-title" style="margin-top:12px;">2. Shot Quality</div>
+      <div class="pill-label">G = great look, O = ok/neutral, P = poor/forced</div>
       <div class="btn-row" id="qualityButtons">
-        <button data-quality="G" class="good">G – Great</button>
-        <button data-quality="O" class="warning">O – OK</button>
-        <button data-quality="P" class="danger">P – Poor</button>
+        <button data-quality="G">G – Great</button>
+        <button data-quality="O">O – OK</button>
+        <button data-quality="P">P – Poor</button>
       </div>
 
       <div class="section-title" style="margin-top:12px;">3. Decision Quality</div>
+      <div class="pill-label">C = correct player/shot, I = incorrect decision</div>
       <div class="btn-row" id="decisionButtons">
         <button data-decision="C">C – Correct</button>
-        <button data-decision="I" class="danger">I – Incorrect</button>
+        <button data-decision="I">I – Incorrect</button>
+      </div>
+
+      <!-- Clear current selection (undo before saving) -->
+      <div class="footer-actions" style="margin-top:8px;">
+        <button class="small" id="clearSelectionBtn">Clear Selection</button>
       </div>
 
       <button id="saveBtn" class="primary-action" disabled>+ Save Possession</button>
@@ -251,6 +362,10 @@
           <tbody id="logBody"></tbody>
         </table>
       </div>
+      <div class="footer-actions" style="margin-top:8px;">
+        <button class="small" id="undoLastBtn">Undo Last</button>
+        <button class="small" id="resetQuarterBtn">Reset Quarter</button>
+      </div>
     </div>
 
     <!-- Report -->
@@ -259,13 +374,8 @@
       <textarea id="reportBox" readonly></textarea>
       <div class="footer-actions">
         <button class="small" id="copyReportBtn">Copy Text</button>
-        <button class="small" id="resetQuarterBtn">Reset Quarter</button>
+        <button class="small" id="finalizeQuarterBtn" disabled>Finalize Quarter</button>
       </div>
-    </div>
-
-    <!-- Finalize Quarter -->
-    <div class="card">
-      <button id="finalizeQuarterBtn" class="primary-action" disabled>Finalize Quarter</button>
     </div>
 
     <!-- Archived Quarters -->
@@ -273,7 +383,6 @@
       <div class="section-title">Archived Quarters</div>
       <div id="archivesContainer"></div>
     </div>
-
   </div>
 
   <script>
@@ -288,23 +397,31 @@
     ];
 
     const state = {
+      currentQuarter: 1,
       playerId: null,
       quality: null,
       decision: null,
-      possessions: []
+      possessions: [] // possessions for the CURRENT quarter only
     };
 
-    const playerButtons = document.getElementById('playerButtons');
-    const qualityButtons = document.getElementById('qualityButtons');
-    const decisionButtons = document.getElementById('decisionButtons');
-    const saveBtn = document.getElementById('saveBtn');
-    const finalizeQuarterBtn = document.getElementById('finalizeQuarterBtn');
-    const logBody = document.getElementById('logBody');
-    const statsRow = document.getElementById('statsRow');
-    const reportBox = document.getElementById('reportBox');
-    const resetQuarterBtn = document.getElementById('resetQuarterBtn');
-    const copyReportBtn = document.getElementById('copyReportBtn');
-    const archivesContainer = document.getElementById('archivesContainer');
+    const currentQuarterLabel   = document.getElementById('currentQuarterLabel');
+    const playerButtons         = document.getElementById('playerButtons');
+    const qualityButtons        = document.getElementById('qualityButtons');
+    const decisionButtons       = document.getElementById('decisionButtons');
+    const saveBtn               = document.getElementById('saveBtn');
+    const clearSelectionBtn     = document.getElementById('clearSelectionBtn');
+    const finalizeQuarterBtn    = document.getElementById('finalizeQuarterBtn');
+    const logBody               = document.getElementById('logBody');
+    const statsRow              = document.getElementById('statsRow');
+    const reportBox             = document.getElementById('reportBox');
+    const resetQuarterBtn       = document.getElementById('resetQuarterBtn');
+    const copyReportBtn         = document.getElementById('copyReportBtn');
+    const archivesContainer     = document.getElementById('archivesContainer');
+    const undoLastBtn           = document.getElementById('undoLastBtn');
+
+    function updateQuarterLabel() {
+      currentQuarterLabel.textContent = 'Q' + state.currentQuarter;
+    }
 
     function updateSaveButton() {
       saveBtn.disabled = !(state.playerId && state.quality && state.decision);
@@ -312,36 +429,55 @@
 
     // Player selection
     playerButtons.addEventListener('click', (e) => {
-      if (e.target.tagName !== 'BUTTON') return;
-      state.playerId = e.target.getAttribute('data-player');
-      playerButtons.querySelectorAll('button').forEach(btn => btn.classList.remove('selected'));
-      e.target.classList.add('selected');
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      state.playerId = btn.getAttribute('data-player');
+      playerButtons.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
       updateSaveButton();
     });
 
     // Shot quality
     qualityButtons.addEventListener('click', (e) => {
-      if (e.target.tagName !== 'BUTTON') return;
-      state.quality = e.target.getAttribute('data-quality');
-      qualityButtons.querySelectorAll('button').forEach(btn => {
-        btn.classList.remove('selected', 'danger', 'warning', 'good');
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      state.quality = btn.getAttribute('data-quality');
+
+      qualityButtons.querySelectorAll('button').forEach(b => {
+        b.classList.remove('selected', 'danger', 'warning');
       });
-      e.target.classList.add('selected');
-      if (state.quality === 'G') e.target.classList.add('good');
-      if (state.quality === 'O') e.target.classList.add('warning');
-      if (state.quality === 'P') e.target.classList.add('danger');
+
+      btn.classList.add('selected');
+      if (state.quality === 'O') btn.classList.add('warning');
+      if (state.quality === 'P') btn.classList.add('danger');
       updateSaveButton();
     });
 
     // Decision quality
     decisionButtons.addEventListener('click', (e) => {
-      if (e.target.tagName !== 'BUTTON') return;
-      state.decision = e.target.getAttribute('data-decision');
-      decisionButtons.querySelectorAll('button').forEach(btn => {
-        btn.classList.remove('selected', 'danger');
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      state.decision = btn.getAttribute('data-decision');
+
+      decisionButtons.querySelectorAll('button').forEach(b => {
+        b.classList.remove('selected', 'danger');
       });
-      e.target.classList.add('selected');
-      if (state.decision === 'I') e.target.classList.add('danger');
+
+      btn.classList.add('selected');
+      if (state.decision === 'I') btn.classList.add('danger');
+      updateSaveButton();
+    });
+
+    // Clear selection (undo before saving)
+    clearSelectionBtn.addEventListener('click', () => {
+      state.playerId = null;
+      state.quality = null;
+      state.decision = null;
+
+      [playerButtons, qualityButtons, decisionButtons].forEach(group => {
+        group.querySelectorAll('button').forEach(btn => btn.classList.remove('selected', 'danger', 'warning'));
+      });
+
       updateSaveButton();
     });
 
@@ -390,10 +526,9 @@
         if (text.startsWith('NS') && total && ns / total > 0.2) {
           div.classList.add('bad');
         }
-        if (text.startsWith('G/O') && goodShotPerc >= 70) {
-          div.classList.add('good');
-        } else if (text.startsWith('G/O') && goodShotPerc < 55) {
-          div.classList.add('bad');
+        if (text.startsWith('G/O')) {
+          if (goodShotPerc >= 70) div.classList.add('good');
+          else if (goodShotPerc < 55) div.classList.add('bad');
         }
         if (text.startsWith('Correct')) {
           if (correctPerc >= 75) div.classList.add('good');
@@ -435,8 +570,10 @@
       const goodShotPerc = perc(goodShots, total);
       const correctPerc = perc(c, total);
 
+      const q = state.currentQuarter;
+
       const lines = [];
-      lines.push(`Quarter Shot Selection Report`);
+      lines.push(`Quarter ${q} Shot Selection Report`);
       lines.push(`Total shots: ${total}`);
       lines.push(``);
       lines.push(`Role distribution:`);
@@ -475,58 +612,79 @@
       reportBox.value = lines.join('\n');
     }
 
+    function renderLog() {
+      logBody.innerHTML = '';
+      state.possessions.forEach((pos, index) => {
+        const row = document.createElement('tr');
+
+        const idxCell = document.createElement('td');
+        idxCell.textContent = index + 1;
+
+        const playerCell = document.createElement('td');
+        playerCell.textContent = `#${pos.playerNumber} ${pos.playerName}`;
+
+        const roleCell = document.createElement('td');
+        roleCell.textContent = pos.role;
+
+        const qualCell = document.createElement('td');
+        qualCell.textContent = pos.quality;
+
+        const decCell = document.createElement('td');
+        decCell.textContent = pos.decision;
+
+        row.appendChild(idxCell);
+        row.appendChild(playerCell);
+        row.appendChild(roleCell);
+        row.appendChild(qualCell);
+        row.appendChild(decCell);
+
+        logBody.appendChild(row);
+      });
+    }
+
     saveBtn.addEventListener('click', () => {
       if (!state.playerId || !state.quality || !state.decision) return;
 
-      const player = players.find(p => p.id === state.playerId);
-      const role = player ? player.role : "NS";
+      const player = players.find(p => p.id === state.playerId) || { number: '', name: '', role: 'NS' };
 
       const possession = {
-        playerId: state.playerId,
-        playerName: player ? player.name : "",
-        role: role,
+        playerId: player.id,
+        playerNumber: player.number,
+        playerName: player.name,
+        role: player.role,
         quality: state.quality,
         decision: state.decision
       };
 
       state.possessions.push(possession);
 
-      const row = document.createElement('tr');
-      const idxCell = document.createElement('td');
-      idxCell.textContent = state.possessions.length;
-      const playerCell = document.createElement('td');
-      playerCell.textContent = `#${player.number} ${player.name}`;
-      const roleCell = document.createElement('td');
-      roleCell.textContent = role;
-      const qualCell = document.createElement('td');
-      qualCell.textContent = possession.quality;
-      const decCell = document.createElement('td');
-      decCell.textContent = possession.decision;
-
-      row.appendChild(idxCell);
-      row.appendChild(playerCell);
-      row.appendChild(roleCell);
-      row.appendChild(qualCell);
-      row.appendChild(decCell);
-      logBody.appendChild(row);
-
       // Reset selections
       state.playerId = null;
       state.quality = null;
       state.decision = null;
       [playerButtons, qualityButtons, decisionButtons].forEach(group => {
-        group.querySelectorAll('button').forEach(btn => btn.classList.remove('selected','danger','warning','good'));
+        group.querySelectorAll('button').forEach(btn => btn.classList.remove('selected','danger','warning'));
       });
 
       updateSaveButton();
+      renderLog();
+      updateStats();
+      updateReport();
+    });
+
+    // Undo last possession (after saving)
+    undoLastBtn.addEventListener('click', () => {
+      if (state.possessions.length === 0) return;
+      state.possessions.pop();
+      renderLog();
       updateStats();
       updateReport();
     });
 
     resetQuarterBtn.addEventListener('click', () => {
-      if (!confirm("Reset quarter data? This will clear all possessions.")) return;
+      if (!confirm("Reset quarter data? This will clear all possessions for this quarter.")) return;
       state.possessions = [];
-      logBody.innerHTML = '';
+      renderLog();
       updateStats();
       updateReport();
     });
@@ -545,12 +703,16 @@
       const total = state.possessions.length;
       if (total === 0) return;
 
-      // Create archived box
+      // Archive current quarter
       const box = document.createElement('div');
       box.classList.add('quarter-box');
+
       const header = document.createElement('div');
       header.classList.add('quarter-header');
-      header.textContent = `Quarter Summary (#${archivesContainer.childElementCount + 1})`;
+      header.innerHTML = `
+        <span>Quarter ${state.currentQuarter} Summary</span>
+        <span class="quarter-tag">Q${state.currentQuarter}</span>
+      `;
       box.appendChild(header);
 
       const content = document.createElement('pre');
@@ -559,15 +721,20 @@
 
       archivesContainer.prepend(box);
 
-      // Reset for new quarter
+      // Reset data for next quarter
       state.possessions = [];
-      logBody.innerHTML = '';
+      renderLog();
       updateStats();
       updateReport();
       finalizeQuarterBtn.disabled = true;
+
+      // Move to next quarter (will go Q1, Q2, Q3, Q4, then Q5 if OT)
+      state.currentQuarter += 1;
+      updateQuarterLabel();
     });
 
     // Initialise
+    updateQuarterLabel();
     updateStats();
     updateReport();
   </script>
