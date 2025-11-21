@@ -13,352 +13,404 @@
     body {
       margin: 0;
       padding: 20px;
-      background: #020617; /* deep navy */
-      color: #e5e7eb;
+      background: #020617;
+      color: #f9fafb;
     }
-
     h1 {
       font-size: 24px;
       margin: 0 0 8px;
       text-align: center;
     }
-
     .subheading {
-      font-size: 13px;
+      font-size: 14px;
       text-align: center;
       margin-bottom: 16px;
       color: #9ca3af;
     }
 
+    /* Layout */
     .app-shell {
-      max-width: 520px;
+      max-width: 480px;
       margin: 0 auto;
     }
 
-    .pill-indicators {
+    .pill-row {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 8px;
       margin-bottom: 16px;
-      font-size: 11px;
-      color: #9ca3af;
       flex-wrap: wrap;
     }
-    .pill-indicators span {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .pill-indicators span::before {
-      content: "";
-      width: 8px;
-      height: 8px;
+    .pill {
+      padding: 4px 10px;
       border-radius: 999px;
-      background: #4b5563;
-    }
-
-    .info-banner {
-      background: #020617;
-      border-radius: 16px;
-      padding: 12px 14px;
+      font-size: 11px;
       border: 1px solid #1f2937;
-      margin-bottom: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 12px;
-    }
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .info-label {
+      background: rgba(15,23,42,0.8);
       color: #9ca3af;
-      font-weight: 500;
     }
-    .info-value {
+    .pill.active {
+      background: #2563eb;
+      border-color: #2563eb;
       color: #e5e7eb;
-      font-weight: 500;
+    }
+    .pill-soft {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(148,163,184,0.1);
+      color: #9ca3af;
     }
 
     .card {
-      background: #020617;
-      border-radius: 16px;
-      padding: 16px;
-      border: 1px solid #111827;
-      margin-bottom: 16px;
-      box-shadow:
-        0 18px 35px rgba(15,23,42,0.85),
-        0 0 0 1px rgba(15,23,42,0.9);
+      background: radial-gradient(circle at top left, rgba(37,99,235,0.20), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(16,185,129,0.18), transparent 55%),
+                  #020617;
+      border-radius: 18px;
+      padding: 14px 14px 16px;
+      margin-bottom: 14px;
+      border: 1px solid rgba(15,23,42,0.95);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.85);
     }
-
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
     .card-title {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
-      margin-bottom: 6px;
     }
     .card-subtitle {
       font-size: 11px;
       color: #9ca3af;
-      margin-bottom: 10px;
+    }
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .section-hint {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 8px;
     }
 
     /* Player grid */
     .player-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0,1fr));
       gap: 10px;
     }
-
     .player-card {
       position: relative;
-      border-radius: 14px;
-      border: 1px solid #1f2937;
-      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), #020617);
       padding: 10px 10px 10px;
-      text-align: left;
+      border-radius: 14px;
+      background: radial-gradient(circle at top left, rgba(148,163,184,0.28), transparent 55%),
+                  #020617;
+      border: 1px solid rgba(31,41,55,0.9);
       cursor: pointer;
-      transition:
-        transform 0.12s ease-out,
-        box-shadow 0.12s ease-out,
-        border-color 0.12s ease-out,
-        background 0.15s ease-out;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      overflow: hidden;
-      color: #e5e7eb; /* force text colour */
+      transition: transform 0.08s ease, box-shadow 0.08s ease, border-color 0.08s ease, background 0.08s ease;
     }
-
-    /* make whole tile clickable even when tapping text/pill */
-    .player-card * {
-      pointer-events: none;
-    }
-
     .player-card:hover {
       transform: translateY(-1px);
-      box-shadow: 0 10px 24px rgba(15,23,42,0.9);
-      border-color: #374151;
+      box-shadow: 0 14px 30px rgba(15,23,42,0.9);
+      border-color: rgba(55,65,81,0.9);
     }
-
+    .player-card.selected {
+      background: radial-gradient(circle at top left, rgba(96,165,250,0.32), transparent 55%),
+                  #020617;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px rgba(37,99,235,0.55), 0 18px 40px rgba(15,23,42,1);
+    }
     .player-number {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      margin-bottom: 2px;
     }
-
     .player-name {
       font-size: 13px;
-      font-weight: 500;
+      margin-bottom: 6px;
       color: #e5e7eb;
     }
-
-    /* Role chip */
     .role-pill {
-      margin-top: 4px;
-      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
       padding: 2px 8px;
       border-radius: 999px;
       font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
+      font-weight: 500;
+      letter-spacing: 0.03em;
       text-transform: uppercase;
-      border-width: 1px;
-      border-style: solid;
-      background: rgba(15,23,42,0.9);
     }
     .role-primary {
-      border-color: #22c55e;
-      color: #bbf7d0;
+      background: rgba(34,197,94,0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34,197,94,0.5);
     }
     .role-secondary {
-      border-color: #38bdf8;
-      color: #bae6fd;
+      background: rgba(59,130,246,0.18);
+      color: #60a5fa;
+      border: 1px solid rgba(59,130,246,0.5);
     }
-    .role-ns {
-      border-color: #a855f7;
-      color: #e9d5ff;
-    }
-
-    /* SELECTED STATE – keep text & pill visible */
-    .player-card.selected {
-      border-color: #22c55e;
-      background:
-        radial-gradient(circle at top left, rgba(34,197,94,0.25), #020617);
-      box-shadow:
-        0 0 0 1px rgba(34,197,94,0.45),
-        0 18px 40px rgba(15,23,42,0.95);
-    }
-    .player-card.selected .player-number,
-    .player-card.selected .player-name {
-      color: #ecfeff;
-    }
-    .player-card.selected .role-pill {
-      background: rgba(15,23,42,0.95);
+    .role-non {
+      background: rgba(168,85,247,0.16);
+      color: #c4b5fd;
+      border: 1px solid rgba(168,85,247,0.6);
     }
 
-    /* Button groups */
-    .chip-row {
+    /* Segmented controls */
+    .segment-row {
       display: flex;
-      flex-wrap: wrap;
       gap: 8px;
-      margin-top: 6px;
+      margin-bottom: 4px;
     }
-    .chip {
-      padding: 8px 12px;
+    .seg-btn {
+      flex: 1;
+      padding: 8px 6px;
       border-radius: 999px;
-      border: 1px solid #1f2937;
-      background: #020617;
-      font-size: 13px;
-      cursor: pointer;
+      border: 1px solid rgba(31,41,55,0.9);
+      background: rgba(15,23,42,0.9);
       color: #e5e7eb;
-      min-width: 70px;
+      font-size: 12px;
       text-align: center;
-      transition:
-        background 0.12s ease-out,
-        border-color 0.12s ease-out,
-        color 0.12s ease-out,
-        transform 0.12s ease-out;
-    }
-    .chip span {
-      font-weight: 600;
-      margin-right: 4px;
-    }
-    .chip:hover {
-      transform: translateY(-0.5px);
-      border-color: #374151;
-    }
-    .chip.selected {
-      border-color: #38bdf8;
-      background: radial-gradient(circle at top left, rgba(59,130,246,0.24), #020617);
-      box-shadow:
-        0 0 0 1px rgba(37,99,235,0.4),
-        0 12px 26px rgba(15,23,42,0.8);
-    }
-
-    /* Action buttons */
-    .actions-row {
+      cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-top: 14px;
+      gap: 2px;
+      transition: background 0.08s ease, border-color 0.08s ease, transform 0.08s ease, box-shadow 0.08s ease;
     }
-    .btn {
-      border-radius: 999px;
-      padding: 12px 16px;
-      border: none;
-      font-size: 15px;
+    .seg-btn span {
+      display: block;
+      line-height: 1.1;
+    }
+    .seg-btn .seg-label {
       font-weight: 600;
-      cursor: pointer;
-      width: 100%;
-      transition:
-        transform 0.08s ease-out,
-        box-shadow 0.12s ease-out,
-        opacity 0.12s ease-out;
     }
-    .btn-primary {
-      background: linear-gradient(to right, #2563eb, #22c55e);
-      color: white;
-      box-shadow: 0 12px 28px rgba(37,99,235,0.55);
-    }
-    .btn-secondary {
-      background: #111827;
-      color: #e5e7eb;
-      border: 1px solid #1f2937;
-    }
-    .btn:active {
-      transform: translateY(1px) scale(0.99);
-      box-shadow: 0 4px 12px rgba(15,23,42,0.9);
-    }
-    .btn[disabled] {
-      opacity: 0.4;
-      cursor: default;
-      box-shadow: none;
-    }
-
-    .clear-row {
-      margin-top: 10px;
-      display: flex;
-      justify-content: center;
-    }
-    .clear-button {
-      border-radius: 999px;
-      padding: 8px 14px;
-      border: none;
-      font-size: 13px;
-      background: #111827;
+    .seg-btn .seg-desc {
+      font-size: 10px;
       color: #9ca3af;
-      cursor: pointer;
+    }
+    .seg-btn.selected {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(15,23,42,1);
+      border-color: #2563eb;
+      background: radial-gradient(circle at top left, rgba(37,99,235,0.45), transparent 55%),
+                  rgba(15,23,42,0.98);
     }
 
-    /* Summary */
-    .summary-header {
+    /* Quarter + targets header card */
+    .summary-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
-      font-size: 13px;
-      color: #9ca3af;
+      gap: 10px;
+      font-size: 12px;
     }
-    .summary-tags {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-    .summary-tag {
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid #1f2937;
-      color: #9ca3af;
-    }
-
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-      font-size: 11px;
-    }
-    .summary-item {
-      padding: 8px 8px;
-      border-radius: 10px;
-      background: #020617;
-      border: 1px solid #0f172a;
-    }
-    .summary-label {
+    .summary-line-label {
       color: #9ca3af;
       margin-bottom: 2px;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
     }
-    .summary-value {
+    .summary-line-value {
+      font-weight: 500;
+    }
+
+    .quarter-toggle-row {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .quarter-btn {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(31,41,55,0.9);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      font-size: 11px;
+      cursor: pointer;
+      min-width: 44px;
+      text-align: center;
+      transition: background 0.1s ease, border-color 0.1s ease, transform 0.1s ease;
+    }
+    .quarter-btn.active {
+      background: radial-gradient(circle at top left, rgba(37,99,235,0.5), transparent 60%),
+                  rgba(15,23,42,1);
+      border-color: #2563eb;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(15,23,42,1);
+    }
+
+    /* CTA buttons */
+    .cta-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .btn {
+      flex: 1;
+      border-radius: 999px;
+      padding: 10px 12px;
+      border: none;
+      font-size: 13px;
       font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, opacity 0.08s ease, background 0.08s ease;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #22c55e);
+      color: #f9fafb;
+      box-shadow: 0 14px 35px rgba(37,99,235,0.65);
+    }
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+    .btn-primary:not(:disabled):active {
+      transform: translateY(1px);
+      box-shadow: 0 8px 20px rgba(15,23,42,1);
+    }
+    .btn-ghost {
+      background: rgba(15,23,42,0.95);
+      color: #e5e7eb;
+      border: 1px solid rgba(31,41,55,0.95);
+      box-shadow: 0 10px 25px rgba(15,23,42,0.9);
+    }
+    .btn-ghost:not(:disabled):active {
+      transform: translateY(1px);
+      box-shadow: 0 6px 18px rgba(15,23,42,1);
+    }
+    .btn-icon {
+      font-size: 15px;
+    }
+
+    /* Stats list */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .stat-pill {
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(15,23,42,0.95);
+      border: 1px solid rgba(31,41,55,0.95);
+      font-size: 11px;
+    }
+    .stat-label {
+      color: #9ca3af;
+      margin-bottom: 2px;
+    }
+    .stat-value {
+      font-weight: 600;
+    }
+    .stat-highlight-good {
+      color: #4ade80;
+    }
+    .stat-highlight-bad {
+      color: #f97373;
+    }
+
+    /* Quarter graph */
+    .graph-wrapper {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .graph-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .graph-row-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 11px;
+    }
+    .graph-row-title {
+      font-weight: 500;
       color: #e5e7eb;
     }
-
-    .footer-note {
-      margin-top: 12px;
+    .graph-row-meta {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+    .graph-bar-shell {
+      width: 100%;
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(15,23,42,1);
+      overflow: hidden;
+      border: 1px solid rgba(31,41,55,0.95);
+      display: flex;
+    }
+    .graph-seg {
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+    .graph-sq-great {
+      background: linear-gradient(90deg, #22c55e, #4ade80);
+    }
+    .graph-sq-ok {
+      background: linear-gradient(90deg, #eab308, #fde047);
+    }
+    .graph-sq-poor {
+      background: linear-gradient(90deg, #f97316, #fb7185);
+    }
+    .graph-dq-correct {
+      background: linear-gradient(90deg, #38bdf8, #6366f1);
+    }
+    .graph-dq-incorrect {
+      background: linear-gradient(90deg, #f97373, #fb7185);
+    }
+    .graph-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
       font-size: 10px;
+      margin-top: 2px;
+      color: #9ca3af;
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+    }
+    .dot-great { background: #4ade80; }
+    .dot-ok { background: #fde047; }
+    .dot-poor { background: #fb7185; }
+    .dot-correct { background: #38bdf8; }
+    .dot-incorrect { background: #f97373; }
+
+    .empty-note {
+      margin-top: 6px;
+      font-size: 11px;
       color: #6b7280;
-      text-align: center;
     }
 
-    @media (max-width: 480px) {
-      body {
-        padding: 16px 12px 24px;
-      }
-      .card {
-        padding: 14px;
-      }
-      .player-number {
-        font-size: 16px;
-      }
-      .player-name {
-        font-size: 12px;
-      }
+    /* Small helper text */
+    .footer-note {
+      margin-top: 10px;
+      font-size: 10px;
+      text-align: center;
+      color: #4b5563;
     }
   </style>
 </head>
@@ -366,348 +418,435 @@
   <div class="app-shell">
     <h1>Shot Decision Tracker</h1>
     <div class="subheading">
-      Player • Shot Quality • Decision Quality (Roles: P1 / P2 / NS)
+      Player · Shot Quality · Decision Quality (Roles: P1 / P2 / NS)
     </div>
 
-    <div class="pill-indicators">
-      <span>Player</span>
-      <span>Shot Quality</span>
-      <span>Decision Quality</span>
+    <div class="pill-row">
+      <div class="pill active">● Player</div>
+      <div class="pill">● Shot Quality</div>
+      <div class="pill">● Decision Quality</div>
     </div>
 
-    <div class="info-banner">
-      <div class="info-row">
-        <span class="info-label">Current Quarter:</span>
-        <span class="info-value" id="currentQuarterLabel">Q1</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Targets:</span>
-        <span class="info-value">
-          P1/P2 shots, 70%+ looks, 75%+ correct
-        </span>
-      </div>
-    </div>
-
-    <!-- PLAYER SELECTION -->
+    <!-- Current quarter & targets -->
     <div class="card">
-      <div class="card-title">1. Player</div>
-      <div class="card-subtitle">
-        Tap the player who finished the possession (Primary / Secondary / Non-Shooter)
+      <div class="summary-top">
+        <div>
+          <div class="summary-line-label">Current Quarter</div>
+          <div class="summary-line-value" id="currentQuarterLabel">Q1</div>
+        </div>
+        <div>
+          <div class="summary-line-label">Targets</div>
+          <div class="summary-line-value">P1/P2 shots, 70%+ looks, 75%+ correct</div>
+        </div>
+      </div>
+
+      <div class="quarter-toggle-row" style="margin-top:12px;">
+        <button class="quarter-btn active" data-quarter="Q1">Q1</button>
+        <button class="quarter-btn" data-quarter="Q2">Q2</button>
+        <button class="quarter-btn" data-quarter="Q3">Q3</button>
+        <button class="quarter-btn" data-quarter="Q4">Q4</button>
+      </div>
+    </div>
+
+    <!-- Player selection -->
+    <div class="card">
+      <div class="card-header-row">
+        <div>
+          <div class="card-title">1. Player</div>
+          <div class="card-subtitle">
+            Tap the player who finished the possession (Primary / Secondary / Non-Shooter)
+          </div>
+        </div>
       </div>
 
       <div class="player-grid" id="playerGrid">
-        <!-- Primary -->
-        <div class="player-card" data-player-id="23" data-role="P1">
-          <div class="player-number">#23</div>
-          <div class="player-name">Primary Scorer</div>
-          <div class="role-pill role-primary">Primary</div>
-        </div>
-
-        <!-- Secondary -->
-        <div class="player-card" data-player-id="5" data-role="P2">
-          <div class="player-number">#5</div>
-          <div class="player-name">Cal Ralmer</div>
-          <div class="role-pill role-secondary">Secondary</div>
-        </div>
-
-        <div class="player-card" data-player-id="9" data-role="NS">
-          <div class="player-number">#9</div>
-          <div class="player-name">Thomas D'Amelio</div>
-          <div class="role-pill role-ns">Non-Shooter</div>
-        </div>
-
-        <div class="player-card" data-player-id="22" data-role="P2">
-          <div class="player-number">#22</div>
-          <div class="player-name">Oliver Mann</div>
-          <div class="role-pill role-secondary">Secondary</div>
-        </div>
-
-        <div class="player-card" data-player-id="32" data-role="P2">
-          <div class="player-number">#32</div>
-          <div class="player-name">Oliver Ledger</div>
-          <div class="role-pill role-secondary">Secondary</div>
-        </div>
-
-        <div class="player-card" data-player-id="14" data-role="NS">
-          <div class="player-number">#14</div>
-          <div class="player-name">Charlie Watts</div>
-          <div class="role-pill role-ns">Non-Shooter</div>
-        </div>
+        <!-- Players injected by JS -->
       </div>
     </div>
 
-    <!-- SHOT QUALITY -->
+    <!-- Shot quality -->
     <div class="card">
-      <div class="card-title">2. Shot Quality</div>
-      <div class="card-subtitle">
-        G = great look, O = ok look, P = poor/forced
-      </div>
-      <div class="chip-row" id="shotQualityRow">
-        <button class="chip" data-shot="G"><span>G</span>Great</button>
-        <button class="chip" data-shot="O"><span>O</span>OK</button>
-        <button class="chip" data-shot="P"><span>P</span>Poor</button>
-      </div>
-    </div>
-
-    <!-- DECISION QUALITY -->
-    <div class="card">
-      <div class="card-title">3. Decision Quality</div>
-      <div class="card-subtitle">
-        C = correct player/shot, I = incorrect choice
-      </div>
-      <div class="chip-row" id="decisionQualityRow">
-        <button class="chip" data-decision="C"><span>C</span>Correct</button>
-        <button class="chip" data-decision="I"><span>I</span>Incorrect</button>
+      <div class="card-header-row">
+        <div>
+          <div class="card-title">2. Shot Quality</div>
+          <div class="card-subtitle">
+            G = great look, O = OK look, P = poor/forced
+          </div>
+        </div>
       </div>
 
-      <div class="clear-row">
-        <button class="clear-button" id="clearSelectionBtn">Clear Selection</button>
-      </div>
-
-      <div class="actions-row">
-        <button class="btn btn-primary" id="savePossessionBtn">
-          + Save Possession
+      <div class="segment-row">
+        <button class="seg-btn" data-sq="G">
+          <span class="seg-label">G Great</span>
+          <span class="seg-desc">Feet set, open, in range</span>
         </button>
-        <button class="btn btn-secondary" id="undoBtn">
-          ⟲ Undo Last Possession
+        <button class="seg-btn" data-sq="O">
+          <span class="seg-label">O OK</span>
+          <span class="seg-desc">Decent, mild contest</span>
+        </button>
+        <button class="seg-btn" data-sq="P">
+          <span class="seg-label">P Poor</span>
+          <span class="seg-desc">Rushed / heavily contested</span>
         </button>
       </div>
     </div>
 
-    <!-- QUARTER SUMMARY -->
+    <!-- Decision quality -->
     <div class="card">
-      <div class="summary-header">
-        <span>Quarter Summary (Live)</span>
-        <div class="summary-tags">
-          <span class="summary-tag" id="qPossessionsTag">0 Possessions</span>
-          <span class="summary-tag" id="qLooksTag">Looks: 0% G/O</span>
-          <span class="summary-tag" id="qDecisionTag">Correct: 0%</span>
+      <div class="card-header-row">
+        <div>
+          <div class="card-title">3. Decision Quality</div>
+          <div class="card-subtitle">
+            C = correct player/shot, I = incorrect choice
+          </div>
         </div>
       </div>
 
-      <div class="summary-grid">
-        <div class="summary-item">
-          <div class="summary-label">P1 Shots</div>
-          <div class="summary-value" id="qP1Shots">0</div>
+      <div class="segment-row">
+        <button class="seg-btn" data-dq="C">
+          <span class="seg-label">C Correct</span>
+          <span class="seg-desc">Right player / right shot</span>
+        </button>
+        <button class="seg-btn" data-dq="I">
+          <span class="seg-label">I Incorrect</span>
+          <span class="seg-desc">Better option was available</span>
+        </button>
+      </div>
+
+      <div class="cta-row">
+        <button id="saveBtn" class="btn btn-primary" disabled>
+          <span class="btn-icon">➕</span>
+          <span>Save Possession</span>
+        </button>
+        <button id="undoBtn" class="btn btn-ghost" disabled>
+          <span class="btn-icon">↩︎</span>
+          <span>Undo</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Quarter graph + stats -->
+    <div class="card">
+      <div class="card-header-row">
+        <div>
+          <div class="card-title">Quarter Snapshot</div>
+          <div class="card-subtitle">
+            Visual of looks & decisions this quarter
+          </div>
         </div>
-        <div class="summary-item">
-          <div class="summary-label">P2 Shots</div>
-          <div class="summary-value" id="qP2Shots">0</div>
-        </div>
-        <div class="summary-item">
-          <div class="summary-label">NS Shots</div>
-          <div class="summary-value" id="qNSShots">0</div>
-        </div>
-        <div class="summary-item">
-          <div class="summary-label">Great / OK</div>
-          <div class="summary-value" id="qGreatOk">0 / 0</div>
-        </div>
-        <div class="summary-item">
-          <div class="summary-label">Poor Looks</div>
-          <div class="summary-value" id="qPoorLooks">0</div>
-        </div>
-        <div class="summary-item">
-          <div class="summary-label">Correct / Incorrect</div>
-          <div class="summary-value" id="qCorrectIncorrect">0 / 0</div>
+        <div class="pill-soft">
+          Q<span id="summaryQuarterLabel">1</span>
         </div>
       </div>
-      <div class="footer-note">
-        Tip: aim for majority P1/P2 finishes, 70%+ good looks &gt; 75% correct decisions.
+
+      <!-- New graph -->
+      <div class="graph-wrapper">
+        <div class="graph-row">
+          <div class="graph-row-header">
+            <div class="graph-row-title">Shot Quality Mix</div>
+            <div class="graph-row-meta" id="sqPercentLabel">– / – / –</div>
+          </div>
+          <div class="graph-bar-shell">
+            <div id="sqGreatSeg" class="graph-seg graph-sq-great" style="width:0%;"></div>
+            <div id="sqOkSeg" class="graph-seg graph-sq-ok" style="width:0%;"></div>
+            <div id="sqPoorSeg" class="graph-seg graph-sq-poor" style="width:0%;"></div>
+          </div>
+          <div class="graph-legend">
+            <div class="legend-item"><span class="legend-dot dot-great"></span><span>Great</span></div>
+            <div class="legend-item"><span class="legend-dot dot-ok"></span><span>OK</span></div>
+            <div class="legend-item"><span class="legend-dot dot-poor"></span><span>Poor</span></div>
+          </div>
+        </div>
+
+        <div class="graph-row">
+          <div class="graph-row-header">
+            <div class="graph-row-title">Decision Quality</div>
+            <div class="graph-row-meta" id="dqPercentLabel">– / –</div>
+          </div>
+          <div class="graph-bar-shell">
+            <div id="dqCorrectSeg" class="graph-seg graph-dq-correct" style="width:0%;"></div>
+            <div id="dqIncorrectSeg" class="graph-seg graph-dq-incorrect" style="width:0%;"></div>
+          </div>
+          <div class="graph-legend">
+            <div class="legend-item"><span class="legend-dot dot-correct"></span><span>Correct</span></div>
+            <div class="legend-item"><span class="legend-dot dot-incorrect"></span><span>Incorrect</span></div>
+          </div>
+        </div>
+
+        <div class="empty-note" id="graphEmptyNote">
+          No possessions saved yet this quarter.
+        </div>
       </div>
+
+      <!-- Existing numeric stats -->
+      <div class="stats-grid">
+        <div class="stat-pill">
+          <div class="stat-label">Total possessions (Qtr)</div>
+          <div class="stat-value" id="qtrTotal">0</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-label">P1/P2/NS share (Qtr)</div>
+          <div class="stat-value" id="qtrRoleShare">–</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-label">Great looks % (Qtr)</div>
+          <div class="stat-value stat-highlight-good" id="qtrGreatPct">–</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-label">Correct decisions % (Qtr)</div>
+          <div class="stat-value" id="qtrDecisionPct">–</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      Tap Player → Shot Quality → Decision → Save. Use Undo if you tapped the wrong combo.
     </div>
   </div>
 
   <script>
-    // --- STATE ---
-    let currentQuarter = 1;
-    const maxQuarters = 4;
+    // ---- Data ----
+    const players = [
+      { id: 23, name: "Primary Scorer", role: "P1" },
+      { id: 5, name: "Cal Ralmer", role: "P2" },
+      { id: 9, name: "Thomas D'Amelio", role: "NS" },
+      { id: 22, name: "Oliver Mann", role: "P2" },
+      { id: 32, name: "Oliver Ledger", role: "P2" },
+      { id: 14, name: "Charlie Watts", role: "NS" }
+    ];
 
-    const quarters = {
-      1: [],
-      2: [],
-      3: [],
-      4: []
-    };
+    let currentQuarter = "Q1";
+    const possessions = []; // { quarter, playerId, role, shotQuality, decisionQuality }
 
-    const selection = {
-      playerId: null,
-      role: null,
-      shotQuality: null,
-      decisionQuality: null
-    };
+    let selectedPlayerId = null;
+    let selectedShotQuality = null;
+    let selectedDecisionQuality = null;
 
-    // --- HELPERS ---
-    function resetSelection() {
-      selection.playerId = null;
-      selection.role = null;
-      selection.shotQuality = null;
-      selection.decisionQuality = null;
+    // ---- DOM refs ----
+    const playerGrid = document.getElementById("playerGrid");
+    const saveBtn = document.getElementById("saveBtn");
+    const undoBtn = document.getElementById("undoBtn");
+    const currentQuarterLabel = document.getElementById("currentQuarterLabel");
+    const summaryQuarterLabel = document.getElementById("summaryQuarterLabel");
 
-      document.querySelectorAll(".player-card").forEach(card =>
-        card.classList.remove("selected")
-      );
-      document.querySelectorAll("#shotQualityRow .chip").forEach(chip =>
-        chip.classList.remove("selected")
-      );
-      document.querySelectorAll("#decisionQualityRow .chip").forEach(chip =>
-        chip.classList.remove("selected")
-      );
+    // Stats elements
+    const qtrTotalEl = document.getElementById("qtrTotal");
+    const qtrRoleShareEl = document.getElementById("qtrRoleShare");
+    const qtrGreatPctEl = document.getElementById("qtrGreatPct");
+    const qtrDecisionPctEl = document.getElementById("qtrDecisionPct");
+
+    // Graph elements
+    const sqGreatSeg = document.getElementById("sqGreatSeg");
+    const sqOkSeg = document.getElementById("sqOkSeg");
+    const sqPoorSeg = document.getElementById("sqPoorSeg");
+    const dqCorrectSeg = document.getElementById("dqCorrectSeg");
+    const dqIncorrectSeg = document.getElementById("dqIncorrectSeg");
+    const sqPercentLabel = document.getElementById("sqPercentLabel");
+    const dqPercentLabel = document.getElementById("dqPercentLabel");
+    const graphEmptyNote = document.getElementById("graphEmptyNote");
+
+    // ---- Init ----
+    function renderPlayers() {
+      playerGrid.innerHTML = "";
+      players.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "player-card";
+        div.dataset.playerId = p.id;
+
+        const num = document.createElement("div");
+        num.className = "player-number";
+        num.textContent = "#" + p.id;
+
+        const name = document.createElement("div");
+        name.className = "player-name";
+        name.textContent = p.name;
+
+        const pill = document.createElement("span");
+        pill.className = "role-pill " + (
+          p.role === "P1" ? "role-primary"
+            : p.role === "P2" ? "role-secondary"
+            : "role-non"
+        );
+        pill.textContent =
+          p.role === "P1" ? "PRIMARY" :
+          p.role === "P2" ? "SECONDARY" : "NON-SHOOTER";
+
+        div.appendChild(num);
+        div.appendChild(name);
+        div.appendChild(pill);
+
+        div.addEventListener("click", () => {
+          selectedPlayerId = p.id;
+          updateSelectionsUI();
+          updateSaveButtonState();
+        });
+
+        playerGrid.appendChild(div);
+      });
     }
 
-    function updateQuarterLabel() {
-      document.getElementById("currentQuarterLabel").textContent = "Q" + currentQuarter;
-    }
-
-    function calculateQuarterStats(qNum) {
-      const data = quarters[qNum];
-      const total = data.length;
-
-      let p1 = 0, p2 = 0, ns = 0;
-      let g = 0, o = 0, p = 0;
-      let correct = 0, incorrect = 0;
-
-      data.forEach(poss => {
-        if (poss.role === "P1") p1++;
-        else if (poss.role === "P2") p2++;
-        else if (poss.role === "NS") ns++;
-
-        if (poss.shotQuality === "G") g++;
-        else if (poss.shotQuality === "O") o++;
-        else if (poss.shotQuality === "P") p++;
-
-        if (poss.decisionQuality === "C") correct++;
-        else if (poss.decisionQuality === "I") incorrect++;
+    function updateSelectionsUI() {
+      // Player cards
+      document.querySelectorAll(".player-card").forEach(card => {
+        const id = Number(card.dataset.playerId);
+        card.classList.toggle("selected", id === selectedPlayerId);
       });
 
-      const goodLooks = g + o;
-      const looksPct = total ? Math.round((goodLooks / total) * 100) : 0;
-      const correctPct = total ? Math.round((correct / total) * 100) : 0;
+      // SQ buttons
+      document.querySelectorAll("[data-sq]").forEach(btn => {
+        const sq = btn.getAttribute("data-sq");
+        btn.classList.toggle("selected", sq === selectedShotQuality);
+      });
 
-      return {
-        total,
-        p1,
-        p2,
-        ns,
-        g,
-        o,
-        p,
-        correct,
-        incorrect,
-        looksPct,
-        correctPct
-      };
+      // DQ buttons
+      document.querySelectorAll("[data-dq]").forEach(btn => {
+        const dq = btn.getAttribute("data-dq");
+        btn.classList.toggle("selected", dq === selectedDecisionQuality);
+      });
     }
 
-    function renderQuarterSummary() {
-      const stats = calculateQuarterStats(currentQuarter);
-
-      document.getElementById("qP1Shots").textContent = stats.p1;
-      document.getElementById("qP2Shots").textContent = stats.p2;
-      document.getElementById("qNSShots").textContent = stats.ns;
-
-      document.getElementById("qGreatOk").textContent = stats.g + " / " + stats.o;
-      document.getElementById("qPoorLooks").textContent = stats.p;
-
-      document.getElementById("qCorrectIncorrect").textContent =
-        stats.correct + " / " + stats.incorrect;
-
-      document.getElementById("qPossessionsTag").textContent =
-        stats.total + " Possessions";
-      document.getElementById("qLooksTag").textContent =
-        "Looks: " + stats.looksPct + "% G/O";
-      document.getElementById("qDecisionTag").textContent =
-        "Correct: " + stats.correctPct + "%";
+    function updateSaveButtonState() {
+      const ready =
+        selectedPlayerId !== null &&
+        selectedShotQuality !== null &&
+        selectedDecisionQuality !== null;
+      saveBtn.disabled = !ready;
     }
 
-    function ensureValidSelection() {
-      return (
-        selection.playerId &&
-        selection.role &&
-        selection.shotQuality &&
-        selection.decisionQuality
-      );
-    }
+    // ---- Event wiring ----
+    document.querySelectorAll("[data-sq]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const val = btn.getAttribute("data-sq");
+        selectedShotQuality = val;
+        updateSelectionsUI();
+        updateSaveButtonState();
+      });
+    });
 
-    // --- LISTENERS ---
+    document.querySelectorAll("[data-dq]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const val = btn.getAttribute("data-dq");
+        selectedDecisionQuality = val;
+        updateSelectionsUI();
+        updateSaveButtonState();
+      });
+    });
 
-    // Player selection
-    document.querySelectorAll(".player-card").forEach(card => {
-      card.addEventListener("click", () => {
-        const alreadySelected = card.classList.contains("selected");
+    document.querySelectorAll(".quarter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const q = btn.dataset.quarter;
+        currentQuarter = q;
 
-        // Clear all first
-        document.querySelectorAll(".player-card").forEach(c =>
-          c.classList.remove("selected")
+        document.querySelectorAll(".quarter-btn").forEach(b =>
+          b.classList.toggle("active", b.dataset.quarter === q)
         );
 
-        if (alreadySelected) {
-          // toggle off
-          selection.playerId = null;
-          selection.role = null;
-        } else {
-          card.classList.add("selected");
-          selection.playerId = card.dataset.playerId;
-          selection.role = card.dataset.role;
-        }
+        currentQuarterLabel.textContent = q;
+        summaryQuarterLabel.textContent = q.replace("Q","");
+        updateQuarterStats();
       });
     });
 
-    // Shot quality
-    document.querySelectorAll("#shotQualityRow .chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        document
-          .querySelectorAll("#shotQualityRow .chip")
-          .forEach(c => c.classList.remove("selected"));
-        chip.classList.add("selected");
-        selection.shotQuality = chip.dataset.shot;
+    saveBtn.addEventListener("click", () => {
+      if (saveBtn.disabled) return;
+      possessions.push({
+        quarter: currentQuarter,
+        playerId: selectedPlayerId,
+        role: players.find(p => p.id === selectedPlayerId)?.role || "NS",
+        shotQuality: selectedShotQuality,
+        decisionQuality: selectedDecisionQuality
       });
+
+      // Clear selections for next possession
+      selectedShotQuality = null;
+      selectedDecisionQuality = null;
+      updateSelectionsUI();
+      updateSaveButtonState();
+
+      undoBtn.disabled = possessions.length === 0;
+      updateQuarterStats();
     });
 
-    // Decision quality
-    document.querySelectorAll("#decisionQualityRow .chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        document
-          .querySelectorAll("#decisionQualityRow .chip")
-          .forEach(c => c.classList.remove("selected"));
-        chip.classList.add("selected");
-        selection.decisionQuality = chip.dataset.decision;
-      });
+    undoBtn.addEventListener("click", () => {
+      if (!possessions.length) return;
+      possessions.pop();
+      undoBtn.disabled = possessions.length === 0;
+      updateQuarterStats();
     });
 
-    // Clear selection
-    document.getElementById("clearSelectionBtn").addEventListener("click", () => {
-      resetSelection();
-    });
+    // ---- Stats + graph ----
+    function updateQuarterStats() {
+      const qPoss = possessions.filter(p => p.quarter === currentQuarter);
+      const total = qPoss.length;
 
-    // Save possession
-    document.getElementById("savePossessionBtn").addEventListener("click", () => {
-      if (!ensureValidSelection()) {
-        alert("Please select player, shot quality and decision quality.");
-        return;
+      qtrTotalEl.textContent = total;
+
+      // Role share
+      const roleCounts = { P1: 0, P2: 0, NS: 0 };
+      qPoss.forEach(p => { roleCounts[p.role] = (roleCounts[p.role] || 0) + 1; });
+
+      function pct(count) {
+        return total ? Math.round((count / total) * 100) : 0;
       }
+      const p1Pct = pct(roleCounts.P1);
+      const p2Pct = pct(roleCounts.P2);
+      const nsPct = pct(roleCounts.NS);
+      qtrRoleShareEl.textContent = total
+        ? `${p1Pct}% / ${p2Pct}% / ${nsPct}%`
+        : "–";
 
-      const poss = {
-        playerId: selection.playerId,
-        role: selection.role,
-        shotQuality: selection.shotQuality,
-        decisionQuality: selection.decisionQuality
-      };
+      // Shot quality
+      const sqCounts = { G: 0, O: 0, P: 0 };
+      qPoss.forEach(p => {
+        sqCounts[p.shotQuality] = (sqCounts[p.shotQuality] || 0) + 1;
+      });
+      const sqTotal = sqCounts.G + sqCounts.O + sqCounts.P;
+      const gPct = sqTotal ? Math.round((sqCounts.G / sqTotal) * 100) : 0;
+      const oPct = sqTotal ? Math.round((sqCounts.O / sqTotal) * 100) : 0;
+      const pPct = sqTotal ? Math.round((sqCounts.P / sqTotal) * 100) : 0;
+      qtrGreatPctEl.textContent = sqTotal ? `${gPct}%` : "–";
 
-      quarters[currentQuarter].push(poss);
-      renderQuarterSummary();
-      resetSelection();
-    });
+      // Decision quality
+      const dqCounts = { C: 0, I: 0 };
+      qPoss.forEach(p => {
+        dqCounts[p.decisionQuality] =
+          (dqCounts[p.decisionQuality] || 0) + 1;
+      });
+      const dqTotal = dqCounts.C + dqCounts.I;
+      const cPct = dqTotal ? Math.round((dqCounts.C / dqTotal) * 100) : 0;
+      const iPct = dqTotal ? Math.round((dqCounts.I / dqTotal) * 100) : 0;
+      qtrDecisionPctEl.textContent = dqTotal ? `${cPct}%` : "–";
 
-    // Undo last possession
-    document.getElementById("undoBtn").addEventListener("click", () => {
-      if (quarters[currentQuarter].length === 0) return;
-      quarters[currentQuarter].pop();
-      renderQuarterSummary();
-    });
+      // --- Graph updates ---
+      if (total === 0) {
+        // reset bars
+        sqGreatSeg.style.width = "0%";
+        sqOkSeg.style.width = "0%";
+        sqPoorSeg.style.width = "0%";
+        dqCorrectSeg.style.width = "0%";
+        dqIncorrectSeg.style.width = "0%";
+        sqPercentLabel.textContent = "– / – / –";
+        dqPercentLabel.textContent = "– / –";
+        graphEmptyNote.style.display = "block";
+      } else {
+        // shot quality bar
+        sqGreatSeg.style.width = gPct + "%";
+        sqOkSeg.style.width = oPct + "%";
+        sqPoorSeg.style.width = pPct + "%";
+        sqPercentLabel.textContent = `${gPct}% / ${oPct}% / ${pPct}%`;
 
-    // Initial render
-    updateQuarterLabel();
-    renderQuarterSummary();
+        // decision quality bar
+        dqCorrectSeg.style.width = cPct + "%";
+        dqIncorrectSeg.style.width = iPct + "%";
+        dqPercentLabel.textContent = `${cPct}% / ${iPct}%`;
+
+        graphEmptyNote.style.display = "none";
+      }
+    }
+
+    // ---- Start ----
+    renderPlayers();
+    updateQuarterStats();
   </script>
 </body>
 </html>
