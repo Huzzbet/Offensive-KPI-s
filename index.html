@@ -52,6 +52,7 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      background: rgba(15,23,42,0.85);
     }
 
     .chip-dot {
@@ -143,7 +144,11 @@
       background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.7));
       border: 1px solid #111827;
       cursor: pointer;
-      transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease, background 0.1s ease;
+      transition:
+        transform 0.1s ease,
+        box-shadow 0.1s ease,
+        border-color 0.1s ease,
+        background 0.1s ease;
     }
 
     .player-card:hover {
@@ -154,7 +159,9 @@
 
     .player-card.selected {
       border-color: #38bdf8;
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.7), 0 14px 30px rgba(8, 47, 73, 0.9);
+      box-shadow:
+        0 0 0 1px rgba(56, 189, 248, 0.7),
+        0 14px 30px rgba(8, 47, 73, 0.9);
       background: radial-gradient(circle at top left, rgba(8, 47, 73, 0.9), rgba(15, 23, 42, 0.9));
     }
 
@@ -217,13 +224,50 @@
       cursor: pointer;
       min-width: 70px;
       text-align: center;
-      transition: background 0.12s ease, color 0.12s ease, box-shadow 0.12s ease;
+      transition:
+        background 0.12s ease,
+        color 0.12s ease,
+        box-shadow 0.12s ease,
+        transform 0.08s ease;
     }
 
     .segmented button.selected {
-      background: radial-gradient(circle at top left, #0ea5e9, #0369a1);
       color: #e5f2ff;
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.9), 0 10px 20px rgba(8, 47, 73, 0.9);
+      transform: translateY(-0.5px);
+    }
+
+    /* Shot quality colour coding when selected */
+    #shotQualityGroup button[data-val="G"].selected {
+      background: radial-gradient(circle at top left, #22c55e, #16a34a);
+      box-shadow:
+        0 0 0 1px rgba(34,197,94,0.9),
+        0 12px 26px rgba(21,128,61,0.9);
+    }
+    #shotQualityGroup button[data-val="O"].selected {
+      background: radial-gradient(circle at top left, #eab308, #f97316);
+      box-shadow:
+        0 0 0 1px rgba(234,179,8,0.9),
+        0 12px 26px rgba(180,83,9,0.9);
+    }
+    #shotQualityGroup button[data-val="P"].selected {
+      background: radial-gradient(circle at top left, #fb7185, #ef4444);
+      box-shadow:
+        0 0 0 1px rgba(248,113,113,0.9),
+        0 12px 26px rgba(127,29,29,0.9);
+    }
+
+    /* Decision quality keeps blue theme */
+    #decisionQualityGroup button[data-val="C"].selected {
+      background: radial-gradient(circle at top left, #0ea5e9, #0369a1);
+      box-shadow:
+        0 0 0 1px rgba(56,189,248,0.9),
+        0 12px 26px rgba(8,47,73,0.9);
+    }
+    #decisionQualityGroup button[data-val="I"].selected {
+      background: radial-gradient(circle at top left, #6366f1, #4f46e5);
+      box-shadow:
+        0 0 0 1px rgba(129,140,248,0.9),
+        0 12px 26px rgba(55,48,163,0.9);
     }
 
     /* Save button */
@@ -246,7 +290,10 @@
       align-items: center;
       gap: 8px;
       box-shadow: 0 14px 35px rgba(22, 163, 74, 0.65);
-      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease,
+        filter 0.12s ease;
     }
 
     .save-btn:hover {
@@ -271,16 +318,11 @@
       gap: 12px;
     }
 
-    .quarter-label {
-      font-size: 12px;
-      color: #9ca3af;
-    }
-
     .chart-wrapper {
       margin-top: 8px;
-      background: #020617;
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), #020617);
       border-radius: 14px;
-      padding: 10px;
+      padding: 10px 10px 6px;
       border: 1px solid #111827;
     }
 
@@ -327,14 +369,6 @@
 
       .player-card {
         padding: 12px 14px;
-      }
-
-      .quarter-row {
-        flex-direction: row;
-      }
-
-      .quarter-row .card {
-        flex: 1;
       }
 
       canvas {
@@ -445,10 +479,6 @@
 
   <script>
     // --- CONFIG ----------------------------------------------------------------
-    // Roles: 'P1' = primary scorer, 'P2' = secondary scorer, 'NS' = non-shooter.
-    // Jersey numbers are best-guess from Big V / tournaments + your earlier screen.
-    // If any are off, tweak them here – everything else updates automatically.
-
     const players = [
       { id: "billy-barton",   name: "Billy Barton",       jersey: 21, role: "P1" },
       { id: "calvin-ram",     name: "Calvin Ramachandran", jersey: 5,  role: "P2" },
@@ -464,7 +494,6 @@
       { id: "tyler-langston", name: "Tyler Langston",     jersey: 41, role: "P2" }
     ];
 
-    // --- DOM ELEMENTS ----------------------------------------------------------
     const playerGrid = document.getElementById("playerGrid");
     const quarterSelector = document.getElementById("quarterSelector");
     const currentQuarterLabel = document.getElementById("currentQuarterLabel");
@@ -473,7 +502,6 @@
     const saveBtn = document.getElementById("saveBtn");
     const quickSummary = document.getElementById("quickSummary");
 
-    // --- STATE -----------------------------------------------------------------
     const state = {
       currentQuarter: "Q1",
       player: null,
@@ -481,7 +509,6 @@
       decisionQuality: "C"
     };
 
-    // Quarter stats for the chart
     const quarterStats = {
       Q1: { possessions: 0, p1p2Shots: 0, greatLooks: 0, correctChoices: 0 },
       Q2: { possessions: 0, p1p2Shots: 0, greatLooks: 0, correctChoices: 0 },
@@ -564,30 +591,71 @@
           datasets: [
             {
               label: "P1/P2 Shot %",
-              data: [0, 0, 0, 0]
+              data: [0, 0, 0, 0],
+              backgroundColor: "rgba(45,212,191,0.65)",
+              borderColor: "rgba(34,197,94,0.9)",
+              borderWidth: 1.5,
+              borderRadius: 6,
+              borderSkipped: false,
+              barThickness: 18
             },
             {
               label: "Great Look %",
-              data: [0, 0, 0, 0]
+              data: [0, 0, 0, 0],
+              backgroundColor: "rgba(34,197,94,0.75)",
+              borderColor: "rgba(22,163,74,0.95)",
+              borderWidth: 1.5,
+              borderRadius: 6,
+              borderSkipped: false,
+              barThickness: 18
             },
             {
               label: "Correct Decision %",
-              data: [0, 0, 0, 0]
+              data: [0, 0, 0, 0],
+              backgroundColor: "rgba(59,130,246,0.75)",
+              borderColor: "rgba(37,99,235,0.95)",
+              borderWidth: 1.5,
+              borderRadius: 6,
+              borderSkipped: false,
+              barThickness: 18
             }
           ]
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: "index",
+            intersect: false
+          },
           plugins: {
             legend: {
+              position: "bottom",
               labels: {
                 color: "#e5e7eb",
-                font: { size: 11 }
+                font: { size: 11 },
+                boxWidth: 10,
+                boxHeight: 10,
+                padding: 12
+              }
+            },
+            tooltip: {
+              backgroundColor: "rgba(15,23,42,0.95)",
+              borderColor: "rgba(31,41,55,1)",
+              borderWidth: 1,
+              titleColor: "#e5e7eb",
+              bodyColor: "#e5e7eb",
+              padding: 8,
+              cornerRadius: 8,
+              displayColors: true,
+              callbacks: {
+                label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}%`
               }
             }
           },
           scales: {
             x: {
+              stacked: false,
               ticks: {
                 color: "#9ca3af",
                 font: { size: 11 }
@@ -598,12 +666,13 @@
               min: 0,
               max: 100,
               ticks: {
-                color: "#9ca3af",
+                color: "#6b7280",
                 stepSize: 25,
                 callback: (v) => v + "%"
               },
               grid: {
-                color: "rgba(55,65,81,0.4)"
+                color: "rgba(31,41,55,0.6)",
+                borderDash: [4, 4]
               }
             }
           }
@@ -684,9 +753,7 @@
       updateQuickSummary();
       updateQuarterChart();
 
-      // Light reset – keep the same player highlighted to make
-      // tracking back-to-back shots for a hot hand quick & easy.
-      // Reset shot + decision back to G / C.
+      // Reset shot + decision back to G / C (keeps player for speed)
       shotQualityGroup.querySelectorAll("button").forEach((b) => {
         b.classList.toggle("selected", b.dataset.val === "G");
       });
