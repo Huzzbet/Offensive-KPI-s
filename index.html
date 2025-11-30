@@ -4,10 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shot Decision Tracker</title>
-  <!-- Chart.js for the live graph -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    /* Reset & base */
     * {
       box-sizing: border-box;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -20,7 +17,6 @@
       display: flex;
       justify-content: center;
     }
-
     .app-shell {
       width: 100%;
       max-width: 1100px;
@@ -42,35 +38,6 @@
       color: #9ca3af;
     }
 
-    /* Layout: graph + controls */
-    .main-layout {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .graph-column,
-    .form-column {
-      width: 100%;
-    }
-
-    /* On iPad / wider screens, show side-by-side */
-    @media (min-width: 900px) {
-      .main-layout {
-        flex-direction: row;
-        align-items: flex-start;
-      }
-      .graph-column {
-        flex: 0 0 46%;
-        position: sticky;
-        top: 72px;
-        max-height: calc(100vh - 96px);
-        overflow: hidden;
-      }
-      .form-column {
-        flex: 1;
-      }
-    }
-
     .card {
       background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.08), transparent 55%),
                   #020617;
@@ -78,76 +45,190 @@
       padding: 14px 16px;
       border: 1px solid rgba(148, 163, 184, 0.25);
       box-shadow: 0 12px 28px rgba(15, 23, 42, 0.8);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .card-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .card-title {
-      font-size: 14px;
-      font-weight: 600;
-    }
-    .pill {
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      color: #e5e7eb;
-    }
-
-    /* Quarter tabs */
-    .quarter-tabs {
-      display: inline-flex;
-      background: rgba(15, 23, 42, 0.9);
-      border-radius: 999px;
-      padding: 4px;
-      gap: 4px;
-      border: 1px solid rgba(148, 163, 184, 0.3);
-    }
-    .quarter-tab {
-      border: none;
-      background: transparent;
-      color: #9ca3af;
-      font-size: 12px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-    .quarter-tab.active {
-      background: radial-gradient(circle at top, #22c55e, #15803d);
-      color: #ecfdf5;
-    }
-
-    /* Graph legend */
-    .legend {
-      display: flex;
-      gap: 16px;
-      font-size: 11px;
-      margin-top: 8px;
+      align-items: flex-end;
+      margin-bottom: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
-    .legend-item {
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .card-sub {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .summary-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    @media (min-width: 900px) {
+      .summary-layout {
+        flex-direction: row;
+        align-items: stretch;
+      }
+      .summary-table-wrapper {
+        flex: 0 0 52%;
+      }
+      .summary-visual-wrapper {
+        flex: 1;
+      }
+    }
+
+    .summary-table-wrapper {
+      overflow-x: auto;
+    }
+    table.player-summary {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      min-width: 360px;
+    }
+    .player-summary thead {
+      background: rgba(15, 23, 42, 0.95);
+    }
+    .player-summary th,
+    .player-summary td {
+      padding: 6px 8px;
+      text-align: left;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+      white-space: nowrap;
+    }
+    .player-summary th {
+      font-weight: 600;
+      color: #9ca3af;
+      font-size: 11px;
+    }
+    .player-summary tbody tr:nth-child(even) {
+      background: rgba(15, 23, 42, 0.7);
+    }
+    .player-summary tbody tr:nth-child(odd) {
+      background: rgba(15, 23, 42, 0.3);
+    }
+    .player-summary tbody tr.row-highlight {
+      animation: rowGlow 1.2s ease-out;
+    }
+
+    @keyframes rowGlow {
+      0% {
+        box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+        background: rgba(22, 163, 74, 0.4);
+      }
+      60% {
+        box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.9);
+        background: rgba(22, 163, 74, 0.18);
+      }
+      100% {
+        box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+      }
+    }
+
+    .role-pill-table {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      border: 1px solid;
+    }
+    .role-primary {
+      border-color: rgba(34, 197, 94, 0.7);
+      color: #bbf7d0;
+      background: rgba(22, 163, 74, 0.25);
+    }
+    .role-secondary {
+      border-color: rgba(59, 130, 246, 0.7);
+      color: #bfdbfe;
+      background: rgba(37, 99, 235, 0.25);
+    }
+    .role-non {
+      border-color: rgba(168, 85, 247, 0.7);
+      color: #e9d5ff;
+      background: rgba(147, 51, 234, 0.25);
+    }
+
+    /* Visual bar summary (CSS only, no Chart.js) */
+    .summary-visual-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 11px;
+    }
+    .visual-title {
+      font-size: 12px;
+      color: #e5e7eb;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+    .visual-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .visual-label {
+      display: flex;
+      justify-content: space-between;
+      color: #9ca3af;
+    }
+    .visual-bars-track {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .bar-track {
+      position: relative;
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      overflow: hidden;
+    }
+    .bar-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      border-radius: 999px;
+      transform-origin: left center;
+      transition: width 0.2s ease-out;
+    }
+    .bar-great {
+      background: linear-gradient(to right, #22c55e, #16a34a);
+    }
+    .bar-correct {
+      background: linear-gradient(to right, #38bdf8, #0ea5e9);
+    }
+
+    .visual-legend {
+      display: flex;
+      gap: 12px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+      color: #9ca3af;
+    }
+    .visual-legend-item {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
-    .legend-swatch {
+    .visual-legend-swatch {
       width: 10px;
       height: 10px;
       border-radius: 3px;
     }
 
-    /* Player list */
-    .player-list-title {
+    .section-label {
       font-size: 13px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .player-list-sub {
+    .section-help {
       font-size: 11px;
       color: #9ca3af;
       margin-bottom: 8px;
@@ -161,7 +242,6 @@
       overflow-y: auto;
       padding-right: 4px;
     }
-
     .player-card {
       border-radius: 16px;
       padding: 10px 12px;
@@ -198,32 +278,7 @@
       border-radius: 999px;
       border: 1px solid;
     }
-    .role-primary {
-      border-color: rgba(34, 197, 94, 0.7);
-      color: #bbf7d0;
-      background: rgba(22, 163, 74, 0.25);
-    }
-    .role-secondary {
-      border-color: rgba(59, 130, 246, 0.7);
-      color: #bfdbfe;
-      background: rgba(37, 99, 235, 0.25);
-    }
-    .role-non {
-      border-color: rgba(168, 85, 247, 0.7);
-      color: #e9d5ff;
-      background: rgba(147, 51, 234, 0.25);
-    }
 
-    /* Pill button groups */
-    .section-label {
-      font-size: 13px;
-      margin-bottom: 4px;
-    }
-    .section-help {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-bottom: 6px;
-    }
     .pill-row {
       display: flex;
       gap: 8px;
@@ -262,7 +317,6 @@
       background: radial-gradient(circle at top, #f97316, #9a3412);
     }
 
-    /* Save / Undo buttons */
     .actions-row {
       display: flex;
       gap: 10px;
@@ -308,7 +362,6 @@
       cursor: default;
     }
 
-    /* Footer link */
     .footer-link {
       margin-top: 14px;
       text-align: center;
@@ -323,147 +376,154 @@
       color: #e5e7eb;
       text-decoration: none;
     }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(15, 23, 42, 0.97);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 12px;
+      color: #ecfdf5;
+      border: 1px solid rgba(34, 197, 94, 0.7);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.95);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+      z-index: 50;
+    }
+    .toast.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
   </style>
 </head>
 <body>
   <div class="app-shell">
     <h1>Shot Decision Tracker</h1>
     <div class="subheading">
-      Player · Shot Quality · Decision Quality (Roles: Primary / Secondary / Non-Shooter)
+      Offensive player report on Shot Quality & Decision Quality
     </div>
 
-    <div class="main-layout">
-      <!-- GRAPH COLUMN (sticky on iPad landscape) -->
-      <div class="graph-column">
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Quarter Overview</div>
-              <div style="font-size:11px;color:#9ca3af;margin-top:2px;">
-                P1/P2 usage · Great looks · Correct decisions
-              </div>
-            </div>
-            <div class="quarter-tabs">
-              <button class="quarter-tab active" data-quarter="1">Q1</button>
-              <button class="quarter-tab" data-quarter="2">Q2</button>
-              <button class="quarter-tab" data-quarter="3">Q3</button>
-              <button class="quarter-tab" data-quarter="4">Q4</button>
-            </div>
+    <!-- 1. OFFENSIVE PLAYER REPORT -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Offensive Player Report</div>
+          <div class="card-sub">
+            Live summary: possessions, great looks, and correct decisions by player.
           </div>
-          <canvas id="quarterChart" style="width:100%;height:220px;"></canvas>
-          <div class="legend">
-            <div class="legend-item">
-              <div class="legend-swatch" style="background:#22c55e;"></div>
-              <span>P1/P2 Shot %</span>
-            </div>
-            <div class="legend-item">
-              <div class="legend-swatch" style="background:#38bdf8;"></div>
+        </div>
+      </div>
+
+      <div class="summary-layout">
+        <!-- Table -->
+        <div class="summary-table-wrapper">
+          <table class="player-summary" id="playerSummaryTable"></table>
+        </div>
+
+        <!-- Visual bars -->
+        <div class="summary-visual-wrapper">
+          <div class="visual-title">Visual Summary</div>
+          <div id="visualBars"></div>
+          <div class="visual-legend">
+            <div class="visual-legend-item">
+              <div class="visual-legend-swatch" style="background:#22c55e;"></div>
               <span>Great Look %</span>
             </div>
-            <div class="legend-item">
-              <div class="legend-swatch" style="background:#a855f7;"></div>
+            <div class="visual-legend-item">
+              <div class="visual-legend-swatch" style="background:#38bdf8;"></div>
               <span>Correct Decision %</span>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- FORM COLUMN -->
-      <div class="form-column">
-        <!-- Player selection -->
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">1. Player</div>
-              <div class="player-list-sub">
-                Tap the player who finished the possession (Primary / Secondary / Non-Shooter)
-              </div>
-            </div>
-            <span class="pill" id="currentQuarterLabel">Q1</span>
-          </div>
-
-          <div class="player-list" id="playerList"></div>
-        </div>
-
-        <!-- Shot quality -->
-        <div class="card">
-          <div class="section-label">2. Shot Quality</div>
-          <div class="section-help">G = great look · O = OK look · P = poor / forced</div>
-          <div class="pill-row">
-            <button class="pill-button" data-type="shot" data-value="G">G Great</button>
-            <button class="pill-button" data-type="shot" data-value="O">O OK</button>
-            <button class="pill-button" data-type="shot" data-value="P">P Poor</button>
-          </div>
-        </div>
-
-        <!-- Decision quality -->
-        <div class="card">
-          <div class="section-label">3. Decision Quality</div>
-          <div class="section-help">C = correct player/shot · I = incorrect choice</div>
-          <div class="pill-row">
-            <button class="pill-button" data-type="decision" data-value="C">C Correct</button>
-            <button class="pill-button" data-type="decision" data-value="I">I Incorrect</button>
-          </div>
-        </div>
-
-        <!-- Save / Undo -->
-        <div class="card">
-          <div class="section-label">4. Save Possession</div>
-          <div class="section-help">
-            Save the possession once Player, Shot Quality, and Decision Quality are selected.
-          </div>
-          <div class="actions-row">
-            <button class="primary-btn" id="saveBtn">＋ Save Possession</button>
-            <button class="secondary-btn disabled" id="undoBtn">↺ Undo Last</button>
-          </div>
-        </div>
-
-        <div class="footer-link">
-          <a href="https://huzzbet.github.io" target="_blank" rel="noopener">huzzbet.github.io</a>
-        </div>
+    <!-- 2. INPUT SECTION -->
+    <div class="card">
+      <div class="section-label">1. Player</div>
+      <div class="section-help">
+        Tap the player who finished the possession (Primary / Secondary / Non-Shooter).
       </div>
+      <div class="player-list" id="playerList"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-label">2. Shot Quality</div>
+      <div class="section-help">G = great look · O = OK look · P = poor / forced</div>
+      <div class="pill-row">
+        <button class="pill-button" data-type="shot" data-value="G">G Great</button>
+        <button class="pill-button" data-type="shot" data-value="O">O OK</button>
+        <button class="pill-button" data-type="shot" data-value="P">P Poor</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-label">3. Decision Quality</div>
+      <div class="section-help">C = correct player/shot · I = incorrect choice</div>
+      <div class="pill-row">
+        <button class="pill-button" data-type="decision" data-value="C">C Correct</button>
+        <button class="pill-button" data-type="decision" data-value="I">I Incorrect</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-label">4. Save Possession</div>
+      <div class="section-help">
+        Once Player, Shot Quality, and Decision Quality are selected, save the possession.
+      </div>
+      <div class="actions-row">
+        <button class="primary-btn" id="saveBtn">＋ Save Possession</button>
+        <button class="secondary-btn disabled" id="undoBtn">↺ Undo Last</button>
+      </div>
+    </div>
+
+    <div class="footer-link">
+      <a href="https://huzzbet.github.io" target="_blank" rel="noopener">huzzbet.github.io</a>
     </div>
   </div>
 
+  <div class="toast" id="toast">Saved</div>
+
   <script>
-    // ----- DATA -----
+    // ------- DATA -------
     const players = [
       { id: 21, number: "#21", name: "Billy Barton", role: "PRIMARY" },
       { id: 22, number: "#22", name: "Oliver Mann", role: "SECONDARY" },
-      { id: 0,  number: "#–", name: "Sam Martin", role: "PRIMARY" },
-      { id: 9,  number: "#9", name: "Tom D'Amelio", role: "NON" },
-      { id: 1,  number: "#–", name: "Tom Darcy", role: "NON" },
-      { id: 41, number: "#41", name: "Tyler Langston", role: "SECONDARY" },
-      // add more if needed
+      { id: 23, number: "#–", name: "Sam Martin", role: "PRIMARY" },
+      { id: 24, number: "#9", name: "Tom D'Amelio", role: "NON" },
+      { id: 25, number: "#–", name: "Tom Darcy", role: "NON" },
+      { id: 41, number: "#41", name: "Tyler Langston", role: "SECONDARY" }
     ];
 
-    let state = {
-      currentQuarter: 1,
-      selectedPlayerId: null,
-      selectedShot: null,     // 'G','O','P'
-      selectedDecision: null  // 'C','I'
-    };
+    let state = { selectedPlayerId: null, selectedShot: null, selectedDecision: null };
+    const possessions = [];
+    let lastHighlightPlayerId = null;
 
-    const possessions = []; // each: {quarter, playerId, role, shot, decision, ts}
-    const quarterStats = {
-      1: { total: 0, p1p2: 0, great: 0, correct: 0 },
-      2: { total: 0, p1p2: 0, great: 0, correct: 0 },
-      3: { total: 0, p1p2: 0, great: 0, correct: 0 },
-      4: { total: 0, p1p2: 0, great: 0, correct: 0 }
-    };
-
-    // ----- DOM HELPERS -----
     const playerListEl = document.getElementById("playerList");
+    const summaryTableEl = document.getElementById("playerSummaryTable");
+    const visualBarsEl = document.getElementById("visualBars");
     const saveBtn = document.getElementById("saveBtn");
     const undoBtn = document.getElementById("undoBtn");
-    const currentQuarterLabel = document.getElementById("currentQuarterLabel");
-    const quarterTabs = document.querySelectorAll(".quarter-tab");
     const pillButtons = document.querySelectorAll(".pill-button");
+    const toastEl = document.getElementById("toast");
 
-    // ----- BUILD PLAYER LIST -----
-    function renderPlayers() {
+    // ------- TOAST -------
+    let toastTimeout = null;
+    function showToast(message) {
+      toastEl.textContent = message;
+      toastEl.classList.add("visible");
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => toastEl.classList.remove("visible"), 1300);
+    }
+
+    // ------- PLAYER LIST -------
+    function renderPlayersForInput() {
       playerListEl.innerHTML = "";
-      players.forEach((p) => {
+      players.forEach(p => {
         const card = document.createElement("div");
         card.className = "player-card";
         card.dataset.playerId = p.id;
@@ -471,9 +531,11 @@
         const num = document.createElement("div");
         num.className = "player-number";
         num.textContent = p.number;
+
         const name = document.createElement("div");
         name.className = "player-name";
         name.textContent = p.name;
+
         const role = document.createElement("div");
         role.className =
           "role-pill " +
@@ -482,12 +544,7 @@
             : p.role === "SECONDARY"
             ? "role-secondary"
             : "role-non");
-        role.textContent =
-          p.role === "PRIMARY"
-            ? "PRIMARY"
-            : p.role === "SECONDARY"
-            ? "SECONDARY"
-            : "NON-SHOOTER";
+        role.textContent = p.role === "NON" ? "NON-SHOOTER" : p.role;
 
         card.appendChild(num);
         card.appendChild(name);
@@ -495,9 +552,8 @@
 
         card.addEventListener("click", () => {
           state.selectedPlayerId = p.id;
-          document
-            .querySelectorAll(".player-card")
-            .forEach((el) => el.classList.remove("selected"));
+          document.querySelectorAll(".player-card")
+            .forEach(el => el.classList.remove("selected"));
           card.classList.add("selected");
         });
 
@@ -505,145 +561,133 @@
       });
     }
 
-    // ----- PILL BUTTON HANDLERS -----
-    pillButtons.forEach((btn) => {
+    // ------- PILL BUTTONS -------
+    pillButtons.forEach(btn => {
       btn.addEventListener("click", () => {
         const type = btn.dataset.type;
         const value = btn.dataset.value;
-
-        // toggle group
-        pillButtons.forEach((b) => {
+        pillButtons.forEach(b => {
           if (b.dataset.type === type) b.classList.remove("active");
         });
         btn.classList.add("active");
-
-        if (type === "shot") {
-          state.selectedShot = value;
-        } else if (type === "decision") {
-          state.selectedDecision = value;
-        }
+        if (type === "shot") state.selectedShot = value;
+        if (type === "decision") state.selectedDecision = value;
       });
     });
 
-    // ----- QUARTER TABS -----
-    quarterTabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        quarterTabs.forEach((t) => t.classList.remove("active"));
-        tab.classList.add("active");
-        state.currentQuarter = Number(tab.dataset.quarter);
-        currentQuarterLabel.textContent = "Q" + state.currentQuarter;
-        updateChartForSelectedQuarter();
+    // ------- STATS -------
+    function computePlayerStats() {
+      const stats = {};
+      players.forEach(p => {
+        stats[p.id] = { total: 0, great: 0, correct: 0 };
       });
-    });
-
-    // ----- CHART SETUP -----
-    const ctx = document.getElementById("quarterChart").getContext("2d");
-    const chartData = {
-      labels: ["Q1", "Q2", "Q3", "Q4"],
-      datasets: [
-        {
-          label: "P1/P2 Shot %",
-          data: [0, 0, 0, 0],
-          backgroundColor: "#22c55e"
-        },
-        {
-          label: "Great Look %",
-          data: [0, 0, 0, 0],
-          backgroundColor: "#38bdf8"
-        },
-        {
-          label: "Correct Decision %",
-          data: [0, 0, 0, 0],
-          backgroundColor: "#a855f7"
-        }
-      ]
-    };
-
-    const quarterChart = new Chart(ctx, {
-      type: "bar",
-      data: chartData,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 100,
-            ticks: {
-              color: "#9ca3af",
-              callback: (value) => value + "%"
-            },
-            grid: {
-              color: "rgba(148,163,184,0.2)"
-            }
-          },
-          x: {
-            ticks: { color: "#9ca3af" },
-            grid: { display: false }
-          }
-        },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: (ctx) => ctx.parsed.y.toFixed(0) + "%"
-            }
-          }
-        }
-      }
-    });
-
-    function recomputeQuarterStats() {
-      // Reset
-      Object.keys(quarterStats).forEach((q) => {
-        quarterStats[q].total = 0;
-        quarterStats[q].p1p2 = 0;
-        quarterStats[q].great = 0;
-        quarterStats[q].correct = 0;
+      possessions.forEach(pos => {
+        const s = stats[pos.playerId];
+        if (!s) return;
+        s.total += 1;
+        if (pos.shot === "G") s.great += 1;
+        if (pos.decision === "C") s.correct += 1;
       });
-
-      possessions.forEach((pos) => {
-        const q = pos.quarter;
-        const qs = quarterStats[q];
-        qs.total += 1;
-        if (pos.role === "PRIMARY" || pos.role === "SECONDARY") qs.p1p2 += 1;
-        if (pos.shot === "G") qs.great += 1;
-        if (pos.decision === "C") qs.correct += 1;
-      });
-
-      // Update chart data
-      [1, 2, 3, 4].forEach((q, idx) => {
-        const qs = quarterStats[q];
-        if (qs.total === 0) {
-          chartData.datasets[0].data[idx] = 0;
-          chartData.datasets[1].data[idx] = 0;
-          chartData.datasets[2].data[idx] = 0;
-        } else {
-          chartData.datasets[0].data[idx] = (qs.p1p2 / qs.total) * 100;
-          chartData.datasets[1].data[idx] = (qs.great / qs.total) * 100;
-          chartData.datasets[2].data[idx] = (qs.correct / qs.total) * 100;
-        }
-      });
-
-      quarterChart.update();
+      return stats;
     }
 
-    function updateChartForSelectedQuarter() {
-      // For now chart already shows all quarters; this function can be used
-      // later if you want to highlight the active quarter.
-      quarterChart.update();
+    function renderSummaryTable(highlightPlayerId = null) {
+      const stats = computePlayerStats();
+      let html = `
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Role</th>
+            <th>Possessions</th>
+            <th>Great Look %</th>
+            <th>Correct Decision %</th>
+          </tr>
+        </thead>
+        <tbody>
+      `;
+      players.forEach(p => {
+        const s = stats[p.id];
+        const total = s.total;
+        const greatPct = total ? (s.great / total) * 100 : 0;
+        const correctPct = total ? (s.correct / total) * 100 : 0;
+        const roleClass =
+          p.role === "PRIMARY"
+            ? "role-primary"
+            : p.role === "SECONDARY"
+            ? "role-secondary"
+            : "role-non";
+        const rowClass = highlightPlayerId === p.id ? "row-highlight" : "";
+        html += `
+          <tr class="${rowClass}">
+            <td>${p.number} ${p.name}</td>
+            <td><span class="role-pill-table ${roleClass}">
+              ${p.role === "NON" ? "NON-SHOOTER" : p.role}
+            </span></td>
+            <td>${total}</td>
+            <td>${greatPct.toFixed(0)}%</td>
+            <td>${correctPct.toFixed(0)}%</td>
+          </tr>
+        `;
+      });
+      html += `</tbody>`;
+      summaryTableEl.innerHTML = html;
     }
 
-    // ----- SAVE / UNDO -----
+    function renderVisualBars() {
+      const stats = computePlayerStats();
+      visualBarsEl.innerHTML = "";
+      players.forEach(p => {
+        const s = stats[p.id];
+        const total = s.total;
+        const greatPct = total ? (s.great / total) * 100 : 0;
+        const correctPct = total ? (s.correct / total) * 100 : 0;
+
+        const row = document.createElement("div");
+        row.className = "visual-row";
+
+        const label = document.createElement("div");
+        label.className = "visual-label";
+        label.innerHTML = `<span>${p.number} ${p.name.split(" ")[0]}</span>
+          <span>${greatPct.toFixed(0)}% G · ${correctPct.toFixed(0)}% C</span>`;
+
+        const trackWrapper = document.createElement("div");
+        trackWrapper.className = "visual-bars-track";
+
+        const track1 = document.createElement("div");
+        track1.className = "bar-track";
+        const fill1 = document.createElement("div");
+        fill1.className = "bar-fill bar-great";
+        fill1.style.width = greatPct + "%";
+        track1.appendChild(fill1);
+
+        const track2 = document.createElement("div");
+        track2.className = "bar-track";
+        const fill2 = document.createElement("div");
+        fill2.className = "bar-fill bar-correct";
+        fill2.style.width = correctPct + "%";
+        track2.appendChild(fill2);
+
+        trackWrapper.appendChild(track1);
+        trackWrapper.appendChild(track2);
+
+        row.appendChild(label);
+        row.appendChild(trackWrapper);
+        visualBarsEl.appendChild(row);
+      });
+    }
+
+    function refreshSummary(highlightPlayerId = null) {
+      renderSummaryTable(highlightPlayerId);
+      renderVisualBars();
+    }
+
+    // ------- SAVE / UNDO -------
     function clearSelection() {
       state.selectedPlayerId = null;
       state.selectedShot = null;
       state.selectedDecision = null;
-
-      document
-        .querySelectorAll(".player-card")
-        .forEach((el) => el.classList.remove("selected"));
-      pillButtons.forEach((b) => b.classList.remove("active"));
+      document.querySelectorAll(".player-card").forEach(el => el.classList.remove("selected"));
+      pillButtons.forEach(b => b.classList.remove("active"));
     }
 
     function updateUndoButton() {
@@ -655,41 +699,41 @@
     }
 
     saveBtn.addEventListener("click", () => {
-      if (!state.selectedPlayerId || !state.selectedShot || !state.selectedDecision) {
+      if (
+        state.selectedPlayerId === null ||
+        state.selectedShot === null ||
+        state.selectedDecision === null
+      ) {
         alert("Please select Player, Shot Quality, and Decision Quality before saving.");
         return;
       }
-
-      const player = players.find((p) => p.id === state.selectedPlayerId);
-      const pos = {
-        quarter: state.currentQuarter,
+      const player = players.find(p => p.id === state.selectedPlayerId);
+      possessions.push({
         playerId: player.id,
         role: player.role,
         shot: state.selectedShot,
         decision: state.selectedDecision,
         ts: Date.now()
-      };
-      possessions.push(pos);
-
-      recomputeQuarterStats();
-      updateChartForSelectedQuarter();
+      });
+      lastHighlightPlayerId = player.id;
+      refreshSummary(lastHighlightPlayerId);
       updateUndoButton();
       clearSelection();
+      showToast("Possession saved and stats updated");
     });
 
     undoBtn.addEventListener("click", () => {
-      if (possessions.length === 0) return;
-      if (undoBtn.classList.contains("disabled")) return;
-
-      possessions.pop(); // remove last saved possession
-      recomputeQuarterStats();
-      updateChartForSelectedQuarter();
+      if (undoBtn.classList.contains("disabled") || possessions.length === 0) return;
+      const removed = possessions.pop();
+      lastHighlightPlayerId = removed ? removed.playerId : null;
+      refreshSummary(lastHighlightPlayerId);
       updateUndoButton();
+      showToast("Last possession undone");
     });
 
-    // ----- INIT -----
-    renderPlayers();
-    recomputeQuarterStats();
+    // ------- INIT -------
+    renderPlayersForInput();
+    refreshSummary();
     updateUndoButton();
   </script>
 </body>
