@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shot Decision Tracker</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -367,7 +368,7 @@
       Offensive player report on Shot Quality & Decision Quality
     </div>
 
-    <!-- 1. OFFENSIVE PLAYER REPORT (FIRST SCREEN) -->
+    <!-- 1. OFFENSIVE PLAYER REPORT -->
     <div class="card">
       <div class="card-header">
         <div>
@@ -382,7 +383,7 @@
         <!-- Table -->
         <div class="summary-table-wrapper">
           <table class="player-summary" id="playerSummaryTable">
-            <!-- Populated by JS -->
+            <!-- populated by JS -->
           </table>
         </div>
 
@@ -403,7 +404,7 @@
       </div>
     </div>
 
-    <!-- 2. INPUT / DATA ENTRY SECTION (SECOND PAGE WHEN SCROLLING) -->
+    <!-- 2. INPUT SECTION -->
     <div class="card">
       <div class="section-label">1. Player</div>
       <div class="section-help">
@@ -451,15 +452,14 @@
   <div class="toast" id="toast">Saved</div>
 
   <script>
-    // ----- DATA -----
+    // ---------- DATA ----------
     const players = [
       { id: 21, number: "#21", name: "Billy Barton", role: "PRIMARY" },
       { id: 22, number: "#22", name: "Oliver Mann", role: "SECONDARY" },
-      { id: 0,  number: "#–", name: "Sam Martin", role: "PRIMARY" },
-      { id: 9,  number: "#9", name: "Tom D'Amelio", role: "NON" },
-      { id: 1,  number: "#–", name: "Tom Darcy", role: "NON" },
+      { id: 23, number: "#–", name: "Sam Martin", role: "PRIMARY" },
+      { id: 24, number: "#9", name: "Tom D'Amelio", role: "NON" },
+      { id: 25, number: "#–", name: "Tom Darcy", role: "NON" },
       { id: 41, number: "#41", name: "Tyler Langston", role: "SECONDARY" }
-      // Add more players here if needed
     ];
 
     let state = {
@@ -471,7 +471,7 @@
     const possessions = []; // { playerId, role, shot, decision, ts }
     let lastHighlightPlayerId = null;
 
-    // ----- DOM ELEMENTS -----
+    // ---------- DOM ----------
     const playerListEl = document.getElementById("playerList");
     const summaryTableEl = document.getElementById("playerSummaryTable");
     const saveBtn = document.getElementById("saveBtn");
@@ -479,7 +479,7 @@
     const pillButtons = document.querySelectorAll(".pill-button");
     const toastEl = document.getElementById("toast");
 
-    // ----- TOAST -----
+    // ---------- TOAST ----------
     let toastTimeout = null;
     function showToast(message) {
       toastEl.textContent = message;
@@ -490,7 +490,7 @@
       }, 1300);
     }
 
-    // ----- PLAYER LIST (INPUT SECTION) -----
+    // ---------- PLAYER LIST ----------
     function renderPlayersForInput() {
       playerListEl.innerHTML = "";
       players.forEach((p) => {
@@ -515,11 +515,9 @@
             ? "role-secondary"
             : "role-non");
         role.textContent =
-          p.role === "PRIMARY"
-            ? "PRIMARY"
-            : p.role === "SECONDARY"
-            ? "SECONDARY"
-            : "NON-SHOOTER";
+          p.role === "NON"
+            ? "NON-SHOOTER"
+            : p.role;
 
         card.appendChild(num);
         card.appendChild(name);
@@ -536,13 +534,12 @@
       });
     }
 
-    // ----- PILL BUTTONS (SHOT & DECISION) -----
+    // ---------- PILL BUTTONS ----------
     pillButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
         const type = btn.dataset.type;
         const value = btn.dataset.value;
 
-        // clear others in same group
         pillButtons.forEach((b) => {
           if (b.dataset.type === type) b.classList.remove("active");
         });
@@ -557,7 +554,7 @@
       });
     });
 
-    // ----- SUMMARY TABLE + CHART DATA -----
+    // ---------- SUMMARY STATS ----------
     function computePlayerStats() {
       const stats = {};
       players.forEach((p) => {
@@ -623,7 +620,7 @@
       summaryTableEl.innerHTML = html;
     }
 
-    // ----- CHART -----
+    // ---------- CHART ----------
     const ctx = document.getElementById("playerChart").getContext("2d");
     const chartConfig = {
       type: "bar",
@@ -667,7 +664,8 @@
           legend: { display: false },
           tooltip: {
             callbacks: {
-              label: (ctx) => ctx.dataset.label + ": " + ctx.parsed.x.toFixed(0) + "%"
+              label: (ctx) =>
+                ctx.dataset.label + ": " + ctx.parsed.x.toFixed(0) + "%"
             }
           }
         }
@@ -700,7 +698,7 @@
       updateChart();
     }
 
-    // ----- SAVE / UNDO -----
+    // ---------- SAVE / UNDO ----------
     function clearSelection() {
       state.selectedPlayerId = null;
       state.selectedShot = null;
@@ -718,7 +716,9 @@
     }
 
     saveBtn.addEventListener("click", () => {
-      if (!state.selectedPlayerId || !state.selectedShot || !state.selectedDecision) {
+      if (state.selectedPlayerId === null ||
+          state.selectedShot === null ||
+          state.selectedDecision === null) {
         alert("Please select Player, Shot Quality, and Decision Quality before saving.");
         return;
       }
@@ -750,7 +750,7 @@
       showToast("Last possession undone");
     });
 
-    // ----- INIT -----
+    // ---------- INIT ----------
     renderPlayersForInput();
     refreshSummary();
     updateUndoButton();
