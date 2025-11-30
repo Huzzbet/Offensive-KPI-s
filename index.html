@@ -154,7 +154,7 @@
       background: rgba(147, 51, 234, 0.25);
     }
 
-    /* Visual bar summary (CSS only, no Chart.js) */
+    /* Visual bar summary (CSS only) */
     .summary-visual-wrapper {
       display: flex;
       flex-direction: column;
@@ -234,17 +234,22 @@
       margin-bottom: 8px;
     }
 
+    /* UPDATED: player list as grid so all players show on one screen */
     .player-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-height: 320px;
-      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
       padding-right: 4px;
     }
+    @media (min-width: 900px) {
+      .player-list {
+        grid-template-columns: 1fr 1fr; /* 2 columns on iPad / wider */
+      }
+    }
+
     .player-card {
       border-radius: 16px;
-      padding: 10px 12px;
+      padding: 8px 10px; /* slightly tighter so all fit comfortably */
       background: linear-gradient(135deg, #020617, #020617);
       border: 1px solid rgba(148, 163, 184, 0.35);
       display: flex;
