@@ -202,8 +202,14 @@
     .bar-great {
       background: linear-gradient(to right, #22c55e, #16a34a);
     }
+    .bar-poor {
+      background: linear-gradient(to right, #ef4444, #991b1b);
+    }
     .bar-correct {
       background: linear-gradient(to right, #38bdf8, #0ea5e9);
+    }
+    .bar-incorrect {
+      background: linear-gradient(to right, #f97316, #9a3412);
     }
 
     .visual-legend {
@@ -234,7 +240,7 @@
       margin-bottom: 8px;
     }
 
-    /* UPDATED: player list as grid so all players show on one screen */
+    /* Player list as grid so all players show on one screen */
     .player-list {
       display: grid;
       grid-template-columns: 1fr;
@@ -243,13 +249,13 @@
     }
     @media (min-width: 900px) {
       .player-list {
-        grid-template-columns: 1fr 1fr; /* 2 columns on iPad / wider */
+        grid-template-columns: 1fr 1fr;
       }
     }
 
     .player-card {
       border-radius: 16px;
-      padding: 8px 10px; /* slightly tighter so all fit comfortably */
+      padding: 8px 10px;
       background: linear-gradient(135deg, #020617, #020617);
       border: 1px solid rgba(148, 163, 184, 0.35);
       display: flex;
@@ -439,8 +445,16 @@
               <span>Great Look %</span>
             </div>
             <div class="visual-legend-item">
+              <div class="visual-legend-swatch" style="background:#ef4444;"></div>
+              <span>Poor Look %</span>
+            </div>
+            <div class="visual-legend-item">
               <div class="visual-legend-swatch" style="background:#38bdf8;"></div>
               <span>Correct Decision %</span>
+            </div>
+            <div class="visual-legend-item">
+              <div class="visual-legend-swatch" style="background:#f97316;"></div>
+              <span>Incorrect Decision %</span>
             </div>
           </div>
         </div>
@@ -584,14 +598,18 @@
     function computePlayerStats() {
       const stats = {};
       players.forEach(p => {
-        stats[p.id] = { total: 0, great: 0, correct: 0 };
+        stats[p.id] = { total: 0, great: 0, poor: 0, correct: 0, incorrect: 0 };
       });
       possessions.forEach(pos => {
         const s = stats[pos.playerId];
         if (!s) return;
         s.total += 1;
+
         if (pos.shot === "G") s.great += 1;
+        else if (pos.shot === "P") s.poor += 1;
+
         if (pos.decision === "C") s.correct += 1;
+        else if (pos.decision === "I") s.incorrect += 1;
       });
       return stats;
     }
@@ -645,7 +663,9 @@
         const s = stats[p.id];
         const total = s.total;
         const greatPct = total ? (s.great / total) * 100 : 0;
+        const poorPct = total ? (s.poor / total) * 100 : 0;
         const correctPct = total ? (s.correct / total) * 100 : 0;
+        const incorrectPct = total ? (s.incorrect / total) * 100 : 0;
 
         const row = document.createElement("div");
         row.className = "visual-row";
@@ -653,11 +673,12 @@
         const label = document.createElement("div");
         label.className = "visual-label";
         label.innerHTML = `<span>${p.number} ${p.name.split(" ")[0]}</span>
-          <span>${greatPct.toFixed(0)}% G · ${correctPct.toFixed(0)}% C</span>`;
+          <span>${greatPct.toFixed(0)}% G · ${poorPct.toFixed(0)}% P · ${correctPct.toFixed(0)}% C · ${incorrectPct.toFixed(0)}% I</span>`;
 
         const trackWrapper = document.createElement("div");
         trackWrapper.className = "visual-bars-track";
 
+        // Shot quality bars
         const track1 = document.createElement("div");
         track1.className = "bar-track";
         const fill1 = document.createElement("div");
@@ -668,12 +689,29 @@
         const track2 = document.createElement("div");
         track2.className = "bar-track";
         const fill2 = document.createElement("div");
-        fill2.className = "bar-fill bar-correct";
-        fill2.style.width = correctPct + "%";
+        fill2.className = "bar-fill bar-poor";
+        fill2.style.width = poorPct + "%";
         track2.appendChild(fill2);
+
+        // Decision bars
+        const track3 = document.createElement("div");
+        track3.className = "bar-track";
+        const fill3 = document.createElement("div");
+        fill3.className = "bar-fill bar-correct";
+        fill3.style.width = correctPct + "%";
+        track3.appendChild(fill3);
+
+        const track4 = document.createElement("div");
+        track4.className = "bar-track";
+        const fill4 = document.createElement("div");
+        fill4.className = "bar-fill bar-incorrect";
+        fill4.style.width = incorrectPct + "%";
+        track4.appendChild(fill4);
 
         trackWrapper.appendChild(track1);
         trackWrapper.appendChild(track2);
+        trackWrapper.appendChild(track3);
+        trackWrapper.appendChild(track4);
 
         row.appendChild(label);
         row.appendChild(trackWrapper);
