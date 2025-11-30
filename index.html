@@ -4,773 +4,693 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shot Decision Tracker</title>
-
-  <!-- Chart.js for quarter graph -->
+  <!-- Chart.js for the live graph -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <style>
     /* Reset & base */
     * {
       box-sizing: border-box;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-
     body {
       margin: 0;
-      padding: 20px;
-      background: #0b1220;
+      padding: 16px;
+      background: radial-gradient(circle at top, #1d2a3f 0, #020617 60%, #000 100%);
       color: #f9fafb;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 1100px;
+      background: #020617;
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.6);
     }
 
     h1 {
       font-size: 24px;
-      margin: 0 0 8px;
+      margin: 0 0 6px;
       text-align: center;
     }
-
     .subheading {
-      font-size: 14px;
+      font-size: 13px;
       text-align: center;
-      margin-bottom: 12px;
-      color: #9ca3af;
-    }
-
-    .chip-row {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
       margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .chip {
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid #1f2937;
-      font-size: 11px;
       color: #9ca3af;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(15,23,42,0.85);
     }
 
-    .chip-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #4b5563;
-    }
-
-    .layout {
-      max-width: 1100px;
-      margin: 0 auto;
+    /* Layout: graph + controls */
+    .main-layout {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
+    .graph-column,
+    .form-column {
+      width: 100%;
+    }
 
-    .top-row {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    /* On iPad / wider screens, show side-by-side */
+    @media (min-width: 900px) {
+      .main-layout {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      .graph-column {
+        flex: 0 0 46%;
+        position: sticky;
+        top: 72px;
+        max-height: calc(100vh - 96px);
+        overflow: hidden;
+      }
+      .form-column {
+        flex: 1;
+      }
     }
 
     .card {
-      background: radial-gradient(circle at top left, #111827, #020617);
-      border-radius: 16px;
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.08), transparent 55%),
+                  #020617;
+      border-radius: 20px;
       padding: 14px 16px;
-      border: 1px solid #111827;
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.8);
+      margin-bottom: 10px;
     }
 
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
       margin-bottom: 8px;
     }
-
     .card-title {
       font-size: 14px;
       font-weight: 600;
     }
-
-    .card-subtitle {
-      font-size: 12px;
-      color: #9ca3af;
-    }
-
     .pill {
       padding: 4px 10px;
       border-radius: 999px;
-      background: rgba(15, 118, 110, 0.15);
-      color: #6ee7b7;
       font-size: 11px;
-      border: 1px solid rgba(45, 212, 191, 0.35);
-      white-space: nowrap;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: #e5e7eb;
     }
 
-    .target-text {
-      font-size: 12px;
+    /* Quarter tabs */
+    .quarter-tabs {
+      display: inline-flex;
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 999px;
+      padding: 4px;
+      gap: 4px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+    .quarter-tab {
+      border: none;
+      background: transparent;
       color: #9ca3af;
-      margin-top: 4px;
-    }
-
-    .section-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .section-help {
       font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .quarter-tab.active {
+      background: radial-gradient(circle at top, #22c55e, #15803d);
+      color: #ecfdf5;
+    }
+
+    /* Graph legend */
+    .legend {
+      display: flex;
+      gap: 16px;
+      font-size: 11px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    /* Player list */
+    .player-list-title {
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .player-list-sub {
+      font-size: 11px;
       color: #9ca3af;
       margin-bottom: 8px;
     }
 
-    /* Player grid – tuned for iPad */
-    .player-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px;
+    .player-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 320px;
+      overflow-y: auto;
+      padding-right: 4px;
     }
 
     .player-card {
-      position: relative;
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 10px 12px;
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.7));
-      border: 1px solid #111827;
-      cursor: pointer;
-      transition:
-        transform 0.1s ease,
-        box-shadow 0.1s ease,
-        border-color 0.1s ease,
-        background 0.1s ease;
-    }
-
-    .player-card:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.9);
-      border-color: #1f2937;
-    }
-
-    .player-card.selected {
-      border-color: #38bdf8;
-      box-shadow:
-        0 0 0 1px rgba(56, 189, 248, 0.7),
-        0 14px 30px rgba(8, 47, 73, 0.9);
-      background: radial-gradient(circle at top left, rgba(8, 47, 73, 0.9), rgba(15, 23, 42, 0.9));
-    }
-
-    .player-number {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
-
-    .player-name {
-      font-size: 13px;
-      margin-bottom: 6px;
-    }
-
-    .role-pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      padding: 3px 8px;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-    }
-
-    .role-P1 {
-      background: rgba(22, 163, 74, 0.18);
-      color: #4ade80;
-      border: 1px solid rgba(74, 222, 128, 0.5);
-    }
-    .role-P2 {
-      background: rgba(59, 130, 246, 0.18);
-      color: #93c5fd;
-      border: 1px solid rgba(147, 197, 253, 0.5);
-    }
-    .role-NS {
-      background: rgba(147, 51, 234, 0.18);
-      color: #e9d5ff;
-      border: 1px solid rgba(216, 180, 254, 0.5);
-    }
-
-    /* Segmented controls */
-    .segmented {
-      display: inline-flex;
-      padding: 3px;
-      border-radius: 999px;
-      background: #020617;
-      border: 1px solid #111827;
-      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.8);
-    }
-
-    .segmented button {
-      border: none;
-      background: transparent;
-      color: #9ca3af;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      cursor: pointer;
-      min-width: 70px;
-      text-align: center;
-      transition:
-        background 0.12s ease,
-        color 0.12s ease,
-        box-shadow 0.12s ease,
-        transform 0.08s ease;
-    }
-
-    .segmented button.selected {
-      color: #e5f2ff;
-      transform: translateY(-0.5px);
-    }
-
-    /* Shot quality colour coding when selected */
-    #shotQualityGroup button[data-val="G"].selected {
-      background: radial-gradient(circle at top left, #22c55e, #16a34a);
-      box-shadow:
-        0 0 0 1px rgba(34,197,94,0.9),
-        0 12px 26px rgba(21,128,61,0.9);
-    }
-    #shotQualityGroup button[data-val="O"].selected {
-      background: radial-gradient(circle at top left, #eab308, #f97316);
-      box-shadow:
-        0 0 0 1px rgba(234,179,8,0.9),
-        0 12px 26px rgba(180,83,9,0.9);
-    }
-    #shotQualityGroup button[data-val="P"].selected {
-      background: radial-gradient(circle at top left, #fb7185, #ef4444);
-      box-shadow:
-        0 0 0 1px rgba(248,113,113,0.9),
-        0 12px 26px rgba(127,29,29,0.9);
-    }
-
-    /* Decision quality keeps blue theme */
-    #decisionQualityGroup button[data-val="C"].selected {
-      background: radial-gradient(circle at top left, #0ea5e9, #0369a1);
-      box-shadow:
-        0 0 0 1px rgba(56,189,248,0.9),
-        0 12px 26px rgba(8,47,73,0.9);
-    }
-    #decisionQualityGroup button[data-val="I"].selected {
-      background: radial-gradient(circle at top left, #6366f1, #4f46e5);
-      box-shadow:
-        0 0 0 1px rgba(129,140,248,0.9),
-        0 12px 26px rgba(55,48,163,0.9);
-    }
-
-    /* Save button */
-    .save-row {
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-    }
-
-    .save-btn {
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      border: none;
-      color: #ecfdf5;
-      padding: 10px 20px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 14px 35px rgba(22, 163, 74, 0.65);
-      transition:
-        transform 0.12s ease,
-        box-shadow 0.12s ease,
-        filter 0.12s ease;
-    }
-
-    .save-btn:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.05);
-      box-shadow: 0 18px 40px rgba(22, 163, 74, 0.9);
-    }
-
-    .save-btn:active {
-      transform: translateY(0);
-      box-shadow: 0 10px 24px rgba(22, 163, 74, 0.8);
-    }
-
-    .save-btn span.icon {
-      font-size: 16px;
-    }
-
-    /* Quarter & chart layout */
-    .quarter-row {
+      background: linear-gradient(135deg, #020617, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.35);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 2px;
+      cursor: pointer;
+      transition: border 0.15s, box-shadow 0.15s, background 0.15s, transform 0.05s;
+    }
+    .player-card:hover {
+      border-color: rgba(52, 211, 153, 0.7);
+    }
+    .player-card.selected {
+      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.28), #020617);
+      border-color: #22c55e;
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.5), 0 14px 30px rgba(5, 46, 22, 0.9);
+      transform: translateY(-1px);
+    }
+    .player-number {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    .player-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .role-pill {
+      align-self: flex-start;
+      margin-top: 2px;
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid;
+    }
+    .role-primary {
+      border-color: rgba(34, 197, 94, 0.7);
+      color: #bbf7d0;
+      background: rgba(22, 163, 74, 0.25);
+    }
+    .role-secondary {
+      border-color: rgba(59, 130, 246, 0.7);
+      color: #bfdbfe;
+      background: rgba(37, 99, 235, 0.25);
+    }
+    .role-non {
+      border-color: rgba(168, 85, 247, 0.7);
+      color: #e9d5ff;
+      background: rgba(147, 51, 234, 0.25);
     }
 
-    .chart-wrapper {
-      margin-top: 8px;
-      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), #020617);
-      border-radius: 14px;
-      padding: 10px 10px 6px;
-      border: 1px solid #111827;
+    /* Pill button groups */
+    .section-label {
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .section-help {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+    .pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pill-button {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: #020617;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: #e5e7eb;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.05s;
+    }
+    .pill-button:hover {
+      border-color: rgba(52, 211, 153, 0.6);
+    }
+    .pill-button.active {
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.7), 0 12px 25px rgba(5, 46, 22, 0.9);
+      transform: translateY(-1px);
+    }
+    .pill-button[data-type="shot"][data-value="G"].active {
+      background: radial-gradient(circle at top, #22c55e, #15803d);
+    }
+    .pill-button[data-type="shot"][data-value="O"].active {
+      background: radial-gradient(circle at top, #eab308, #a16207);
+    }
+    .pill-button[data-type="shot"][data-value="P"].active {
+      background: radial-gradient(circle at top, #ef4444, #991b1b);
+    }
+    .pill-button[data-type="decision"][data-value="C"].active {
+      background: radial-gradient(circle at top, #38bdf8, #0369a1);
+    }
+    .pill-button[data-type="decision"][data-value="I"].active {
+      background: radial-gradient(circle at top, #f97316, #9a3412);
     }
 
-    canvas {
-      width: 100% !important;
-      height: 260px !important;
+    /* Save / Undo buttons */
+    .actions-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .primary-btn,
+    .secondary-btn {
+      flex: 1;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 0.05s, box-shadow 0.15s, opacity 0.15s;
+      white-space: nowrap;
+    }
+    .primary-btn {
+      background: radial-gradient(circle at top left, #22c55e, #16a34a);
+      color: #ecfdf5;
+      box-shadow: 0 16px 35px rgba(5, 46, 22, 0.9);
+      font-weight: 600;
+    }
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 40px rgba(4, 47, 17, 1);
+    }
+    .secondary-btn {
+      background: rgba(15, 23, 42, 0.95);
+      color: #e5e7eb;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+    }
+    .secondary-btn:hover:not(.disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.8);
+    }
+    .secondary-btn.disabled {
+      opacity: 0.45;
+      cursor: default;
     }
 
-    /* iPad / larger screens */
-    @media (min-width: 768px) {
-      body {
-        padding: 24px;
-      }
-
-      h1 {
-        font-size: 26px;
-      }
-
-      .subheading {
-        font-size: 15px;
-        margin-bottom: 16px;
-      }
-
-      .layout {
-        gap: 18px;
-      }
-
-      .top-row {
-        flex-direction: row;
-        align-items: stretch;
-      }
-
-      .top-row > .card:first-child {
-        flex: 1.1;
-      }
-
-      .top-row > .card:nth-child(2) {
-        flex: 1.2;
-      }
-
-      .player-grid {
-        gap: 12px;
-      }
-
-      .player-card {
-        padding: 12px 14px;
-      }
-
-      canvas {
-        height: 220px !important;
-      }
+    /* Footer link */
+    .footer-link {
+      margin-top: 14px;
+      text-align: center;
     }
-
-    @media (min-width: 1024px) {
-      .player-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
+    .footer-link a {
+      display: inline-block;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 11px;
+      color: #e5e7eb;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
-  <h1>Shot Decision Tracker</h1>
-  <p class="subheading">
-    Player · Shot Quality · Decision Quality (Roles: P1 / P2 / NS)
-  </p>
+  <div class="app-shell">
+    <h1>Shot Decision Tracker</h1>
+    <div class="subheading">
+      Player · Shot Quality · Decision Quality (Roles: Primary / Secondary / Non-Shooter)
+    </div>
 
-  <div class="chip-row">
-    <div class="chip"><span class="chip-dot"></span> Player</div>
-    <div class="chip"><span class="chip-dot"></span> Shot Quality</div>
-    <div class="chip"><span class="chip-dot"></span> Decision Quality</div>
-  </div>
-
-  <div class="layout">
-    <!-- Quarter + targets + quick summary -->
-    <div class="top-row">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Current Quarter</div>
-            <div class="card-subtitle" id="currentQuarterLabel">Q1</div>
+    <div class="main-layout">
+      <!-- GRAPH COLUMN (sticky on iPad landscape) -->
+      <div class="graph-column">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Quarter Overview</div>
+              <div style="font-size:11px;color:#9ca3af;margin-top:2px;">
+                P1/P2 usage · Great looks · Correct decisions
+              </div>
+            </div>
+            <div class="quarter-tabs">
+              <button class="quarter-tab active" data-quarter="1">Q1</button>
+              <button class="quarter-tab" data-quarter="2">Q2</button>
+              <button class="quarter-tab" data-quarter="3">Q3</button>
+              <button class="quarter-tab" data-quarter="4">Q4</button>
+            </div>
           </div>
-          <div class="segmented" id="quarterSelector">
-            <button data-q="Q1" class="selected">Q1</button>
-            <button data-q="Q2">Q2</button>
-            <button data-q="Q3">Q3</button>
-            <button data-q="Q4">Q4</button>
+          <canvas id="quarterChart" style="width:100%;height:220px;"></canvas>
+          <div class="legend">
+            <div class="legend-item">
+              <div class="legend-swatch" style="background:#22c55e;"></div>
+              <span>P1/P2 Shot %</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-swatch" style="background:#38bdf8;"></div>
+              <span>Great Look %</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-swatch" style="background:#a855f7;"></div>
+              <span>Correct Decision %</span>
+            </div>
           </div>
         </div>
-        <div class="target-text">
-          Targets: P1/P2 shots, 70%+ great looks, 75%+ correct decisions
-        </div>
-        <div class="target-text" id="quickSummary">
-          No possessions saved yet this game.
-        </div>
       </div>
 
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Quarter Overview</div>
-            <div class="card-subtitle">P1/P2 usage • Looks • Decisions</div>
+      <!-- FORM COLUMN -->
+      <div class="form-column">
+        <!-- Player selection -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">1. Player</div>
+              <div class="player-list-sub">
+                Tap the player who finished the possession (Primary / Secondary / Non-Shooter)
+              </div>
+            </div>
+            <span class="pill" id="currentQuarterLabel">Q1</span>
           </div>
-          <div class="pill">Live Graph</div>
+
+          <div class="player-list" id="playerList"></div>
         </div>
-        <div class="chart-wrapper">
-          <canvas id="quarterChart"></canvas>
+
+        <!-- Shot quality -->
+        <div class="card">
+          <div class="section-label">2. Shot Quality</div>
+          <div class="section-help">G = great look · O = OK look · P = poor / forced</div>
+          <div class="pill-row">
+            <button class="pill-button" data-type="shot" data-value="G">G Great</button>
+            <button class="pill-button" data-type="shot" data-value="O">O OK</button>
+            <button class="pill-button" data-type="shot" data-value="P">P Poor</button>
+          </div>
+        </div>
+
+        <!-- Decision quality -->
+        <div class="card">
+          <div class="section-label">3. Decision Quality</div>
+          <div class="section-help">C = correct player/shot · I = incorrect choice</div>
+          <div class="pill-row">
+            <button class="pill-button" data-type="decision" data-value="C">C Correct</button>
+            <button class="pill-button" data-type="decision" data-value="I">I Incorrect</button>
+          </div>
+        </div>
+
+        <!-- Save / Undo -->
+        <div class="card">
+          <div class="section-label">4. Save Possession</div>
+          <div class="section-help">
+            Save the possession once Player, Shot Quality, and Decision Quality are selected.
+          </div>
+          <div class="actions-row">
+            <button class="primary-btn" id="saveBtn">＋ Save Possession</button>
+            <button class="secondary-btn disabled" id="undoBtn">↺ Undo Last</button>
+          </div>
+        </div>
+
+        <div class="footer-link">
+          <a href="https://huzzbet.github.io" target="_blank" rel="noopener">huzzbet.github.io</a>
         </div>
       </div>
-    </div>
-
-    <!-- Player selection -->
-    <div class="card">
-      <div class="section-title">1. Player</div>
-      <div class="section-help">
-        Tap the player who finished the possession (Primary / Secondary / Non-Shooter)
-      </div>
-
-      <div class="player-grid" id="playerGrid">
-        <!-- Player cards injected by JS -->
-      </div>
-    </div>
-
-    <!-- Shot quality & decision quality -->
-    <div class="card">
-      <div class="section-title">2. Shot Quality</div>
-      <div class="section-help">
-        G = great look, O = ok look, P = poor/forced
-      </div>
-      <div class="segmented" id="shotQualityGroup">
-        <button data-val="G" class="selected">G Great</button>
-        <button data-val="O">O OK</button>
-        <button data-val="P">P Poor</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="section-title">3. Decision Quality</div>
-      <div class="section-help">
-        C = correct player/shot, I = incorrect choice
-      </div>
-      <div class="segmented" id="decisionQualityGroup">
-        <button data-val="C" class="selected">C Correct</button>
-        <button data-val="I">I Incorrect</button>
-      </div>
-    </div>
-
-    <div class="save-row">
-      <button class="save-btn" id="saveBtn">
-        <span class="icon">➕</span>
-        <span>Save Possession</span>
-      </button>
     </div>
   </div>
 
   <script>
-    // --- CONFIG ----------------------------------------------------------------
+    // ----- DATA -----
     const players = [
-      { id: "billy-barton",   name: "Billy Barton",       jersey: 21, role: "P1" },
-      { id: "calvin-ram",     name: "Calvin Ramachandran", jersey: 5,  role: "P2" },
-      { id: "jake-johnston",  name: "Jake Johnston",      jersey: null, role: "P1" },
-      { id: "jonah-titifanua",name: "Jonah Titifanua",    jersey: 90, role: "P2" },
-      { id: "mantas-kaspar",  name: "Mantas Kaspariunas", jersey: null, role: "NS" },
-      { id: "michael-aminov", name: "Michael Aminov",     jersey: 2,  role: "P1" },
-      { id: "oliver-ledger",  name: "Oliver Ledger",      jersey: 32, role: "P2" },
-      { id: "oliver-mann",    name: "Oliver Mann",        jersey: 22, role: "P2" },
-      { id: "sam-martin",     name: "Sam Martin",         jersey: null, role: "P1" },
-      { id: "tom-damelio",    name: "Tom D'Amelio",       jersey: 9,  role: "NS" },
-      { id: "tom-darcy",      name: "Tom Darcy",          jersey: null, role: "NS" },
-      { id: "tyler-langston", name: "Tyler Langston",     jersey: 41, role: "P2" }
+      { id: 21, number: "#21", name: "Billy Barton", role: "PRIMARY" },
+      { id: 22, number: "#22", name: "Oliver Mann", role: "SECONDARY" },
+      { id: 0,  number: "#–", name: "Sam Martin", role: "PRIMARY" },
+      { id: 9,  number: "#9", name: "Tom D'Amelio", role: "NON" },
+      { id: 1,  number: "#–", name: "Tom Darcy", role: "NON" },
+      { id: 41, number: "#41", name: "Tyler Langston", role: "SECONDARY" },
+      // add more if needed
     ];
 
-    const playerGrid = document.getElementById("playerGrid");
-    const quarterSelector = document.getElementById("quarterSelector");
-    const currentQuarterLabel = document.getElementById("currentQuarterLabel");
-    const shotQualityGroup = document.getElementById("shotQualityGroup");
-    const decisionQualityGroup = document.getElementById("decisionQualityGroup");
-    const saveBtn = document.getElementById("saveBtn");
-    const quickSummary = document.getElementById("quickSummary");
-
-    const state = {
-      currentQuarter: "Q1",
-      player: null,
-      shotQuality: "G",
-      decisionQuality: "C"
+    let state = {
+      currentQuarter: 1,
+      selectedPlayerId: null,
+      selectedShot: null,     // 'G','O','P'
+      selectedDecision: null  // 'C','I'
     };
 
+    const possessions = []; // each: {quarter, playerId, role, shot, decision, ts}
     const quarterStats = {
-      Q1: { possessions: 0, p1p2Shots: 0, greatLooks: 0, correctChoices: 0 },
-      Q2: { possessions: 0, p1p2Shots: 0, greatLooks: 0, correctChoices: 0 },
-      Q3: { possessions: 0, p1p2Shots: 0, greatLooks: 0, correctChoices: 0 },
-      Q4: { possessions: 0, p1p2Shots: 0, greatLooks: 0, correctChoices: 0 }
+      1: { total: 0, p1p2: 0, great: 0, correct: 0 },
+      2: { total: 0, p1p2: 0, great: 0, correct: 0 },
+      3: { total: 0, p1p2: 0, great: 0, correct: 0 },
+      4: { total: 0, p1p2: 0, great: 0, correct: 0 }
     };
 
-    // --- PLAYER GRID RENDER ----------------------------------------------------
-    function createPlayerCard(player) {
-      const card = document.createElement("button");
-      card.type = "button";
-      card.className = "player-card";
-      card.dataset.id = player.id;
+    // ----- DOM HELPERS -----
+    const playerListEl = document.getElementById("playerList");
+    const saveBtn = document.getElementById("saveBtn");
+    const undoBtn = document.getElementById("undoBtn");
+    const currentQuarterLabel = document.getElementById("currentQuarterLabel");
+    const quarterTabs = document.querySelectorAll(".quarter-tab");
+    const pillButtons = document.querySelectorAll(".pill-button");
 
-      const num = player.jersey != null ? "#" + player.jersey : "#–";
-
-      card.innerHTML = `
-        <div class="player-number">${num}</div>
-        <div class="player-name">${player.name}</div>
-        <div class="role-pill role-${player.role}">
-          ${player.role === "P1" ? "Primary" : player.role === "P2" ? "Secondary" : "Non-Shooter"}
-        </div>
-      `;
-
-      card.addEventListener("click", () => {
-        document
-          .querySelectorAll(".player-card")
-          .forEach((el) => el.classList.remove("selected"));
-
-        card.classList.add("selected");
-        state.player = player;
-      });
-
-      return card;
-    }
-
+    // ----- BUILD PLAYER LIST -----
     function renderPlayers() {
-      playerGrid.innerHTML = "";
+      playerListEl.innerHTML = "";
       players.forEach((p) => {
-        playerGrid.appendChild(createPlayerCard(p));
-      });
-    }
+        const card = document.createElement("div");
+        card.className = "player-card";
+        card.dataset.playerId = p.id;
 
-    // --- SEGMENTED CONTROLS ----------------------------------------------------
-    function wireSegmented(groupEl, key) {
-      const buttons = Array.from(groupEl.querySelectorAll("button"));
-      buttons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          buttons.forEach((b) => b.classList.remove("selected"));
-          btn.classList.add("selected");
-          state[key] = btn.dataset.val;
+        const num = document.createElement("div");
+        num.className = "player-number";
+        num.textContent = p.number;
+        const name = document.createElement("div");
+        name.className = "player-name";
+        name.textContent = p.name;
+        const role = document.createElement("div");
+        role.className =
+          "role-pill " +
+          (p.role === "PRIMARY"
+            ? "role-primary"
+            : p.role === "SECONDARY"
+            ? "role-secondary"
+            : "role-non");
+        role.textContent =
+          p.role === "PRIMARY"
+            ? "PRIMARY"
+            : p.role === "SECONDARY"
+            ? "SECONDARY"
+            : "NON-SHOOTER";
+
+        card.appendChild(num);
+        card.appendChild(name);
+        card.appendChild(role);
+
+        card.addEventListener("click", () => {
+          state.selectedPlayerId = p.id;
+          document
+            .querySelectorAll(".player-card")
+            .forEach((el) => el.classList.remove("selected"));
+          card.classList.add("selected");
         });
+
+        playerListEl.appendChild(card);
       });
     }
 
-    // --- QUARTER SELECTOR ------------------------------------------------------
-    function wireQuarterSelector() {
-      const buttons = Array.from(quarterSelector.querySelectorAll("button"));
-      buttons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          buttons.forEach((b) => b.classList.remove("selected"));
-          btn.classList.add("selected");
-          state.currentQuarter = btn.dataset.q;
-          currentQuarterLabel.textContent = btn.dataset.q;
-          updateQuickSummary();
-          updateQuarterChart();
+    // ----- PILL BUTTON HANDLERS -----
+    pillButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const type = btn.dataset.type;
+        const value = btn.dataset.value;
+
+        // toggle group
+        pillButtons.forEach((b) => {
+          if (b.dataset.type === type) b.classList.remove("active");
         });
+        btn.classList.add("active");
+
+        if (type === "shot") {
+          state.selectedShot = value;
+        } else if (type === "decision") {
+          state.selectedDecision = value;
+        }
       });
-    }
+    });
 
-    // --- CHART -----------------------------------------------------------------
-    let quarterChart;
+    // ----- QUARTER TABS -----
+    quarterTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        quarterTabs.forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+        state.currentQuarter = Number(tab.dataset.quarter);
+        currentQuarterLabel.textContent = "Q" + state.currentQuarter;
+        updateChartForSelectedQuarter();
+      });
+    });
 
-    function initQuarterChart() {
-      const ctx = document.getElementById("quarterChart").getContext("2d");
-      quarterChart = new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: ["Q1", "Q2", "Q3", "Q4"],
-          datasets: [
-            {
-              label: "P1/P2 Shot %",
-              data: [0, 0, 0, 0],
-              backgroundColor: "rgba(45,212,191,0.65)",
-              borderColor: "rgba(34,197,94,0.9)",
-              borderWidth: 1.5,
-              borderRadius: 6,
-              borderSkipped: false,
-              barThickness: 18
-            },
-            {
-              label: "Great Look %",
-              data: [0, 0, 0, 0],
-              backgroundColor: "rgba(34,197,94,0.75)",
-              borderColor: "rgba(22,163,74,0.95)",
-              borderWidth: 1.5,
-              borderRadius: 6,
-              borderSkipped: false,
-              barThickness: 18
-            },
-            {
-              label: "Correct Decision %",
-              data: [0, 0, 0, 0],
-              backgroundColor: "rgba(59,130,246,0.75)",
-              borderColor: "rgba(37,99,235,0.95)",
-              borderWidth: 1.5,
-              borderRadius: 6,
-              borderSkipped: false,
-              barThickness: 18
-            }
-          ]
+    // ----- CHART SETUP -----
+    const ctx = document.getElementById("quarterChart").getContext("2d");
+    const chartData = {
+      labels: ["Q1", "Q2", "Q3", "Q4"],
+      datasets: [
+        {
+          label: "P1/P2 Shot %",
+          data: [0, 0, 0, 0],
+          backgroundColor: "#22c55e"
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          interaction: {
-            mode: "index",
-            intersect: false
-          },
-          plugins: {
-            legend: {
-              position: "bottom",
-              labels: {
-                color: "#e5e7eb",
-                font: { size: 11 },
-                boxWidth: 10,
-                boxHeight: 10,
-                padding: 12
-              }
+        {
+          label: "Great Look %",
+          data: [0, 0, 0, 0],
+          backgroundColor: "#38bdf8"
+        },
+        {
+          label: "Correct Decision %",
+          data: [0, 0, 0, 0],
+          backgroundColor: "#a855f7"
+        }
+      ]
+    };
+
+    const quarterChart = new Chart(ctx, {
+      type: "bar",
+      data: chartData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            ticks: {
+              color: "#9ca3af",
+              callback: (value) => value + "%"
             },
-            tooltip: {
-              backgroundColor: "rgba(15,23,42,0.95)",
-              borderColor: "rgba(31,41,55,1)",
-              borderWidth: 1,
-              titleColor: "#e5e7eb",
-              bodyColor: "#e5e7eb",
-              padding: 8,
-              cornerRadius: 8,
-              displayColors: true,
-              callbacks: {
-                label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}%`
-              }
+            grid: {
+              color: "rgba(148,163,184,0.2)"
             }
           },
-          scales: {
-            x: {
-              stacked: false,
-              ticks: {
-                color: "#9ca3af",
-                font: { size: 11 }
-              },
-              grid: { display: false }
-            },
-            y: {
-              min: 0,
-              max: 100,
-              ticks: {
-                color: "#6b7280",
-                stepSize: 25,
-                callback: (v) => v + "%"
-              },
-              grid: {
-                color: "rgba(31,41,55,0.6)",
-                borderDash: [4, 4]
-              }
+          x: {
+            ticks: { color: "#9ca3af" },
+            grid: { display: false }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ctx.parsed.y.toFixed(0) + "%"
             }
           }
         }
+      }
+    });
+
+    function recomputeQuarterStats() {
+      // Reset
+      Object.keys(quarterStats).forEach((q) => {
+        quarterStats[q].total = 0;
+        quarterStats[q].p1p2 = 0;
+        quarterStats[q].great = 0;
+        quarterStats[q].correct = 0;
       });
-    }
 
-    function updateQuarterChart() {
-      if (!quarterChart) return;
-      const labels = ["Q1", "Q2", "Q3", "Q4"];
+      possessions.forEach((pos) => {
+        const q = pos.quarter;
+        const qs = quarterStats[q];
+        qs.total += 1;
+        if (pos.role === "PRIMARY" || pos.role === "SECONDARY") qs.p1p2 += 1;
+        if (pos.shot === "G") qs.great += 1;
+        if (pos.decision === "C") qs.correct += 1;
+      });
 
-      const p1p2Pct = [];
-      const greatPct = [];
-      const correctPct = [];
-
-      labels.forEach((q) => {
-        const s = quarterStats[q];
-        const total = s.possessions || 0;
-        if (!total) {
-          p1p2Pct.push(0);
-          greatPct.push(0);
-          correctPct.push(0);
+      // Update chart data
+      [1, 2, 3, 4].forEach((q, idx) => {
+        const qs = quarterStats[q];
+        if (qs.total === 0) {
+          chartData.datasets[0].data[idx] = 0;
+          chartData.datasets[1].data[idx] = 0;
+          chartData.datasets[2].data[idx] = 0;
         } else {
-          p1p2Pct.push(Math.round((s.p1p2Shots / total) * 100));
-          greatPct.push(Math.round((s.greatLooks / total) * 100));
-          correctPct.push(Math.round((s.correctChoices / total) * 100));
+          chartData.datasets[0].data[idx] = (qs.p1p2 / qs.total) * 100;
+          chartData.datasets[1].data[idx] = (qs.great / qs.total) * 100;
+          chartData.datasets[2].data[idx] = (qs.correct / qs.total) * 100;
         }
       });
 
-      quarterChart.data.datasets[0].data = p1p2Pct;
-      quarterChart.data.datasets[1].data = greatPct;
-      quarterChart.data.datasets[2].data = correctPct;
       quarterChart.update();
     }
 
-    // --- QUICK SUMMARY TEXT ----------------------------------------------------
-    function updateQuickSummary() {
-      const q = state.currentQuarter;
-      const s = quarterStats[q];
-
-      if (s.possessions === 0) {
-        quickSummary.textContent = `No possessions saved yet in ${q}.`;
-        return;
-      }
-
-      const p1p2Percent = Math.round((s.p1p2Shots / s.possessions) * 100);
-      const greatPercent = Math.round((s.greatLooks / s.possessions) * 100);
-      const correctPercent = Math.round((s.correctChoices / s.possessions) * 100);
-
-      quickSummary.textContent =
-        `${q}: ${s.possessions} poss • ` +
-        `P1/P2 shots ${p1p2Percent}% • ` +
-        `Looks G ${greatPercent}% • ` +
-        `Decisions C ${correctPercent}%`;
+    function updateChartForSelectedQuarter() {
+      // For now chart already shows all quarters; this function can be used
+      // later if you want to highlight the active quarter.
+      quarterChart.update();
     }
 
-    // --- SAVE POSSESSION -------------------------------------------------------
+    // ----- SAVE / UNDO -----
+    function clearSelection() {
+      state.selectedPlayerId = null;
+      state.selectedShot = null;
+      state.selectedDecision = null;
+
+      document
+        .querySelectorAll(".player-card")
+        .forEach((el) => el.classList.remove("selected"));
+      pillButtons.forEach((b) => b.classList.remove("active"));
+    }
+
+    function updateUndoButton() {
+      if (possessions.length === 0) {
+        undoBtn.classList.add("disabled");
+      } else {
+        undoBtn.classList.remove("disabled");
+      }
+    }
+
     saveBtn.addEventListener("click", () => {
-      if (!state.player) {
-        alert("Select the player who finished the possession.");
+      if (!state.selectedPlayerId || !state.selectedShot || !state.selectedDecision) {
+        alert("Please select Player, Shot Quality, and Decision Quality before saving.");
         return;
       }
 
-      const q = state.currentQuarter;
-      const stats = quarterStats[q];
+      const player = players.find((p) => p.id === state.selectedPlayerId);
+      const pos = {
+        quarter: state.currentQuarter,
+        playerId: player.id,
+        role: player.role,
+        shot: state.selectedShot,
+        decision: state.selectedDecision,
+        ts: Date.now()
+      };
+      possessions.push(pos);
 
-      stats.possessions += 1;
-      if (state.player.role === "P1" || state.player.role === "P2") {
-        stats.p1p2Shots += 1;
-      }
-      if (state.shotQuality === "G") {
-        stats.greatLooks += 1;
-      }
-      if (state.decisionQuality === "C") {
-        stats.correctChoices += 1;
-      }
-
-      updateQuickSummary();
-      updateQuarterChart();
-
-      // Reset shot + decision back to G / C (keeps player for speed)
-      shotQualityGroup.querySelectorAll("button").forEach((b) => {
-        b.classList.toggle("selected", b.dataset.val === "G");
-      });
-      decisionQualityGroup.querySelectorAll("button").forEach((b) => {
-        b.classList.toggle("selected", b.dataset.val === "C");
-      });
-      state.shotQuality = "G";
-      state.decisionQuality = "C";
+      recomputeQuarterStats();
+      updateChartForSelectedQuarter();
+      updateUndoButton();
+      clearSelection();
     });
 
-    // --- INIT ------------------------------------------------------------------
+    undoBtn.addEventListener("click", () => {
+      if (possessions.length === 0) return;
+      if (undoBtn.classList.contains("disabled")) return;
+
+      possessions.pop(); // remove last saved possession
+      recomputeQuarterStats();
+      updateChartForSelectedQuarter();
+      updateUndoButton();
+    });
+
+    // ----- INIT -----
     renderPlayers();
-    wireSegmented(shotQualityGroup, "shotQuality");
-    wireSegmented(decisionQualityGroup, "decisionQuality");
-    wireQuarterSelector();
-    initQuarterChart();
-    updateQuarterChart();
+    recomputeQuarterStats();
+    updateUndoButton();
   </script>
 </body>
 </html>
