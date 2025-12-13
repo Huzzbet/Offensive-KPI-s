@@ -16,7 +16,7 @@
     }
     .app-shell {
       width: 100%;
-      max-width: 1100px;
+      max-width: 1180px;
       background: #020617;
       border-radius: 28px;
       padding: 18px;
@@ -24,7 +24,16 @@
     }
 
     h1 { font-size: 24px; margin: 0 0 6px; text-align: center; }
-    .subheading { font-size: 13px; text-align: center; margin-bottom: 16px; color: #9ca3af; }
+    .subheading { font-size: 13px; text-align: center; margin-bottom: 14px; color: #9ca3af; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 900px) {
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+    }
 
     .card {
       background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.08), transparent 55%), #020617;
@@ -43,16 +52,10 @@
       gap: 10px;
       flex-wrap: wrap;
     }
-    .card-title { font-size: 15px; font-weight: 600; }
+    .card-title { font-size: 15px; font-weight: 700; letter-spacing: 0.2px; }
     .card-sub { font-size: 11px; color: #9ca3af; margin-top: 2px; }
 
-    .top-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: flex-end;
-    }
+    .top-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
     .mini-btn {
       border-radius: 999px;
       background: rgba(15, 23, 42, 0.95);
@@ -69,37 +72,80 @@
     }
     .mini-btn:hover { transform: translateY(-1px); box-shadow: 0 14px 28px rgba(15, 23, 42, 0.8); }
     .mini-btn.danger { border-color: rgba(239, 68, 68, 0.6); color: #fecaca; }
+    .mini-btn.ghost { opacity: 0.92; }
+
+    .kpi-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+    .kpi {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(15, 23, 42, 0.7);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+      min-width: 160px;
+    }
+    .kpi .label { font-size: 11px; color: #9ca3af; }
+    .kpi .value { font-size: 16px; font-weight: 700; color: #e5e7eb; }
 
     .summary-layout { display: flex; flex-direction: column; gap: 12px; }
     @media (min-width: 900px) {
       .summary-layout { flex-direction: row; align-items: stretch; }
-      .summary-table-wrapper { flex: 0 0 52%; }
+      .summary-table-wrapper { flex: 0 0 54%; }
       .summary-visual-wrapper { flex: 1; }
     }
-
     .summary-table-wrapper { overflow-x: auto; }
+
     table.player-summary {
       width: 100%;
       border-collapse: collapse;
       font-size: 12px;
-      min-width: 360px;
+      min-width: 420px;
     }
     .player-summary thead { background: rgba(15, 23, 42, 0.95); }
     .player-summary th, .player-summary td {
-      padding: 6px 8px;
+      padding: 7px 8px;
       text-align: left;
       border-bottom: 1px solid rgba(31, 41, 55, 0.9);
       white-space: nowrap;
     }
-    .player-summary th { font-weight: 600; color: #9ca3af; font-size: 11px; }
+    .player-summary th { font-weight: 700; color: #9ca3af; font-size: 11px; }
     .player-summary tbody tr:nth-child(even) { background: rgba(15, 23, 42, 0.7); }
     .player-summary tbody tr:nth-child(odd) { background: rgba(15, 23, 42, 0.3); }
-    .player-summary tbody tr.row-highlight { animation: rowGlow 1.2s ease-out; }
 
-    @keyframes rowGlow {
-      0% { box-shadow: 0 0 0 rgba(34, 197, 94, 0); background: rgba(22, 163, 74, 0.4); }
-      60% { box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.9); background: rgba(22, 163, 74, 0.18); }
-      100% { box-shadow: 0 0 0 rgba(34, 197, 94, 0); }
+    .cell-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(2, 6, 23, 0.55);
+      font-size: 11px;
+    }
+    .chip-good { border-color: rgba(34,197,94,0.55); color: #bbf7d0; background: rgba(22,163,74,0.16); }
+    .chip-mid  { border-color: rgba(234,179,8,0.6); color: #fde68a; background: rgba(202,138,4,0.16); }
+    .chip-bad  { border-color: rgba(239,68,68,0.55); color: #fecaca; background: rgba(185,28,28,0.14); }
+
+    .row-top {
+      outline: 1px solid rgba(34, 197, 94, 0.75);
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.25), 0 16px 34px rgba(5, 46, 22, 0.55);
+      position: relative;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      border: 1px solid rgba(34,197,94,0.6);
+      color: #bbf7d0;
+      background: rgba(22,163,74,0.18);
+      margin-left: 8px;
     }
 
     .role-pill-table { padding: 2px 8px; border-radius: 999px; font-size: 10px; border: 1px solid; }
@@ -107,87 +153,150 @@
     .role-secondary { border-color: rgba(59, 130, 246, 0.7); color: #bfdbfe; background: rgba(37, 99, 235, 0.25); }
     .role-center { border-color: rgba(245, 158, 11, 0.75); color: #fde68a; background: rgba(217, 119, 6, 0.25); }
 
-    .summary-visual-wrapper { display: flex; flex-direction: column; gap: 6px; font-size: 11px; }
-    .visual-title { font-size: 12px; color: #e5e7eb; margin-bottom: 4px; font-weight: 500; }
-    .visual-row { display: flex; flex-direction: column; gap: 4px; }
+    /* Visual bars */
+    .summary-visual-wrapper { display: flex; flex-direction: column; gap: 8px; font-size: 11px; }
+    .visual-title { font-size: 12px; color: #e5e7eb; margin-bottom: 2px; font-weight: 600; }
+    .visual-row { display: flex; flex-direction: column; gap: 4px; padding: 8px 10px; border-radius: 14px; border: 1px solid rgba(148, 163, 184, 0.18); background: rgba(15, 23, 42, 0.35); }
     .visual-label { display: flex; justify-content: space-between; color: #9ca3af; gap: 10px; flex-wrap: wrap; }
-    .visual-bars-track { display: flex; flex-direction: column; gap: 3px; }
-    .bar-track {
-      position: relative; width: 100%; height: 6px; border-radius: 999px;
-      background: rgba(15, 23, 42, 0.95); overflow: hidden;
-    }
-    .bar-fill {
-      position: absolute; left: 0; top: 0; bottom: 0;
-      border-radius: 999px; transform-origin: left center;
-      transition: width 0.2s ease-out;
-    }
+    .visual-bars-track { display: flex; flex-direction: column; gap: 4px; }
+    .bar-track { position: relative; width: 100%; height: 7px; border-radius: 999px; background: rgba(15, 23, 42, 0.95); overflow: hidden; }
+    .bar-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; transition: width 0.2s ease-out; }
     .bar-great { background: linear-gradient(to right, #22c55e, #16a34a); }
     .bar-poor { background: linear-gradient(to right, #ef4444, #991b1b); }
     .bar-correct { background: linear-gradient(to right, #38bdf8, #0ea5e9); }
     .bar-incorrect { background: linear-gradient(to right, #f97316, #9a3412); }
 
-    .visual-legend { display: flex; gap: 12px; margin-top: 6px; flex-wrap: wrap; color: #9ca3af; }
-    .visual-legend-item { display: flex; align-items: center; gap: 5px; }
-    .visual-legend-swatch { width: 10px; height: 10px; border-radius: 3px; }
-
-    .section-label { font-size: 13px; margin-bottom: 4px; }
+    .section-label { font-size: 13px; margin-bottom: 4px; font-weight: 700; }
     .section-help { font-size: 11px; color: #9ca3af; margin-bottom: 8px; }
 
-    .player-list {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      padding-right: 4px;
-    }
-    @media (min-width: 900px) { .player-list { grid-template-columns: 1fr 1fr; } }
-
-    .player-card {
-      border-radius: 16px;
-      padding: 8px 10px;
-      background: linear-gradient(135deg, #020617, #020617);
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      cursor: pointer;
-      transition: border 0.15s, box-shadow 0.15s, background 0.15s, transform 0.05s;
-    }
-    .player-card:hover { border-color: rgba(52, 211, 153, 0.7); }
-    .player-card.selected {
-      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.28), #020617);
-      border-color: #22c55e;
-      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.5), 0 14px 30px rgba(5, 46, 22, 0.9);
-      transform: translateY(-1px);
-    }
-    .player-number { font-size: 12px; opacity: 0.8; }
-    .player-name { font-weight: 600; font-size: 14px; }
-    .role-pill {
-      align-self: flex-start;
-      margin-top: 2px;
-      font-size: 11px;
-      padding: 3px 9px;
-      border-radius: 999px;
-      border: 1px solid;
-    }
-
+    /* Pills */
     .pill-row { display: flex; gap: 8px; flex-wrap: wrap; }
     .pill-button {
       border-radius: 999px;
       border: 1px solid rgba(148, 163, 184, 0.5);
       background: #020617;
-      padding: 6px 14px;
+      padding: 7px 14px;
       font-size: 12px;
       color: #e5e7eb;
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.05s;
     }
     .pill-button:hover { border-color: rgba(52, 211, 153, 0.6); }
-    .pill-button.active { box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.7), 0 12px 25px rgba(5, 46, 22, 0.9); transform: translateY(-1px); }
+    .pill-button.active { box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.7), 0 12px 25px rgba(5, 46, 22, 0.55); transform: translateY(-1px); }
+
     .pill-button[data-type="shot"][data-value="G"].active { background: radial-gradient(circle at top, #22c55e, #15803d); }
     .pill-button[data-type="shot"][data-value="O"].active { background: radial-gradient(circle at top, #eab308, #a16207); }
     .pill-button[data-type="shot"][data-value="P"].active { background: radial-gradient(circle at top, #ef4444, #991b1b); }
     .pill-button[data-type="decision"][data-value="C"].active { background: radial-gradient(circle at top, #38bdf8, #0369a1); }
     .pill-button[data-type="decision"][data-value="I"].active { background: radial-gradient(circle at top, #f97316, #9a3412); }
+
+    .pill-button[data-type="quarter"].active {
+      background: radial-gradient(circle at top, rgba(56,189,248,0.9), rgba(14,165,233,0.55));
+      border-color: rgba(56,189,248,0.75);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.55), 0 12px 25px rgba(2,132,199,0.35);
+    }
+
+    /* On-court / bench */
+    .court-shell {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media (min-width: 900px) {
+      .court-shell { grid-template-columns: 1fr 1fr; align-items: start; }
+    }
+
+    .court {
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,0.25);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(34,197,94,0.10), transparent 45%),
+        radial-gradient(circle at 70% 80%, rgba(56,189,248,0.08), transparent 50%),
+        rgba(15,23,42,0.35);
+      padding: 12px;
+      box-shadow: inset 0 0 0 1px rgba(2,6,23,0.35);
+    }
+    .court-title { font-size: 12px; font-weight: 800; color: #e5e7eb; margin-bottom: 8px; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap;}
+    .court-hint { font-size: 11px; color: #9ca3af; font-weight: 500; }
+
+    .court-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .court-slot {
+      border-radius: 16px;
+      padding: 10px 10px;
+      border: 1px solid rgba(148,163,184,0.25);
+      background: rgba(2,6,23,0.55);
+      cursor: pointer;
+      transition: transform 0.05s, border-color 0.15s, box-shadow 0.15s;
+      min-height: 66px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+    }
+    .court-slot:hover { border-color: rgba(56,189,248,0.55); }
+    .court-slot.selected-off {
+      border-color: rgba(239,68,68,0.75);
+      box-shadow: 0 0 0 1px rgba(239,68,68,0.35), 0 14px 30px rgba(127,29,29,0.35);
+      transform: translateY(-1px);
+    }
+    .slot-num { font-size: 11px; color: #9ca3af; }
+    .slot-name { font-size: 13px; font-weight: 800; color: #e5e7eb; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+    .bench {
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,0.25);
+      background: rgba(15,23,42,0.35);
+      padding: 12px;
+    }
+    .bench-title { font-size: 12px; font-weight: 800; color: #e5e7eb; margin-bottom: 8px; }
+
+    .bench-group { margin-bottom: 10px; }
+    .bench-group-title {
+      font-size: 11px;
+      color: #9ca3af;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      margin: 8px 0 6px;
+      text-transform: uppercase;
+    }
+
+    .player-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    @media (min-width: 900px) { .player-list { grid-template-columns: 1fr 1fr; } }
+
+    .player-card {
+      border-radius: 16px;
+      padding: 8px 10px;
+      background: rgba(2,6,23,0.55);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      cursor: pointer;
+      transition: border 0.15s, box-shadow 0.15s, background 0.15s, transform 0.05s;
+    }
+    .player-card:hover { border-color: rgba(52, 211, 153, 0.55); }
+    .player-card.selected {
+      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.22), rgba(2,6,23,0.6));
+      border-color: #22c55e;
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.35), 0 14px 30px rgba(5, 46, 22, 0.45);
+      transform: translateY(-1px);
+    }
+    .player-card.sub-in {
+      border-color: rgba(56,189,248,0.75);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.35), 0 14px 30px rgba(2,132,199,0.25);
+    }
+
+    .player-number { font-size: 12px; color: #9ca3af; }
+    .player-name { font-weight: 800; font-size: 14px; color: #e5e7eb; }
+    .role-pill { align-self: flex-start; margin-top: 3px; font-size: 11px; padding: 3px 9px; border-radius: 999px; border: 1px solid; }
 
     .actions-row { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
     .primary-btn, .secondary-btn {
@@ -207,17 +316,18 @@
     .primary-btn {
       background: radial-gradient(circle at top left, #22c55e, #16a34a);
       color: #ecfdf5;
-      box-shadow: 0 16px 35px rgba(5, 46, 22, 0.9);
-      font-weight: 600;
+      box-shadow: 0 16px 35px rgba(5, 46, 22, 0.7);
+      font-weight: 800;
     }
-    .primary-btn:hover { transform: translateY(-1px); box-shadow: 0 20px 40px rgba(4, 47, 17, 1); }
+    .primary-btn:hover { transform: translateY(-1px); box-shadow: 0 20px 40px rgba(4, 47, 17, 0.9); }
 
     .secondary-btn {
       background: rgba(15, 23, 42, 0.95);
       color: #e5e7eb;
       border: 1px solid rgba(148, 163, 184, 0.6);
+      font-weight: 700;
     }
-    .secondary-btn:hover:not(.disabled) { transform: translateY(-1px); box-shadow: 0 16px 32px rgba(15, 23, 42, 0.8); }
+    .secondary-btn:hover:not(.disabled) { transform: translateY(-1px); box-shadow: 0 16px 32px rgba(15, 23, 42, 0.7); }
     .secondary-btn.disabled { opacity: 0.45; cursor: default; pointer-events: none; }
 
     .footer-link { margin-top: 14px; text-align: center; }
@@ -255,22 +365,35 @@
 <body>
   <div class="app-shell">
     <h1>Shot Decision Tracker</h1>
-    <div class="subheading">Offensive player report on Shot Quality & Decision Quality</div>
+    <div class="subheading">Quarter-based offensive report — track shot quality + decision quality in-game</div>
 
+    <!-- SUMMARY -->
     <div class="card">
       <div class="card-header">
         <div>
           <div class="card-title">Offensive Player Report</div>
-          <div class="card-sub">Live summary: possessions, great looks, and correct decisions by player.</div>
+          <div class="card-sub">Filter by quarter and compare Great Look % + Correct Decision %.</div>
         </div>
 
         <div class="top-actions">
+          <button class="mini-btn ghost" id="toggleFilterBtn">🧠 Filter: <span id="filterLabel">ALL</span></button>
           <button class="mini-btn" id="exportCsvBtn">⬇ Export CSV</button>
           <button class="mini-btn danger" id="resetBtn">🧹 New Game</button>
         </div>
       </div>
 
-      <div class="summary-layout">
+      <div class="pill-row" style="margin-bottom:10px;">
+        <button class="pill-button" data-type="filter" data-value="ALL">All</button>
+        <button class="pill-button" data-type="filter" data-value="Q1">Q1</button>
+        <button class="pill-button" data-type="filter" data-value="Q2">Q2</button>
+        <button class="pill-button" data-type="filter" data-value="Q3">Q3</button>
+        <button class="pill-button" data-type="filter" data-value="Q4">Q4</button>
+        <button class="pill-button" data-type="filter" data-value="OT">OT</button>
+      </div>
+
+      <div class="kpi-row" id="kpiRow"></div>
+
+      <div class="summary-layout" style="margin-top:10px;">
         <div class="summary-table-wrapper">
           <table class="player-summary" id="playerSummaryTable"></table>
         </div>
@@ -278,19 +401,55 @@
         <div class="summary-visual-wrapper">
           <div class="visual-title">Visual Summary</div>
           <div id="visualBars"></div>
-          <div class="visual-legend">
-            <div class="visual-legend-item"><div class="visual-legend-swatch" style="background:#22c55e;"></div><span>Great Look %</span></div>
-            <div class="visual-legend-item"><div class="visual-legend-swatch" style="background:#ef4444;"></div><span>Poor Look %</span></div>
-            <div class="visual-legend-item"><div class="visual-legend-swatch" style="background:#38bdf8;"></div><span>Correct Decision %</span></div>
-            <div class="visual-legend-item"><div class="visual-legend-swatch" style="background:#f97316;"></div><span>Incorrect Decision %</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUARTER + COURT -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="section-label">Quarter</div>
+        <div class="section-help">Set the current quarter. Every saved possession is tagged with it.</div>
+        <div class="pill-row">
+          <button class="pill-button" data-type="quarter" data-value="Q1">Q1</button>
+          <button class="pill-button" data-type="quarter" data-value="Q2">Q2</button>
+          <button class="pill-button" data-type="quarter" data-value="Q3">Q3</button>
+          <button class="pill-button" data-type="quarter" data-value="Q4">Q4</button>
+          <button class="pill-button" data-type="quarter" data-value="OT">OT</button>
+        </div>
+
+        <div style="margin-top:10px; font-size:11px; color:#9ca3af;">
+          Current quarter: <span style="color:#e5e7eb; font-weight:800;" id="currentQuarterLabel">Q1</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-label">On Court vs Bench</div>
+        <div class="section-help">
+          Sub fast: tap an on-court player (off) → tap a bench player (on). Bench is grouped by role.
+        </div>
+
+        <div class="court-shell">
+          <div class="court">
+            <div class="court-title">
+              <span>On Court (5)</span>
+              <span class="court-hint" id="subHint">Tap OFF then tap ON</span>
+            </div>
+            <div class="court-grid" id="courtGrid"></div>
+          </div>
+
+          <div class="bench">
+            <div class="bench-title">Bench</div>
+            <div id="benchGroups"></div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- INPUT -->
     <div class="card">
-      <div class="section-label">1. Player</div>
-      <div class="section-help">Tap the player who finished the possession (Primary / Secondary / Centre).</div>
+      <div class="section-label">1. Player (possession finisher)</div>
+      <div class="section-help">Tap the player who finished the possession. (Tip: usually someone on-court.)</div>
       <div class="player-list" id="playerList"></div>
     </div>
 
@@ -315,7 +474,7 @@
 
     <div class="card">
       <div class="section-label">4. Save Possession</div>
-      <div class="section-help">Once Player, Shot Quality, and Decision Quality are selected, save the possession.</div>
+      <div class="section-help">Once Player + Shot + Decision are selected, save the possession (tagged with current quarter).</div>
       <div class="actions-row">
         <button class="primary-btn" id="saveBtn">＋ Save Possession</button>
         <button class="secondary-btn disabled" id="undoBtn">↺ Undo Last</button>
@@ -330,12 +489,19 @@
   <div class="toast" id="toast">Saved</div>
 
   <script>
-    // ------- STORAGE -------
-    const STORAGE_KEY = "shotDecisionTracker_v2_roster";
+    // ---------- STORAGE ----------
+    const STORAGE_KEY = "shotDecisionTracker_v3_quarters_court";
 
     function saveToStorage() {
       try {
-        const payload = { possessions, lastHighlightPlayerId, savedAt: Date.now() };
+        const payload = {
+          possessions,
+          onCourtIds,
+          currentQuarter,
+          filterQuarter,
+          lastHighlightPlayerId,
+          savedAt: Date.now()
+        };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
       } catch (e) {}
     }
@@ -345,56 +511,95 @@
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return false;
         const parsed = JSON.parse(raw);
-        if (!parsed || !Array.isArray(parsed.possessions)) return false;
+        if (!parsed) return false;
 
-        possessions.length = 0;
-        parsed.possessions.forEach(p => possessions.push(p));
+        if (Array.isArray(parsed.possessions)) {
+          possessions.length = 0;
+          parsed.possessions.forEach(p => possessions.push(p));
+        }
+        if (Array.isArray(parsed.onCourtIds) && parsed.onCourtIds.length === 5) {
+          onCourtIds = parsed.onCourtIds.slice(0, 5);
+        }
+        if (typeof parsed.currentQuarter === "string") currentQuarter = parsed.currentQuarter;
+        if (typeof parsed.filterQuarter === "string") filterQuarter = parsed.filterQuarter;
         lastHighlightPlayerId = parsed.lastHighlightPlayerId ?? null;
+
         return true;
-      } catch (e) {
-        return false;
-      }
+      } catch (e) { return false; }
     }
 
     function clearStorage() {
       try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
     }
 
-    // ------- DATA -------
-    // Notes on numbers:
-    // - Mike Aminov #7 seen publicly in a VJBL highlight reel overlay/caption.
-    // - Tom Darcy #83 / Sam Martin #71 / Zac Harrigan #90 appear in a public “offers” PDF (may be trial/ID numbers, not guaranteed jersey).
+    // ---------- DATA ----------
     const players = [
-      { id: 1,  number: "#7",  name: "Mike Aminov", role: "PRIMARY" },
-      { id: 2,  number: "#83", name: "Tom Darcy", role: "PRIMARY" },
-      { id: 3,  number: "#–",  name: "Jun Lee", role: "SECONDARY" },
-      { id: 4,  number: "#–",  name: "Viv Anderson-Francois", role: "SECONDARY" },
+      { id: 1,  number: "#–", name: "Mike Aminov", role: "PRIMARY" },
+      { id: 2,  number: "#–", name: "Tom Darcy", role: "PRIMARY" },
+      { id: 3,  number: "#–", name: "Jun Lee", role: "SECONDARY" },
+      { id: 4,  number: "#–", name: "Viv Anderson-Francois", role: "SECONDARY" },
       { id: 5,  number: "#41", name: "Tyler Langston", role: "PRIMARY" },
-      { id: 6,  number: "#–",  name: "Calvin Ramachandran", role: "SECONDARY" },
-      { id: 7,  number: "#–",  name: "Luke Lyngberg", role: "SECONDARY" },
-      { id: 8,  number: "#9",  name: "Thomas D'Amelio", role: "CENTER" },
-      { id: 9,  number: "#71", name: "Sam Martin", role: "PRIMARY" },
-      { id: 10, number: "#–",  name: "Maximus Rafaniello", role: "SECONDARY" },
-      { id: 11, number: "#–",  name: "Charlie Watts", role: "CENTER" },
-      { id: 12, number: "#–",  name: "Max Armstrong", role: "CENTER" },
-      { id: 13, number: "#90", name: "Zac Harrigan", role: "SECONDARY" }
-    ];
+      { id: 6,  number: "#–", name: "Calvin Ramachandran", role: "SECONDARY" },
+      { id: 7,  number: "#–", name: "Luke Lyngberg", role: "SECONDARY" },
+      { id: 8,  number: "#9", name: "Thomas D'Amelio", role: "CENTER" },
+      { id: 9,  number: "#–", name: "Maximus Rafaniello", role: "SECONDARY" },
+      { id: 10, number: "#–", name: "Charlie Watts", role: "CENTER" },
+      { id: 11, number: "#–", name: "Max Armstrong", role: "CENTER" },
+      { id: 12, number: "#–", name: "Zac Harrigan", role: "SECONDARY" },
+      { id: 13, number: "#–", name: "Tom Darcy (Alt?)", role: "PRIMARY" } // remove if duplicate; kept safe
+    ].filter((p, idx, arr) => arr.findIndex(x => x.name === p.name) === idx); // de-dupe exact name if pasted twice
 
+    // Sort players by role then name (more professional)
+    const roleOrder = { PRIMARY: 1, SECONDARY: 2, CENTER: 3 };
+    players.sort((a,b) => (roleOrder[a.role] - roleOrder[b.role]) || a.name.localeCompare(b.name));
+
+    // ---------- STATE ----------
     let state = { selectedPlayerId: null, selectedShot: null, selectedDecision: null };
     const possessions = [];
     let lastHighlightPlayerId = null;
 
+    let currentQuarter = "Q1";
+    let filterQuarter = "ALL";
+
+    // On-court 5 (defaults to first 5 in sorted list)
+    let onCourtIds = players.slice(0,5).map(p => p.id);
+    let pendingSubOffId = null; // choose off, then choose on
+
+    // ---------- ELEMENTS ----------
     const playerListEl = document.getElementById("playerList");
     const summaryTableEl = document.getElementById("playerSummaryTable");
     const visualBarsEl = document.getElementById("visualBars");
+    const kpiRowEl = document.getElementById("kpiRow");
     const saveBtn = document.getElementById("saveBtn");
     const undoBtn = document.getElementById("undoBtn");
     const exportCsvBtn = document.getElementById("exportCsvBtn");
     const resetBtn = document.getElementById("resetBtn");
-    const pillButtons = document.querySelectorAll(".pill-button");
     const toastEl = document.getElementById("toast");
 
-    // ------- TOAST -------
+    const courtGridEl = document.getElementById("courtGrid");
+    const benchGroupsEl = document.getElementById("benchGroups");
+    const subHintEl = document.getElementById("subHint");
+
+    const currentQuarterLabelEl = document.getElementById("currentQuarterLabel");
+    const filterLabelEl = document.getElementById("filterLabel");
+
+    const pillButtons = document.querySelectorAll(".pill-button");
+
+    // ---------- HELPERS ----------
+    function roleClassFor(role) {
+      if (role === "PRIMARY") return "role-primary";
+      if (role === "SECONDARY") return "role-secondary";
+      return "role-center";
+    }
+    function roleLabelFor(role) {
+      if (role === "PRIMARY") return "PRIMARY";
+      if (role === "SECONDARY") return "SECONDARY";
+      return "CENTRE";
+    }
+    function getPlayer(id) { return players.find(p => p.id === id); }
+    function pct(n) { return `${Math.round(n)}%`; }
+
+    // ---------- TOAST ----------
     let toastTimeout = null;
     function showToast(message) {
       toastEl.textContent = message;
@@ -403,124 +608,264 @@
       toastTimeout = setTimeout(() => toastEl.classList.remove("visible"), 1300);
     }
 
-    // ------- PLAYER LIST -------
-    function roleClassFor(role) {
-      if (role === "PRIMARY") return "role-primary";
-      if (role === "SECONDARY") return "role-secondary";
-      return "role-center";
+    // ---------- COURT / BENCH ----------
+    function isOnCourt(id) { return onCourtIds.includes(id); }
+
+    function renderCourt() {
+      courtGridEl.innerHTML = "";
+      onCourtIds.forEach(pid => {
+        const p = getPlayer(pid);
+        const slot = document.createElement("div");
+        slot.className = "court-slot" + (pendingSubOffId === pid ? " selected-off" : "");
+        slot.dataset.playerId = pid;
+        slot.innerHTML = `
+          <div class="slot-num">${p?.number ?? "#–"}</div>
+          <div class="slot-name">
+            <span>${p?.name ?? "—"}</span>
+            <span class="role-pill-table ${roleClassFor(p?.role)}">${roleLabelFor(p?.role)}</span>
+          </div>
+        `;
+        slot.addEventListener("click", () => {
+          pendingSubOffId = (pendingSubOffId === pid) ? null : pid;
+          subHintEl.textContent = pendingSubOffId ? "Now tap a BENCH player to sub ON" : "Tap OFF then tap ON";
+          renderCourt();
+          renderBench();
+        });
+        courtGridEl.appendChild(slot);
+      });
     }
 
-    function roleLabelFor(role) {
-      if (role === "PRIMARY") return "PRIMARY";
-      if (role === "SECONDARY") return "SECONDARY";
-      return "CENTRE";
-    }
+    function renderBench() {
+      benchGroupsEl.innerHTML = "";
 
-    function renderPlayersForInput() {
-      playerListEl.innerHTML = "";
-      players.forEach(p => {
-        const card = document.createElement("div");
-        card.className = "player-card";
-        card.dataset.playerId = p.id;
+      const benchPlayers = players.filter(p => !isOnCourt(p.id));
+      const groups = {
+        PRIMARY: benchPlayers.filter(p => p.role === "PRIMARY"),
+        SECONDARY: benchPlayers.filter(p => p.role === "SECONDARY"),
+        CENTER: benchPlayers.filter(p => p.role === "CENTER")
+      };
 
-        const num = document.createElement("div");
-        num.className = "player-number";
-        num.textContent = p.number;
+      Object.entries(groups).forEach(([role, list]) => {
+        const wrap = document.createElement("div");
+        wrap.className = "bench-group";
+        wrap.innerHTML = `<div class="bench-group-title">${roleLabelFor(role)}</div>`;
+        const grid = document.createElement("div");
+        grid.className = "player-list";
 
-        const name = document.createElement("div");
-        name.className = "player-name";
-        name.textContent = p.name;
+        list.forEach(p => {
+          const card = document.createElement("div");
+          card.className = "player-card" + (pendingSubOffId ? " sub-in" : "");
+          card.innerHTML = `
+            <div class="player-number">${p.number}</div>
+            <div class="player-name">${p.name}</div>
+            <div class="role-pill ${roleClassFor(p.role)}">${roleLabelFor(p.role)}</div>
+          `;
 
-        const role = document.createElement("div");
-        role.className = "role-pill " + roleClassFor(p.role);
-        role.textContent = roleLabelFor(p.role);
+          card.addEventListener("click", () => {
+            if (!pendingSubOffId) {
+              showToast("Tap an on-court player first (OFF), then choose who comes ON");
+              return;
+            }
+            // Perform swap
+            const offIdx = onCourtIds.indexOf(pendingSubOffId);
+            if (offIdx >= 0) {
+              onCourtIds[offIdx] = p.id;
+              pendingSubOffId = null;
+              subHintEl.textContent = "Tap OFF then tap ON";
+              renderCourt();
+              renderBench();
+              saveToStorage();
+              showToast("Sub completed");
+            }
+          });
 
-        card.appendChild(num);
-        card.appendChild(name);
-        card.appendChild(role);
-
-        card.addEventListener("click", () => {
-          state.selectedPlayerId = p.id;
-          document.querySelectorAll(".player-card").forEach(el => el.classList.remove("selected"));
-          card.classList.add("selected");
+          grid.appendChild(card);
         });
 
-        playerListEl.appendChild(card);
+        wrap.appendChild(grid);
+        benchGroupsEl.appendChild(wrap);
       });
     }
 
-    // ------- PILL BUTTONS -------
-    pillButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const type = btn.dataset.type;
-        const value = btn.dataset.value;
-        pillButtons.forEach(b => { if (b.dataset.type === type) b.classList.remove("active"); });
-        btn.classList.add("active");
-        if (type === "shot") state.selectedShot = value;
-        if (type === "decision") state.selectedDecision = value;
-      });
-    });
+    // ---------- PLAYER INPUT LIST ----------
+    function renderPlayersForInput() {
+      playerListEl.innerHTML = "";
 
-    // ------- STATS -------
+      // show ON COURT first (pro UX), then bench
+      const onCourtPlayers = onCourtIds.map(id => getPlayer(id)).filter(Boolean);
+      const benchPlayers = players.filter(p => !isOnCourt(p.id));
+
+      const all = [
+        { title: "ON COURT", list: onCourtPlayers },
+        { title: "BENCH", list: benchPlayers }
+      ];
+
+      all.forEach(section => {
+        const group = document.createElement("div");
+        group.className = "bench-group";
+        group.innerHTML = `<div class="bench-group-title">${section.title}</div>`;
+        const grid = document.createElement("div");
+        grid.className = "player-list";
+
+        section.list.forEach(p => {
+          const card = document.createElement("div");
+          card.className = "player-card";
+          card.dataset.playerId = p.id;
+
+          card.innerHTML = `
+            <div class="player-number">${p.number}</div>
+            <div class="player-name">${p.name}</div>
+            <div class="role-pill ${roleClassFor(p.role)}">${roleLabelFor(p.role)}</div>
+          `;
+
+          card.addEventListener("click", () => {
+            state.selectedPlayerId = p.id;
+            document.querySelectorAll(".player-card").forEach(el => el.classList.remove("selected"));
+            card.classList.add("selected");
+          });
+
+          grid.appendChild(card);
+        });
+
+        group.appendChild(grid);
+        playerListEl.appendChild(group);
+      });
+    }
+
+    // ---------- FILTERED STATS ----------
+    function filteredPossessions() {
+      if (filterQuarter === "ALL") return possessions;
+      return possessions.filter(p => p.q === filterQuarter);
+    }
+
     function computePlayerStats() {
       const stats = {};
       players.forEach(p => {
-        stats[p.id] = { total: 0, great: 0, poor: 0, correct: 0, incorrect: 0 };
+        stats[p.id] = { total: 0, great: 0, ok: 0, poor: 0, correct: 0, incorrect: 0 };
       });
-      possessions.forEach(pos => {
+
+      filteredPossessions().forEach(pos => {
         const s = stats[pos.playerId];
         if (!s) return;
         s.total += 1;
 
         if (pos.shot === "G") s.great += 1;
+        else if (pos.shot === "O") s.ok += 1;
         else if (pos.shot === "P") s.poor += 1;
 
         if (pos.decision === "C") s.correct += 1;
         else if (pos.decision === "I") s.incorrect += 1;
       });
+
       return stats;
+    }
+
+    function buildChipClass(percent) {
+      // You can tweak thresholds
+      if (percent >= 70) return "chip-good";
+      if (percent >= 50) return "chip-mid";
+      return "chip-bad";
+    }
+
+    function renderKPIs(stats) {
+      const poss = filteredPossessions();
+      const total = poss.length;
+
+      let teamGreat = 0, teamCorrect = 0;
+      poss.forEach(p => {
+        if (p.shot === "G") teamGreat++;
+        if (p.decision === "C") teamCorrect++;
+      });
+
+      const greatPct = total ? (teamGreat / total) * 100 : 0;
+      const correctPct = total ? (teamCorrect / total) * 100 : 0;
+
+      kpiRowEl.innerHTML = `
+        <div class="kpi">
+          <div class="label">Possessions (${filterQuarter})</div>
+          <div class="value">${total}</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Team Great Look %</div>
+          <div class="value">${pct(greatPct)}</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Team Correct Decision %</div>
+          <div class="value">${pct(correctPct)}</div>
+        </div>
+      `;
     }
 
     function renderSummaryTable(highlightPlayerId = null) {
       const stats = computePlayerStats();
+
+      // Top performer logic (min volume so it’s not noisy)
+      let topId = null;
+      let bestScore = -1;
+
+      players.forEach(p => {
+        const s = stats[p.id];
+        if (!s || s.total < 3) return; // require 3 possessions in this filter
+        const greatPct = (s.great / s.total) * 100;
+        const correctPct = (s.correct / s.total) * 100;
+        const score = greatPct * 0.55 + correctPct * 0.45; // weighted
+        if (score > bestScore) { bestScore = score; topId = p.id; }
+      });
+
       let html = `
         <thead>
           <tr>
             <th>Player</th>
             <th>Role</th>
-            <th>Possessions</th>
-            <th>Great Look %</th>
-            <th>Correct Decision %</th>
+            <th>Poss</th>
+            <th>Great %</th>
+            <th>Poor %</th>
+            <th>Correct %</th>
           </tr>
         </thead>
         <tbody>
       `;
+
       players.forEach(p => {
         const s = stats[p.id];
         const total = s.total;
         const greatPct = total ? (s.great / total) * 100 : 0;
+        const poorPct = total ? (s.poor / total) * 100 : 0;
         const correctPct = total ? (s.correct / total) * 100 : 0;
 
-        const rowClass = highlightPlayerId === p.id ? "row-highlight" : "";
-        const rc = roleClassFor(p.role);
+        const rowTop = (p.id === topId) ? "row-top" : "";
+        const rowGlow = (highlightPlayerId === p.id) ? "row-top" : ""; // keep last action pop
+        const rowClass = (rowTop || rowGlow) ? "row-top" : "";
+
+        const greatChip = `<span class="cell-chip ${buildChipClass(greatPct)}">${pct(greatPct)}</span>`;
+        const poorChip = `<span class="cell-chip ${buildChipClass(100 - poorPct)}">${pct(poorPct)}</span>`;
+        const correctChip = `<span class="cell-chip ${buildChipClass(correctPct)}">${pct(correctPct)}</span>`;
 
         html += `
           <tr class="${rowClass}">
-            <td>${p.number} ${p.name}</td>
-            <td><span class="role-pill-table ${rc}">${roleLabelFor(p.role)}</span></td>
+            <td>
+              ${p.number} ${p.name}
+              ${p.id === topId ? `<span class="badge">TOP</span>` : ``}
+            </td>
+            <td><span class="role-pill-table ${roleClassFor(p.role)}">${roleLabelFor(p.role)}</span></td>
             <td>${total}</td>
-            <td>${greatPct.toFixed(0)}%</td>
-            <td>${correctPct.toFixed(0)}%</td>
+            <td>${greatChip}</td>
+            <td>${poorChip}</td>
+            <td>${correctChip}</td>
           </tr>
         `;
       });
+
       html += `</tbody>`;
       summaryTableEl.innerHTML = html;
+
+      renderKPIs(stats);
     }
 
     function renderVisualBars() {
       const stats = computePlayerStats();
       visualBarsEl.innerHTML = "";
+
       players.forEach(p => {
         const s = stats[p.id];
         const total = s.total;
@@ -534,44 +879,26 @@
 
         const label = document.createElement("div");
         label.className = "visual-label";
-        label.innerHTML = `<span>${p.number} ${p.name.split(" ")[0]}</span>
-          <span>${greatPct.toFixed(0)}% G · ${poorPct.toFixed(0)}% P · ${correctPct.toFixed(0)}% C · ${incorrectPct.toFixed(0)}% I</span>`;
+        label.innerHTML = `<span>${p.number} ${p.name.split(" ")[0]} <span style="opacity:.8;">(${roleLabelFor(p.role)})</span></span>
+          <span>${pct(greatPct)} G · ${pct(poorPct)} P · ${pct(correctPct)} C · ${pct(incorrectPct)} I</span>`;
 
         const trackWrapper = document.createElement("div");
         trackWrapper.className = "visual-bars-track";
 
-        const track1 = document.createElement("div");
-        track1.className = "bar-track";
-        const fill1 = document.createElement("div");
-        fill1.className = "bar-fill bar-great";
-        fill1.style.width = greatPct + "%";
-        track1.appendChild(fill1);
+        const mkBar = (cls, w) => {
+          const t = document.createElement("div");
+          t.className = "bar-track";
+          const f = document.createElement("div");
+          f.className = "bar-fill " + cls;
+          f.style.width = w + "%";
+          t.appendChild(f);
+          return t;
+        };
 
-        const track2 = document.createElement("div");
-        track2.className = "bar-track";
-        const fill2 = document.createElement("div");
-        fill2.className = "bar-fill bar-poor";
-        fill2.style.width = poorPct + "%";
-        track2.appendChild(fill2);
-
-        const track3 = document.createElement("div");
-        track3.className = "bar-track";
-        const fill3 = document.createElement("div");
-        fill3.className = "bar-fill bar-correct";
-        fill3.style.width = correctPct + "%";
-        track3.appendChild(fill3);
-
-        const track4 = document.createElement("div");
-        track4.className = "bar-track";
-        const fill4 = document.createElement("div");
-        fill4.className = "bar-fill bar-incorrect";
-        fill4.style.width = incorrectPct + "%";
-        track4.appendChild(fill4);
-
-        trackWrapper.appendChild(track1);
-        trackWrapper.appendChild(track2);
-        trackWrapper.appendChild(track3);
-        trackWrapper.appendChild(track4);
+        trackWrapper.appendChild(mkBar("bar-great", greatPct));
+        trackWrapper.appendChild(mkBar("bar-poor", poorPct));
+        trackWrapper.appendChild(mkBar("bar-correct", correctPct));
+        trackWrapper.appendChild(mkBar("bar-incorrect", incorrectPct));
 
         row.appendChild(label);
         row.appendChild(trackWrapper);
@@ -580,17 +907,20 @@
     }
 
     function refreshSummary(highlightPlayerId = null) {
+      filterLabelEl.textContent = filterQuarter;
       renderSummaryTable(highlightPlayerId);
       renderVisualBars();
     }
 
-    // ------- SAVE / UNDO -------
+    // ---------- BUTTONS ----------
     function clearSelection() {
       state.selectedPlayerId = null;
       state.selectedShot = null;
       state.selectedDecision = null;
       document.querySelectorAll(".player-card").forEach(el => el.classList.remove("selected"));
-      pillButtons.forEach(b => b.classList.remove("active"));
+      pillButtons.forEach(b => {
+        if (b.dataset.type === "shot" || b.dataset.type === "decision") b.classList.remove("active");
+      });
     }
 
     function updateUndoButton() {
@@ -598,23 +928,52 @@
       else undoBtn.classList.remove("disabled");
     }
 
-    function formatTs(ms) {
-      const d = new Date(ms);
-      return d.toISOString();
-    }
+    function formatTs(ms) { return new Date(ms).toISOString(); }
 
+    // ---------- PILL HANDLERS ----------
+    pillButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const type = btn.dataset.type;
+        const value = btn.dataset.value;
+
+        // toggle within same group
+        pillButtons.forEach(b => { if (b.dataset.type === type) b.classList.remove("active"); });
+        btn.classList.add("active");
+
+        if (type === "shot") state.selectedShot = value;
+        if (type === "decision") state.selectedDecision = value;
+
+        if (type === "quarter") {
+          currentQuarter = value;
+          currentQuarterLabelEl.textContent = currentQuarter;
+          saveToStorage();
+          showToast("Quarter set to " + currentQuarter);
+        }
+
+        if (type === "filter") {
+          filterQuarter = value;
+          refreshSummary(lastHighlightPlayerId);
+          saveToStorage();
+          showToast("Filter: " + filterQuarter);
+        }
+      });
+    });
+
+    // ---------- SAVE / UNDO ----------
     saveBtn.addEventListener("click", () => {
       if (state.selectedPlayerId === null || state.selectedShot === null || state.selectedDecision === null) {
         alert("Please select Player, Shot Quality, and Decision Quality before saving.");
         return;
       }
-      const player = players.find(p => p.id === state.selectedPlayerId);
+      const player = getPlayer(state.selectedPlayerId);
+      if (!player) return;
 
       possessions.push({
         playerId: player.id,
         role: player.role,
         shot: state.selectedShot,
         decision: state.selectedDecision,
+        q: currentQuarter,
         ts: Date.now()
       });
 
@@ -623,7 +982,7 @@
       updateUndoButton();
       clearSelection();
       saveToStorage();
-      showToast("Possession saved and stats updated");
+      showToast(`Saved (${currentQuarter})`);
     });
 
     undoBtn.addEventListener("click", () => {
@@ -636,18 +995,16 @@
       showToast("Last possession undone");
     });
 
-    // ------- EXPORT / RESET -------
+    // ---------- EXPORT / RESET ----------
     exportCsvBtn.addEventListener("click", () => {
-      if (possessions.length === 0) {
-        showToast("No possessions to export");
-        return;
-      }
+      if (possessions.length === 0) { showToast("No possessions to export"); return; }
 
-      const header = ["timestamp_iso", "player_number", "player_name", "role", "shot_quality", "decision_quality"];
+      const header = ["timestamp_iso", "quarter", "player_number", "player_name", "role", "shot_quality", "decision_quality"];
       const rows = possessions.map(p => {
-        const pl = players.find(x => x.id === p.playerId);
+        const pl = getPlayer(p.playerId);
         return [
           formatTs(p.ts),
+          (p.q ?? ""),
           (pl?.number ?? ""),
           (pl?.name ?? ""),
           (p.role ?? ""),
@@ -676,24 +1033,63 @@
     });
 
     resetBtn.addEventListener("click", () => {
-      const ok = confirm("Start a new game? This will clear all recorded possessions.");
+      const ok = confirm("Start a new game? This will clear all recorded possessions and reset on-court.");
       if (!ok) return;
 
       possessions.length = 0;
       lastHighlightPlayerId = null;
+      pendingSubOffId = null;
+
+      // reset on-court to first 5 again
+      onCourtIds = players.slice(0,5).map(p => p.id);
+
+      currentQuarter = "Q1";
+      filterQuarter = "ALL";
+
+      // reset quarter pills + filter pills
+      pillButtons.forEach(b => b.classList.remove("active"));
+      // default active quarter pill + filter
+      document.querySelectorAll('.pill-button[data-type="quarter"][data-value="Q1"]').forEach(b => b.classList.add("active"));
+      document.querySelectorAll('.pill-button[data-type="filter"][data-value="ALL"]').forEach(b => b.classList.add("active"));
+
+      currentQuarterLabelEl.textContent = currentQuarter;
+      filterLabelEl.textContent = filterQuarter;
+
       clearSelection();
       refreshSummary();
       updateUndoButton();
+      renderCourt();
+      renderBench();
+      renderPlayersForInput();
+
       clearStorage();
+      saveToStorage();
       showToast("New game started");
     });
 
-    // ------- INIT -------
-    renderPlayersForInput();
+    // ---------- INIT ----------
+    // Set default pills active (quarter Q1, filter ALL)
+    function setDefaultPills() {
+      document.querySelectorAll('.pill-button[data-type="quarter"][data-value="'+currentQuarter+'"]').forEach(b => b.classList.add("active"));
+      document.querySelectorAll('.pill-button[data-type="filter"][data-value="'+filterQuarter+'"]').forEach(b => b.classList.add("active"));
+    }
+
+    // Attempt restore
     const restored = loadFromStorage();
+
+    currentQuarterLabelEl.textContent = currentQuarter;
+    filterLabelEl.textContent = filterQuarter;
+
+    setDefaultPills();
+    renderCourt();
+    renderBench();
+    renderPlayersForInput();
     refreshSummary(lastHighlightPlayerId);
     updateUndoButton();
-    if (restored && possessions.length > 0) showToast(`Restored ${possessions.length} possessions`);
+
+    if (restored) {
+      showToast(`Restored (${possessions.length} poss)`);
+    }
   </script>
 </body>
 </html>
