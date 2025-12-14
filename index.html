@@ -48,7 +48,7 @@
       pointer-events:none;
     }
 
-    /* ===== HEADER ===== */
+    /* HEADER */
     .topbar{
       position:relative;
       display:flex;
@@ -115,7 +115,7 @@
       white-space:nowrap;
     }
 
-    /* ===== CARDS ===== */
+    /* CARDS */
     .card{
       position:relative;
       background: linear-gradient(180deg, rgba(10,16,32,0.78), rgba(2,6,23,0.75));
@@ -140,7 +140,7 @@
     }
     .help{ font-size:11px; color:var(--muted); margin-top:8px; }
 
-    /* ===== TABLE (Top Summary) ===== */
+    /* TABLE */
     .tableWrap{
       margin-top:12px;
       overflow-x:auto;
@@ -152,12 +152,10 @@
     table.summaryTable{
       width:100%;
       border-collapse:collapse;
-      min-width: 720px;
+      min-width: 740px;
       font-size:12px;
     }
-    .summaryTable thead{
-      background: rgba(15,23,42,0.95);
-    }
+    .summaryTable thead{ background: rgba(15,23,42,0.95); }
     .summaryTable th, .summaryTable td{
       padding:10px 10px;
       text-align:left;
@@ -174,13 +172,13 @@
     .summaryTable tbody tr:nth-child(even){ background: rgba(15,23,42,0.35); }
     .summaryTable tbody tr:nth-child(odd){ background: rgba(15,23,42,0.18); }
     .summaryTable tbody tr.recentRow{
-      outline:1px solid rgba(34,197,94,0.65);
-      box-shadow: 0 0 0 2px rgba(34,197,94,0.18), 0 0 18px rgba(34,197,94,0.35);
-      animation: rowPulse 1.0s ease-out;
+      outline:2px solid rgba(34,197,94,0.85);
+      box-shadow: 0 0 0 3px rgba(34,197,94,0.22), 0 0 22px rgba(34,197,94,0.55);
+      animation: rowPulse 1.05s ease-out;
     }
     @keyframes rowPulse{
-      0%{ background: rgba(34,197,94,0.45); }
-      60%{ background: rgba(34,197,94,0.15); }
+      0%{ background: rgba(34,197,94,0.55); }
+      60%{ background: rgba(34,197,94,0.18); }
       100%{ background: rgba(15,23,42,0.18); }
     }
 
@@ -193,7 +191,7 @@
       font-size:11px;
       font-weight:900;
       text-align:center;
-      min-width: 84px;
+      min-width: 88px;
       display:inline-block;
     }
     .bGreen{ border-color: rgba(34,197,94,0.50); color:#bbf7d0; }
@@ -201,7 +199,7 @@
     .bBlue{ border-color: rgba(56,189,248,0.55); color:#bae6fd; }
     .bOrange{ border-color: rgba(249,115,22,0.55); color:#fed7aa; }
 
-    /* ===== BUTTONS ===== */
+    /* BUTTONS */
     .btn{
       border-radius:999px;
       padding:10px 14px;
@@ -225,16 +223,16 @@
       box-shadow: 0 14px 28px rgba(0,0,0,0.35), var(--inner);
     }
     .btn.success{
-      background: radial-gradient(circle at top left, rgba(34,197,94,0.98), rgba(22,163,74,0.58));
-      border-color: rgba(34,197,94,0.60);
+      background: radial-gradient(circle at top left, rgba(34,197,94,0.98), rgba(22,163,74,0.62));
+      border-color: rgba(34,197,94,0.75);
       color:#ecfdf5;
       font-weight:900;
-      box-shadow: 0 20px 40px rgba(5,46,22,0.25);
+      box-shadow: 0 22px 44px rgba(5,46,22,0.30);
     }
     .btn.danger{ border-color: rgba(239,68,68,0.55); color:#fecaca; }
     .btn.disabled{ opacity:0.45; pointer-events:none; }
 
-    /* ===== PILLS ===== */
+    /* PILLS */
     .pill-row{ display:flex; gap:8px; flex-wrap:wrap; }
     .pill-btn{
       border-radius:999px;
@@ -251,17 +249,17 @@
     .pill-btn:hover{ transform: translateY(-1px); border-color: rgba(56,189,248,0.40); }
     .pill-btn.active{
       background: radial-gradient(circle at top left, rgba(56,189,248,0.95), rgba(14,165,233,0.55));
-      border-color: rgba(56,189,248,0.60);
-      box-shadow: 0 0 0 1px rgba(56,189,248,0.20), 0 18px 36px rgba(2,132,199,0.20);
+      border-color: rgba(56,189,248,0.70);
+      box-shadow: 0 0 0 2px rgba(56,189,248,0.18), 0 18px 36px rgba(2,132,199,0.18);
       font-weight:900;
     }
-    .pill-btn.shotG.active{ background: radial-gradient(circle at top, rgba(34,197,94,0.98), rgba(22,163,74,0.58)); border-color: rgba(34,197,94,0.65); }
-    .pill-btn.shotO.active{ background: radial-gradient(circle at top, rgba(234,179,8,0.95), rgba(161,98,7,0.55)); border-color: rgba(234,179,8,0.60); }
-    .pill-btn.shotP.active{ background: radial-gradient(circle at top, rgba(239,68,68,0.95), rgba(153,27,27,0.55)); border-color: rgba(239,68,68,0.60); }
-    .pill-btn.decC.active{ background: radial-gradient(circle at top, rgba(56,189,248,0.95), rgba(3,105,161,0.55)); border-color: rgba(56,189,248,0.60); }
-    .pill-btn.decI.active{ background: radial-gradient(circle at top, rgba(249,115,22,0.95), rgba(154,52,18,0.55)); border-color: rgba(249,115,22,0.60); }
+    .pill-btn.shotG.active{ background: radial-gradient(circle at top, rgba(34,197,94,0.98), rgba(22,163,74,0.62)); border-color: rgba(34,197,94,0.85); box-shadow: 0 0 0 2px rgba(34,197,94,0.20), 0 0 22px rgba(34,197,94,0.35); }
+    .pill-btn.shotO.active{ background: radial-gradient(circle at top, rgba(234,179,8,0.95), rgba(161,98,7,0.55)); border-color: rgba(234,179,8,0.70); }
+    .pill-btn.shotP.active{ background: radial-gradient(circle at top, rgba(239,68,68,0.95), rgba(153,27,27,0.55)); border-color: rgba(239,68,68,0.70); }
+    .pill-btn.decC.active{ background: radial-gradient(circle at top, rgba(56,189,248,0.95), rgba(3,105,161,0.55)); border-color: rgba(56,189,248,0.70); }
+    .pill-btn.decI.active{ background: radial-gradient(circle at top, rgba(249,115,22,0.95), rgba(154,52,18,0.55)); border-color: rgba(249,115,22,0.70); }
 
-    /* ===== KPI CARDS ===== */
+    /* KPI */
     .kpiGrid{
       display:grid;
       grid-template-columns: 1fr;
@@ -295,7 +293,7 @@
       color:rgba(156,163,175,0.78);
     }
 
-    /* ===== IMPACT LIST ===== */
+    /* IMPACT LIST */
     .impactList{ margin-top:12px; display:flex; flex-direction:column; gap:8px; }
     .impactRow{
       border-radius:18px;
@@ -308,7 +306,6 @@
       gap:10px;
       align-items:center;
       flex-wrap:wrap;
-      transition: box-shadow 0.15s ease, border-color 0.15s ease;
     }
     .impactLeft{ display:flex; align-items:center; gap:10px; min-width:240px; }
     .numBubble{
@@ -324,7 +321,6 @@
     .impactName{ font-weight:950; font-size:13px; line-height:1.15; }
     .impactMeta{ font-size:11px; color:rgba(156,163,175,0.82); margin-top:2px; }
     .impactRight{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end; flex:1; }
-
     .miniMetric{ min-width:150px; }
     .miniLabel{
       display:flex;
@@ -344,13 +340,11 @@
       border:1px solid rgba(148,163,184,0.10);
     }
     .fill{ height:100%; width:0%; border-radius:999px; transition: width 0.2s ease-out; }
-    /* Brighter green for quick “good” read */
     .fill.green{
-      background: linear-gradient(to right, rgba(34,197,94,1), rgba(110,231,183,0.95));
-      box-shadow: 0 0 12px rgba(34,197,94,0.55);
+      background: linear-gradient(to right, rgba(34,197,94,1), rgba(110,231,183,0.98));
+      box-shadow: 0 0 14px rgba(34,197,94,0.60);
     }
     .fill.blue{ background: linear-gradient(to right, #38bdf8, #0ea5e9); }
-
     .scoreBadge{
       border-radius:999px;
       padding:8px 12px;
@@ -362,23 +356,8 @@
       min-width:124px;
       text-align:center;
     }
-    .topGlow{
-      outline:1px solid rgba(34,197,94,0.75);
-      box-shadow: 0 0 0 2px rgba(34,197,94,0.22), 0 22px 48px rgba(5,46,22,0.25);
-    }
 
-    /* Brighter row highlight for “recent possession” */
-    @keyframes brightGlow {
-      0%   { background: rgba(34,197,94,0.55); box-shadow: 0 0 0 0 rgba(34,197,94,0); }
-      55%  { background: rgba(34,197,94,0.20); box-shadow: 0 0 0 2px rgba(34,197,94,0.65), 0 0 18px rgba(34,197,94,0.45); }
-      100% { background: rgba(2,6,23,0.45); box-shadow: 0 0 0 0 rgba(34,197,94,0); }
-    }
-    .recentHighlight{
-      animation: brightGlow 1.1s ease-out;
-      border-color: rgba(34,197,94,0.60) !important;
-    }
-
-    /* ===== SIMPLE VIEW ===== */
+    /* SIMPLE VIEW */
     .simpleWrap{ margin-top:12px; display:none; }
     .simpleWrap.show{ display:block; }
     .simpleSectionTitle{
@@ -401,10 +380,11 @@
       justify-content:space-between;
       align-items:center;
       gap:10px;
+      flex-wrap:wrap;
     }
     .tileLeft{ display:flex; align-items:center; gap:10px; }
     .trafficDot{ width:10px; height:10px; border-radius:999px; box-shadow: 0 0 0 1px rgba(255,255,255,0.08); }
-    .tGreen{ background: rgba(34,197,94,1); box-shadow:0 0 10px rgba(34,197,94,0.55); }
+    .tGreen{ background: rgba(34,197,94,1); box-shadow:0 0 12px rgba(34,197,94,0.60); }
     .tAmber{ background: rgba(234,179,8,0.95); }
     .tRed{ background: rgba(239,68,68,0.95); }
     .tileName{ font-weight:950; font-size:13px; }
@@ -421,14 +401,37 @@
       white-space:nowrap;
     }
 
-    /* ===== PLAYER PICKER ===== */
+    /* PLAYER PICKER (force visible + scrollable on iPad landscape) */
+    .pickerWrap{
+      margin-top:10px;
+      border-radius:18px;
+      border:1px solid rgba(148,163,184,0.16);
+      background: rgba(2,6,23,0.40);
+      box-shadow: var(--inner);
+      padding:10px;
+    }
+    .pickerHeaderRow{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .pickerHint{
+      font-size:11px;
+      color:rgba(156,163,175,0.82);
+    }
     .pickerGrid{
       display:grid;
       grid-template-columns: 1fr;
       gap:10px;
-      margin-top:10px;
+      max-height: 320px;           /* prevents the “missing player list” feel */
+      overflow:auto;
+      padding-right:6px;
     }
-    @media(min-width: 940px){ .pickerGrid{ grid-template-columns: 1fr 1fr; } }
+    @media(min-width: 720px){ .pickerGrid{ grid-template-columns: 1fr 1fr; } }
+    @media(min-width: 1020px){ .pickerGrid{ grid-template-columns: 1fr 1fr 1fr; } }
 
     .playerCard{
       border-radius:18px;
@@ -437,14 +440,29 @@
       padding:10px 12px;
       box-shadow: var(--inner);
       cursor:pointer;
-      transition: transform 0.06s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      transition: transform 0.06s ease, border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
       display:flex; align-items:center; justify-content:space-between; gap:10px;
+      user-select:none;
     }
     .playerCard:hover{ transform: translateY(-1px); border-color: rgba(56,189,248,0.40); }
+
+    /* STRONG GREEN HIGHLIGHT (requested) */
     .playerCard.selected{
-      border-color: rgba(34,197,94,0.75);
-      box-shadow: 0 0 0 2px rgba(34,197,94,0.22), 0 18px 36px rgba(5,46,22,0.16);
-      background: radial-gradient(circle at top left, rgba(34,197,94,0.20), rgba(2,6,23,0.55));
+      border-color: rgba(34,197,94,0.95);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(34,197,94,0.40), rgba(2,6,23,0.52) 55%),
+        linear-gradient(180deg, rgba(34,197,94,0.14), rgba(2,6,23,0.40));
+      box-shadow:
+        0 0 0 3px rgba(34,197,94,0.25),
+        0 0 26px rgba(34,197,94,0.55),
+        0 18px 36px rgba(5,46,22,0.20);
+      transform: translateY(-1px);
+    }
+    .playerCard.selected .benchNum{
+      background: rgba(34,197,94,1);
+      border-color: rgba(34,197,94,0.95);
+      color:#052e16;
+      box-shadow: 0 0 18px rgba(34,197,94,0.60);
     }
     .benchLeft{ display:flex; align-items:center; gap:10px; }
     .benchNum{
@@ -474,7 +492,7 @@
     .rS{ border-color: rgba(59,130,246,0.60); background: rgba(37,99,235,0.14); color:#bfdbfe; }
     .rC{ border-color: rgba(245,158,11,0.65); background: rgba(217,119,6,0.14); color:#fde68a; }
 
-    /* ===== TOAST ===== */
+    /* TOAST */
     .toast{
       position:fixed;
       left:50%;
@@ -552,7 +570,7 @@
 
       <div class="kpiGrid" id="kpiGrid"></div>
 
-      <!-- TOP TABLE (balanced report: Great + Poor + Correct + Incorrect) -->
+      <!-- TOP TABLE (balanced report includes Incorrect %) -->
       <div class="tableWrap">
         <table class="summaryTable" id="summaryTable"></table>
       </div>
@@ -595,7 +613,14 @@
         1) Pick the finisher • 2) Shot quality • 3) Decision quality • then Save.
       </div>
 
-      <div class="pickerGrid" id="playerPicker"></div>
+      <!-- PLAYER PICKER (always visible + scrollable) -->
+      <div class="pickerWrap">
+        <div class="pickerHeaderRow">
+          <div class="title" style="margin:0;">PLAYER</div>
+          <div class="pickerHint">Tap a player — selection glows bright green</div>
+        </div>
+        <div class="pickerGrid" id="playerPicker"></div>
+      </div>
 
       <div style="margin-top:12px;">
         <div class="title" style="margin-bottom:10px;">SHOT QUALITY</div>
@@ -629,7 +654,7 @@
 
   <script>
     // ========= STORAGE =========
-    const STORAGE_KEY = "shotDecisionTracker_simpleOnly_v2_balancedTable";
+    const STORAGE_KEY = "shotDecisionTracker_mckinnon_youth_v3";
 
     function saveToStorage() {
       try {
@@ -664,7 +689,7 @@
 
     function clearStorage() { try { localStorage.removeItem(STORAGE_KEY); } catch(e) {} }
 
-    // ========= DATA =========
+    // ========= DATA (ALL PLAYERS INCLUDED) =========
     const players = [
       { id: 1,  number: "#–", name: "Mike Aminov", role: "PRIMARY" },
       { id: 2,  number: "#–", name: "Tom Darcy", role: "PRIMARY" },
@@ -684,6 +709,7 @@
     players.sort((a,b) => (roleOrder[a.role]-roleOrder[b.role]) || a.name.localeCompare(b.name));
 
     function getPlayer(id){ return players.find(p=>p.id===id); }
+
     function roleTagClass(role){
       if (role === "PRIMARY") return "rP";
       if (role === "SECONDARY") return "rS";
@@ -738,7 +764,7 @@
       simpleView = on;
       toggleViewBtnEl.textContent = simpleView ? "📋 Full View" : "✨ Simple View";
       summaryHelpEl.textContent = simpleView
-        ? "Simple view: Traffic-light tiles + Top 3 / Bottom 3 (fastest read mid-game)."
+        ? "Simple view: Top 3 / Bottom 3 tiles (fastest read mid-game)."
         : "Full view: Team KPIs + ranked Impact Score per player (60% Great + 40% Correct, min 2 possessions).";
 
       impactListEl.style.display = simpleView ? "none" : "flex";
@@ -760,19 +786,21 @@
       players.forEach(p => {
         const card = document.createElement("div");
         card.className = "playerCard" + (state.selectedPlayerId === p.id ? " selected" : "");
+        const numTxt = (p.number || "#–").replace("#","");
+
         card.innerHTML = `
           <div class="benchLeft">
-            <div class="benchNum">${(p.number ?? "#–").replace("#","")}</div>
+            <div class="benchNum">${numTxt}</div>
             <div>
               <div class="benchName">${p.name}</div>
-              <div class="benchMeta">SELECT PLAYER</div>
+              <div class="benchMeta">TAP TO SELECT</div>
             </div>
           </div>
           <div class="roleTag ${roleTagClass(p.role)}">${roleLabel(p.role)}</div>
         `;
         card.onclick = () => {
           state.selectedPlayerId = p.id;
-          renderPlayerPicker();
+          renderPlayerPicker(); // re-render so selection is obvious
         };
         playerPickerEl.appendChild(card);
       });
@@ -842,23 +870,16 @@
         </div>
       `;
 
-      let topId = null, best = -1;
-      rows.forEach(r => {
-        if (r.t < 3) return;
-        if (r.impact > best){ best = r.impact; topId = r.p.id; }
-      });
-
       const sorted = [...rows].sort((a,b) => b.impact - a.impact);
 
+      // Full list
       impactListEl.innerHTML = "";
       sorted.forEach(r => {
-        const num = (r.p.number ?? "#–").replace("#","");
-        const row = document.createElement("div");
-
-        const isTop = (r.p.id === topId);
+        const num = (r.p.number || "#–").replace("#","");
         const isRecent = (r.p.id === lastSavedPlayerId);
 
-        row.className = "impactRow" + (isTop ? " topGlow" : "") + (isRecent ? " recentHighlight" : "");
+        const row = document.createElement("div");
+        row.className = "impactRow" + (isRecent ? " recentRow" : "");
 
         row.innerHTML = `
           <div class="impactLeft">
@@ -888,6 +909,7 @@
         impactListEl.appendChild(row);
       });
 
+      // Simple tiles
       const eligible = sorted.filter(r => r.t >= 2);
       const top3 = eligible.slice(0, 3);
       const bottom3 = eligible.slice(-3).reverse();
@@ -895,7 +917,7 @@
       function renderTiles(list, targetEl){
         targetEl.innerHTML = "";
         list.forEach(r => {
-          const num = (r.p.number ?? "#–").replace("#","");
+          const num = (r.p.number || "#–").replace("#","");
           const dot = trafficClass(r.impact);
           const tile = document.createElement("div");
           tile.className = "tile";
@@ -932,7 +954,7 @@
       renderTiles(bottom3, bottomTilesEl);
     }
 
-    // ===== Balanced Top Summary Table (per player) =====
+    // ========= BALANCED TOP SUMMARY TABLE =========
     function renderSummaryTable(){
       const { rows } = computeRows();
       const sortedByName = [...rows].sort((a,b)=> a.p.name.localeCompare(b.p.name));
@@ -983,8 +1005,8 @@
 
     // ========= PILL HANDLING =========
     function setActivePill(type, value){
-      document.querySelectorAll(\`.pill-btn[data-type="\${type}"]\`).forEach(b => b.classList.remove("active"));
-      document.querySelectorAll(\`.pill-btn[data-type="\${type}"][data-value="\${value}"]\`).forEach(b => b.classList.add("active"));
+      document.querySelectorAll('.pill-btn[data-type="'+type+'"]').forEach(b => b.classList.remove("active"));
+      document.querySelectorAll('.pill-btn[data-type="'+type+'"][data-value="'+value+'"]').forEach(b => b.classList.add("active"));
     }
 
     allPills.forEach(btn => {
@@ -1016,6 +1038,7 @@
       state.selectedPlayerId = null;
       state.selectedShot = null;
       state.selectedDecision = null;
+
       document.querySelectorAll('.pill-btn[data-type="shot"], .pill-btn[data-type="decision"]').forEach(b => b.classList.remove("active"));
       renderPlayerPicker();
     }
@@ -1030,6 +1053,7 @@
         alert("Select Player, Shot Quality, and Decision Quality first.");
         return;
       }
+
       possessions.push({
         playerId: state.selectedPlayerId,
         shot: state.selectedShot,
@@ -1044,6 +1068,7 @@
       updateUndoBtn();
       saveToStorage();
       clearPossessionSelection();
+
       showToast("Saved (" + currentQuarter + ")");
     });
 
@@ -1051,6 +1076,7 @@
       if (undoBtnEl.classList.contains("disabled")) return;
       const removed = possessions.pop();
       lastSavedPlayerId = removed ? removed.playerId : null;
+
       renderAll();
       updateUndoBtn();
       saveToStorage();
@@ -1063,19 +1089,22 @@
 
       const header = ["timestamp_iso","quarter","player_number","player_name","role","shot_quality","decision_quality"];
       const rows = possessions.map(p => {
-        const pl = getPlayer(p.playerId);
+        const pl = getPlayer(p.playerId) || {};
         return [
           new Date(p.ts).toISOString(),
           p.q,
-          pl?.number ?? "",
-          pl?.name ?? "",
-          pl?.role ?? "",
+          pl.number || "",
+          pl.name || "",
+          pl.role || "",
           p.shot,
           p.decision
         ];
       });
 
-      const csv = [header, ...rows].map(r => r.map(v => `"${String(v).replaceAll('"','""')}"`).join(",")).join("\n");
+      // avoid replaceAll for max compatibility
+      const esc = (v) => String(v).replace(/"/g,'""');
+      const csv = [header, ...rows].map(r => r.map(v => `"${esc(v)}"`).join(",")).join("\n");
+
       const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
       const url = URL.createObjectURL(blob);
 
@@ -1119,7 +1148,7 @@
     setActivePill("filter", filterQuarter);
     currentQuarterLabelEl.textContent = currentQuarter;
 
-    renderPlayerPicker();
+    renderPlayerPicker();   // <- ensures player list appears immediately
     renderAll();
     updateUndoBtn();
 
