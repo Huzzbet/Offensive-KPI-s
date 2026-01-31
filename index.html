@@ -690,20 +690,20 @@
     function clearStorage() { try { localStorage.removeItem(STORAGE_KEY); } catch(e) {} }
 
     // ========= DATA (ALL PLAYERS INCLUDED) =========
-    const players = [
-      { id: 1,  number: "#–", name: "Mike Aminov", role: "PRIMARY" },
-      { id: 2,  number: "#–", name: "Tom Darcy", role: "PRIMARY" },
-      { id: 3,  number: "#–", name: "Jun Lee", role: "SECONDARY" },
-      { id: 4,  number: "#–", name: "Viv Anderson-Francois", role: "SECONDARY" },
-      { id: 5,  number: "#41", name: "Tyler Langston", role: "PRIMARY" },
-      { id: 6,  number: "#–", name: "Calvin Ramachandran", role: "SECONDARY" },
-      { id: 7,  number: "#–", name: "Luke Lyngberg", role: "SECONDARY" },
-      { id: 8,  number: "#9",  name: "Thomas D'Amelio", role: "CENTER" },
-      { id: 9,  number: "#–", name: "Maximus Rafaniello", role: "SECONDARY" },
-      { id: 10, number: "#–", name: "Charlie Watts", role: "CENTER" },
-      { id: 11, number: "#–", name: "Max Armstrong", role: "CENTER" },
-      { id: 12, number: "#–", name: "Zac Harrigan", role: "SECONDARY" }
-    ];
+const players = [
+  { id: 1,  number: "#–", name: "Cal", role: "SECONDARY" },
+  { id: 2,  number: "#–", name: "Viv", role: "SECONDARY" },
+  { id: 3,  number: "#–", name: "Mike", role: "PRIMARY" },
+  { id: 4,  number: "#–", name: "Tom Darcy", role: "PRIMARY" },
+  { id: 5,  number: "#–", name: "Jun", role: "SECONDARY" },
+  { id: 6,  number: "#–", name: "Luke Lynberg", role: "SECONDARY" },
+  { id: 7,  number: "#–", name: "Tyler", role: "PRIMARY" },
+  { id: 8,  number: "#–", name: "Ollie Mann", role: "SECONDARY" },
+  { id: 9,  number: "#–", name: "Ollie Ledger", role: "SECONDARY" },
+  { id: 10, number: "#–", name: "Charlie Watts", role: "CENTER" },
+  { id: 11, number: "#–", name: "Tom D’Amelio", role: "CENTER" },
+  { id: 12, number: "#–", name: "Mantas", role: "CENTER" }
+];
 
     const roleOrder = { PRIMARY: 1, SECONDARY: 2, CENTER: 3 };
     players.sort((a,b) => (roleOrder[a.role]-roleOrder[b.role]) || a.name.localeCompare(b.name));
