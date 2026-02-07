@@ -544,7 +544,65 @@
       </div>
     </div>
 
-    <!-- SUMMARY -->
+    <!-- INPUT (MOVED TO TOP) -->
+    <div class="card">
+      <div class="title" style="margin-bottom:6px;">POSSESSION INPUT</div>
+      <div class="help" style="margin-top:0;">
+        1) Pick the finisher • 2) Shot quality • 3) Decision quality • then Save.
+      </div>
+
+      <!-- PLAYER PICKER (always visible + scrollable) -->
+      <div class="pickerWrap">
+        <div class="pickerHeaderRow">
+          <div class="title" style="margin:0;">PLAYER</div>
+          <div class="pickerHint">Tap a player — selection glows bright green</div>
+        </div>
+        <div class="pickerGrid" id="playerPicker"></div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <div class="title" style="margin-bottom:10px;">SHOT QUALITY</div>
+        <div class="pill-row">
+          <button class="pill-btn shotG" data-type="shot" data-value="G">G Great</button>
+          <button class="pill-btn shotO" data-type="shot" data-value="O">O OK</button>
+          <button class="pill-btn shotP" data-type="shot" data-value="P">P Poor</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <div class="title" style="margin-bottom:10px;">DECISION QUALITY</div>
+        <div class="pill-row">
+          <button class="pill-btn decC" data-type="decision" data-value="C">C Correct</button>
+          <button class="pill-btn decI" data-type="decision" data-value="I">I Incorrect</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn success" id="saveBtn">＋ Save Possession</button>
+        <button class="btn disabled" id="undoBtn">↺ Undo Last</button>
+      </div>
+    </div>
+
+    <!-- QUARTER (MOVED UP WITH INPUT) -->
+    <div class="card">
+      <div class="sectionHead">
+        <div class="title">SEGMENT</div>
+        <div class="pill" style="padding:8px 12px;">
+          Quarter: <strong style="margin-left:6px;" id="currentQuarterLabel">Q1</strong>
+        </div>
+      </div>
+
+      <div class="pill-row">
+        <button class="pill-btn" data-type="quarter" data-value="Q1">Q1</button>
+        <button class="pill-btn" data-type="quarter" data-value="Q2">Q2</button>
+        <button class="pill-btn" data-type="quarter" data-value="Q3">Q3</button>
+        <button class="pill-btn" data-type="quarter" data-value="Q4">Q4</button>
+        <button class="pill-btn" data-type="quarter" data-value="OT">OT</button>
+      </div>
+      <div class="help">Every saved possession is tagged with the current quarter.</div>
+    </div>
+
+    <!-- REPORTING (MOVED BELOW) -->
     <div class="card">
       <div class="sectionHead">
         <div class="title">VISUAL SUMMARY</div>
@@ -584,64 +642,6 @@
         <div class="tileGrid" id="topTiles"></div>
         <div class="simpleSectionTitle">Needs attention (Bottom 3)</div>
         <div class="tileGrid" id="bottomTiles"></div>
-      </div>
-    </div>
-
-    <!-- QUARTER -->
-    <div class="card">
-      <div class="sectionHead">
-        <div class="title">SEGMENT</div>
-        <div class="pill" style="padding:8px 12px;">
-          Quarter: <strong style="margin-left:6px;" id="currentQuarterLabel">Q1</strong>
-        </div>
-      </div>
-
-      <div class="pill-row">
-        <button class="pill-btn" data-type="quarter" data-value="Q1">Q1</button>
-        <button class="pill-btn" data-type="quarter" data-value="Q2">Q2</button>
-        <button class="pill-btn" data-type="quarter" data-value="Q3">Q3</button>
-        <button class="pill-btn" data-type="quarter" data-value="Q4">Q4</button>
-        <button class="pill-btn" data-type="quarter" data-value="OT">OT</button>
-      </div>
-      <div class="help">Every saved possession is tagged with the current quarter.</div>
-    </div>
-
-    <!-- INPUT -->
-    <div class="card">
-      <div class="title" style="margin-bottom:6px;">POSSESSION INPUT</div>
-      <div class="help" style="margin-top:0;">
-        1) Pick the finisher • 2) Shot quality • 3) Decision quality • then Save.
-      </div>
-
-      <!-- PLAYER PICKER (always visible + scrollable) -->
-      <div class="pickerWrap">
-        <div class="pickerHeaderRow">
-          <div class="title" style="margin:0;">PLAYER</div>
-          <div class="pickerHint">Tap a player — selection glows bright green</div>
-        </div>
-        <div class="pickerGrid" id="playerPicker"></div>
-      </div>
-
-      <div style="margin-top:12px;">
-        <div class="title" style="margin-bottom:10px;">SHOT QUALITY</div>
-        <div class="pill-row">
-          <button class="pill-btn shotG" data-type="shot" data-value="G">G Great</button>
-          <button class="pill-btn shotO" data-type="shot" data-value="O">O OK</button>
-          <button class="pill-btn shotP" data-type="shot" data-value="P">P Poor</button>
-        </div>
-      </div>
-
-      <div style="margin-top:12px;">
-        <div class="title" style="margin-bottom:10px;">DECISION QUALITY</div>
-        <div class="pill-row">
-          <button class="pill-btn decC" data-type="decision" data-value="C">C Correct</button>
-          <button class="pill-btn decI" data-type="decision" data-value="I">I Incorrect</button>
-        </div>
-      </div>
-
-      <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-        <button class="btn success" id="saveBtn">＋ Save Possession</button>
-        <button class="btn disabled" id="undoBtn">↺ Undo Last</button>
       </div>
     </div>
 
@@ -690,20 +690,20 @@
     function clearStorage() { try { localStorage.removeItem(STORAGE_KEY); } catch(e) {} }
 
     // ========= DATA (UPDATED PLAYERS) =========
-const players = [
-  { id: 1,  number: "#2",  name: "Charlie Watts",          role: "CENTER" },
-  { id: 2,  number: "#5",  name: "Calvin Ramachandran",    role: "SECONDARY" },
-  { id: 3,  number: "#7",  name: "Luke Lyngberg",          role: "SECONDARY" },
-  { id: 4,  number: "#9",  name: "Thomas D'Amelio",        role: "CENTER" },
-  { id: 5,  number: "#13", name: "Viv Anderson-Francois",  role: "SECONDARY" },
-  { id: 6,  number: "#21", name: "Tyler Langston",         role: "PRIMARY" },
-  { id: 7,  number: "#22", name: "Ollie Mann",             role: "SECONDARY" },
-  { id: 8,  number: "#23", name: "Michael Aminov",         role: "PRIMARY" },
-  { id: 9,  number: "#32", name: "Ollie Ledger",           role: "SECONDARY" },
-  { id: 10, number: "#40", name: "Tom Darcy",              role: "PRIMARY" },
-  { id: 11, number: "#44", name: "Mantas Kaspariunas",     role: "CENTER" },
-  { id: 12, number: "#55", name: "Jun Lee",                role: "SECONDARY" }
-];
+    const players = [
+      { id: 1,  number: "#2",  name: "Charlie Watts",          role: "CENTER" },
+      { id: 2,  number: "#5",  name: "Calvin Ramachandran",    role: "SECONDARY" },
+      { id: 3,  number: "#7",  name: "Luke Lyngberg",          role: "SECONDARY" },
+      { id: 4,  number: "#9",  name: "Thomas D'Amelio",        role: "CENTER" },
+      { id: 5,  number: "#13", name: "Viv Anderson-Francois",  role: "SECONDARY" },
+      { id: 6,  number: "#21", name: "Tyler Langston",         role: "PRIMARY" },
+      { id: 7,  number: "#22", name: "Ollie Mann",             role: "SECONDARY" },
+      { id: 8,  number: "#23", name: "Michael Aminov",         role: "PRIMARY" },
+      { id: 9,  number: "#32", name: "Ollie Ledger",           role: "SECONDARY" },
+      { id: 10, number: "#40", name: "Tom Darcy",              role: "PRIMARY" },
+      { id: 11, number: "#44", name: "Mantas Kaspariunas",     role: "CENTER" },
+      { id: 12, number: "#55", name: "Jun Lee",                role: "SECONDARY" }
+    ];
     const roleOrder = { PRIMARY: 1, SECONDARY: 2, CENTER: 3 };
     players.sort((a,b) => (roleOrder[a.role]-roleOrder[b.role]) || a.name.localeCompare(b.name));
 
