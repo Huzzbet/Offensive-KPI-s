@@ -689,22 +689,21 @@
 
     function clearStorage() { try { localStorage.removeItem(STORAGE_KEY); } catch(e) {} }
 
-    // ========= DATA (ALL PLAYERS INCLUDED) =========
+    // ========= DATA (UPDATED PLAYERS) =========
 const players = [
-  { id: 1,  number: "#–", name: "Cal", role: "SECONDARY" },
-  { id: 2,  number: "#–", name: "Viv", role: "SECONDARY" },
-  { id: 3,  number: "#–", name: "Mike", role: "PRIMARY" },
-  { id: 4,  number: "#–", name: "Tom Darcy", role: "PRIMARY" },
-  { id: 5,  number: "#–", name: "Jun", role: "SECONDARY" },
-  { id: 6,  number: "#–", name: "Luke Lynberg", role: "SECONDARY" },
-  { id: 7,  number: "#–", name: "Tyler", role: "PRIMARY" },
-  { id: 8,  number: "#–", name: "Ollie Mann", role: "SECONDARY" },
-  { id: 9,  number: "#–", name: "Ollie Ledger", role: "SECONDARY" },
-  { id: 10, number: "#–", name: "Charlie Watts", role: "CENTER" },
-  { id: 11, number: "#–", name: "Tom D’Amelio", role: "CENTER" },
-  { id: 12, number: "#–", name: "Mantas", role: "CENTER" }
+  { id: 1,  number: "#2",  name: "Charlie Watts",          role: "CENTER" },
+  { id: 2,  number: "#5",  name: "Calvin Ramachandran",    role: "SECONDARY" },
+  { id: 3,  number: "#7",  name: "Luke Lyngberg",          role: "SECONDARY" },
+  { id: 4,  number: "#9",  name: "Thomas D'Amelio",        role: "CENTER" },
+  { id: 5,  number: "#13", name: "Viv Anderson-Francois",  role: "SECONDARY" },
+  { id: 6,  number: "#21", name: "Tyler Langston",         role: "PRIMARY" },
+  { id: 7,  number: "#22", name: "Ollie Mann",             role: "SECONDARY" },
+  { id: 8,  number: "#23", name: "Michael Aminov",         role: "PRIMARY" },
+  { id: 9,  number: "#32", name: "Ollie Ledger",           role: "SECONDARY" },
+  { id: 10, number: "#40", name: "Tom Darcy",              role: "PRIMARY" },
+  { id: 11, number: "#44", name: "Mantas Kaspariunas",     role: "CENTER" },
+  { id: 12, number: "#55", name: "Jun Lee",                role: "SECONDARY" }
 ];
-
     const roleOrder = { PRIMARY: 1, SECONDARY: 2, CENTER: 3 };
     players.sort((a,b) => (roleOrder[a.role]-roleOrder[b.role]) || a.name.localeCompare(b.name));
 
