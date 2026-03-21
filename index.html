@@ -691,17 +691,18 @@
 
     // ========= DATA (UPDATED PLAYERS FROM SCREENSHOT WITH ORIGINAL NUMBERS) =========
 const players = [
-  { id: 1,  number: "#2",  name: "Calvin Ramachandran", role: "SECONDARY" },
-  { id: 2,  number: "#5",  name: "Charlie Watts", role: "CENTER" },
-  { id: 3,  number: "#7",  name: "Joshua Blaikie", role: "SECONDARY" },
-  { id: 4,  number: "#9",  name: "Jun Lee", role: "SECONDARY" },
-  { id: 5,  number: "#13", name: "Max Armstrong", role: "PRIMARY" },
-  { id: 6,  number: "#21", name: "Oliver Mann", role: "SECONDARY" },
-  { id: 7,  number: "#22", name: "Patrick Rogers", role: "PRIMARY" },
-  { id: 8,  number: "#23", name: "Sebastian Millares", role: "SECONDARY" },
-  { id: 9,  number: "#32", name: "Thomas D'Amelio", role: "CENTER" },
-  { id: 10, number: "#40", name: "Tom Birks", role: "SECONDARY" },
-  { id: 11, number: "#44", name: "Tom Darcy", role: "PRIMARY" }
+  { id: 1, number: "#2",  name: "Charlie Watts", role: "CENTER" },
+  { id: 2, number: "#5",  name: "Calvin Ramachandran", role: "SECONDARY" },
+  { id: 3, number: "#9",  name: "Thomas D'Amelio", role: "CENTER" },
+  { id: 4, number: "#13", name: "Viv Anderson-Francois", role: "PRIMARY" },
+  { id: 5, number: "#21", name: "Tyler Langston", role: "SECONDARY" },
+  { id: 6, number: "#22", name: "Ollie Mann", role: "SECONDARY" },
+  { id: 7, number: "#30", name: "Josh Blaikie", role: "SECONDARY" },
+  { id: 8, number: "#32", name: "Ollie Ledger", role: "CENTER" },
+  { id: 9, number: "#34", name: "Mitch Joy", role: "SECONDARY" },
+  { id: 10, number: "#40", name: "Tom Darcy", role: "PRIMARY" },
+  { id: 11, number: "#44", name: "Mantas Kaspariunas", role: "PRIMARY" },
+  { id: 12, number: "#55", name: "Will Warren", role: "CENTER" }
 ];
     const roleOrder = { PRIMARY: 1, SECONDARY: 2, CENTER: 3 };
     players.sort((a,b) => (roleOrder[a.role]-roleOrder[b.role]) || a.name.localeCompare(b.name));
