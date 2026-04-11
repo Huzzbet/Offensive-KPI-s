@@ -689,28 +689,25 @@
 
     function clearStorage() { try { localStorage.removeItem(STORAGE_KEY); } catch(e) {} }
 
-    // ========= DATA (UPDATED PLAYERS FROM SCREENSHOT WITH ORIGINAL NUMBERS) =========
+  // ========= DATA (UPDATED PLAYERS WITH POSITIONS — FINAL) =========
 const players = [
-  // SQUAD
-  { id: 1, number: "#2",  name: "Charlie Watts", role: "CENTER" },
-  { id: 2, number: "#5",  name: "Calvin Ramachandran", role: "SECONDARY" },
+  // STARTERS / MAIN ROTATION
+  { id: 1, number: "#5",  name: "Calvin Ramachandran", role: "PRIMARY" },   // Guard
+  { id: 2, number: "#9",  name: "Thomas D'Amelio", role: "CENTER" },       // Centre
+  { id: 3, number: "#22", name: "Ollie Mann", role: "PRIMARY" },           // Guard
+  { id: 4, number: "#32", name: "Ollie Ledger", role: "SECONDARY" },       // Forward
+  { id: 5, number: "#13", name: "Viv Anderson-Francois", role: "PRIMARY" },// Guard
 
-  { id: 3, number: "#7",  name: "Will Warren", role: "CENTER" },
-  { id: 4, number: "#8",  name: "Jake Ansell", role: "SECONDARY" },
-  { id: 5, number: "#9",  name: "Thomas D'Amelio", role: "CENTER" },
+  // ROTATION
+  { id: 6, number: "#55", name: "Jun Lee", role: "SECONDARY" },            // Wing
+  { id: 7, number: "#2",  name: "Charlie Watts", role: "SECONDARY" },      // Forward
+  { id: 8, number: "#40", name: "Tom Darcy", role: "PRIMARY" },           // Guard (TD)
+  { id: 9, number: "#8",  name: "Jake Ansell", role: "SECONDARY" },        // Forward
+  { id: 10, number: "#–", name: "Tyler Langston", role: "SECONDARY" },     // Wing (number unknown)
 
-  { id: 6, number: "#13", name: "Viv Anderson-Francois", role: "PRIMARY" },
-  { id: 7, number: "#22", name: "Ollie Mann", role: "SECONDARY" },
-  { id: 8, number: "#30", name: "Josh Blaikie", role: "SECONDARY" },
-  { id: 9, number: "#32", name: "Ollie Ledger", role: "CENTER" },
-  { id: 10, number: "#34", name: "Mitch Joy", role: "SECONDARY" },
-  { id: 11, number: "#40", name: "Tom Darcy", role: "PRIMARY" },
-  { id: 12, number: "#55", name: "Jun Lee", role: "PRIMARY" },
-
-  // EMERGENCIES
-  { id: 13, number: "#–", name: "Tom Birks", role: "SECONDARY" },
-  { id: 14, number: "#–", name: "Sebastian Millares", role: "SECONDARY" },
-  { id: 15, number: "#–", name: "Jorden Fernando", role: "SECONDARY" }
+  // ADDITIONAL / BENCH
+  { id: 11, number: "#–", name: "Jorden Fernando", role: "PRIMARY" },      // Guard
+  { id: 12, number: "#–", name: "Sebastian Millares", role: "SECONDARY" }  // Wing
 ];
     const roleOrder = { PRIMARY: 1, SECONDARY: 2, CENTER: 3 };
     players.sort((a,b) => (roleOrder[a.role]-roleOrder[b.role]) || a.name.localeCompare(b.name));
