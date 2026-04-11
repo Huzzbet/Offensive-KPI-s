@@ -709,9 +709,16 @@ const players = [
   { id: 11, number: "#–", name: "Jorden Fernando", position: "GUARD" },
   { id: 12, number: "#–", name: "Sebastian Millares", position: "WING" }
 ];
-    const roleOrder = { PRIMARY: 1, SECONDARY: 2, CENTER: 3 };
-    players.sort((a,b) => (roleOrder[a.role]-roleOrder[b.role]) || a.name.localeCompare(b.name));
+    function positionClass(pos){
+  if (pos === "GUARD") return "rP";     // green
+  if (pos === "WING") return "rS";      // blue
+  if (pos === "FORWARD") return "rS";   // blue
+  return "rC";                          // centre = amber
+}
 
+function positionLabel(pos){
+  return pos;
+}
     function getPlayer(id){ return players.find(p=>p.id===id); }
 
     function roleTagClass(role){
@@ -800,7 +807,7 @@ const players = [
               <div class="benchMeta">TAP TO SELECT</div>
             </div>
           </div>
-          <div class="roleTag ${roleTagClass(p.role)}">${roleLabel(p.role)}</div>
+          <div class="roleTag ${positionClass(p.position)}">${positionLabel(p.position)}</div>
         `;
         card.onclick = () => {
           state.selectedPlayerId = p.id;
@@ -890,7 +897,7 @@ const players = [
             <div class="numBubble">${num}</div>
             <div>
               <div class="impactName">${r.p.name}</div>
-              <div class="impactMeta">${roleLabel(r.p.role)} • ${r.t} poss</div>
+              <div class="impactMeta">${positionLabel(r.p.position)} • ${r.t} poss
             </div>
           </div>
 
@@ -980,7 +987,7 @@ const players = [
 
       sortedByName.forEach(r => {
         const recentClass = (r.p.id === lastSavedPlayerId) ? "recentRow" : "";
-        const role = roleLabel(r.p.role);
+        const role = positionLabel(r.p.position);
         const roleBadgeClass =
           r.p.role === "PRIMARY" ? "bGreen" :
           r.p.role === "SECONDARY" ? "bBlue" : "bOrange";
