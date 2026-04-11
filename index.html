@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Please review this <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -687,41 +687,46 @@
       } catch(e) { return false; }
     }
 
-    function clearStorage() { try { localStorage.removeItem(STORAGE_KEY); } catch(// ========= DATA (UPDATED PLAYERS WITH POSITIONS) =========
+    function clearStorage() { try { localStorage.removeItem(STORAGE_KEY); } catch(e) {} }
+
+    // ========= DATA (UPDATED PLAYERS FROM SCREENSHOT WITH ORIGINAL NUMBERS) =========
 const players = [
-  { id: 1, number: "#5",  name: "Calvin Ramachandran", position: "GUARD" },
-  { id: 2, number: "#9",  name: "Thomas D'Amelio", position: "CENTRE" },
-  { id: 3, number: "#22", name: "Ollie Mann", position: "GUARD" },
-  { id: 4, number: "#32", name: "Ollie Ledger", position: "FORWARD" },
-  { id: 5, number: "#55", name: "Jun Lee", position: "WING" },
-  { id: 6, number: "#2",  name: "Charlie Watts", position: "FORWARD" },
-  { id: 7, number: "#13", name: "Viv Anderson-Francois", position: "GUARD" },
-  { id: 8, number: "#8",  name: "Jake Ansell", position: "FORWARD" },
+  // SQUAD
+  { id: 1, number: "#2",  name: "Charlie Watts", role: "CENTER" },
+  { id: 2, number: "#5",  name: "Calvin Ramachandran", role: "SECONDARY" },
 
-  // Added based on your list
-  { id: 9,  number: "#–", name: "Tyler", position: "WING" },
-  { id: 10, number: "#–", name: "Jorden Fernando", position: "GUARD" },
-  { id: 11, number: "#–", name: "Sebastian Millares", position: "WING" }
+  { id: 3, number: "#7",  name: "Will Warren", role: "CENTER" },
+  { id: 4, number: "#8",  name: "Jake Ansell", role: "SECONDARY" },
+  { id: 5, number: "#9",  name: "Thomas D'Amelio", role: "CENTER" },
+
+  { id: 6, number: "#13", name: "Viv Anderson-Francois", role: "PRIMARY" },
+  { id: 7, number: "#22", name: "Ollie Mann", role: "SECONDARY" },
+  { id: 8, number: "#30", name: "Josh Blaikie", role: "SECONDARY" },
+  { id: 9, number: "#32", name: "Ollie Ledger", role: "CENTER" },
+  { id: 10, number: "#34", name: "Mitch Joy", role: "SECONDARY" },
+  { id: 11, number: "#40", name: "Tom Darcy", role: "PRIMARY" },
+  { id: 12, number: "#55", name: "Jun Lee", role: "PRIMARY" },
+
+  // EMERGENCIES
+  { id: 13, number: "#–", name: "Tom Birks", role: "SECONDARY" },
+  { id: 14, number: "#–", name: "Sebastian Millares", role: "SECONDARY" },
+  { id: 15, number: "#–", name: "Jorden Fernando", role: "SECONDARY" }
 ];
-    const positionOrder = { GUARD: 1, WING: 2, FORWARD: 3, CENTRE: 4 };
-
-players.sort((a,b) =>
-  (positionOrder[a.position] - positionOrder[b.position]) ||
-  a.name.localeCompare(b.name)
-);
+    const roleOrder = { PRIMARY: 1, SECONDARY: 2, CENTER: 3 };
+    players.sort((a,b) => (roleOrder[a.role]-roleOrder[b.role]) || a.name.localeCompare(b.name));
 
     function getPlayer(id){ return players.find(p=>p.id===id); }
 
-    function positionTagClass(pos){
-  if (pos === "GUARD") return "rG";
-  if (pos === "WING") return "rW";
-  if (pos === "FORWARD") return "rF";
-  return "rC";
-}
-
-function positionLabel(pos){
-  return pos;
-}
+    function roleTagClass(role){
+      if (role === "PRIMARY") return "rP";
+      if (role === "SECONDARY") return "rS";
+      return "rC";
+    }
+    function roleLabel(role){
+      if (role === "PRIMARY") return "PRIMARY";
+      if (role === "SECONDARY") return "SECONDARY";
+      return "CENTRE";
+    }
 
     // ========= STATE =========
     const possessions = [];
