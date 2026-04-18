@@ -947,7 +947,7 @@
               <div class="benchNum">${num}</div>
               <div>
                 <div class="tileName">${r.p.name}</div>
-                <div class="tileMeta">${roleLabel(r.p.role)} • ${r.t} poss</div>
+                <div class="tileMeta">${positionLabel(r.p.position)} • ${r.t} poss</div>
               </div>
             </div>
             <div class="tileRight">
@@ -1107,7 +1107,7 @@
     exportCsvBtnEl.addEventListener("click", () => {
       if (possessions.length === 0){ showToast("Nothing to export"); return; }
 
-      const header = ["timestamp_iso","quarter","player_number","player_name","role","shot_quality","decision_quality"];
+      const header = ["timestamp_iso","quarter","player_number","player_name","position","shot_quality","decision_quality"];
       const rows = possessions.map(p => {
         const pl = getPlayer(p.playerId) || {};
         return [
@@ -1115,7 +1115,7 @@
           p.q,
           pl.number || "",
           pl.name || "",
-          pl.role || "",
+          pl.position || "",
           p.shot,
           p.decision
         ];
