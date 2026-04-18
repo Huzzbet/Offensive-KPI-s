@@ -15,6 +15,7 @@
       --amber:#eab308;
       --red:#ef4444;
       --orange:#f97316;
+      --purple:#a855f7;
 
       --shadow:0 22px 55px rgba(0,0,0,0.65);
       --inner:inset 0 0 0 1px rgba(2,6,23,0.25);
@@ -152,7 +153,7 @@
     table.summaryTable{
       width:100%;
       border-collapse:collapse;
-      min-width: 740px;
+      min-width: 1120px;
       font-size:12px;
     }
     .summaryTable thead{ background: rgba(15,23,42,0.95); }
@@ -198,6 +199,8 @@
     .bRed{ border-color: rgba(239,68,68,0.50); color:#fecaca; }
     .bBlue{ border-color: rgba(56,189,248,0.55); color:#bae6fd; }
     .bOrange{ border-color: rgba(249,115,22,0.55); color:#fed7aa; }
+    .bPurple{ border-color: rgba(168,85,247,0.55); color:#e9d5ff; }
+    .bAmber{ border-color: rgba(234,179,8,0.55); color:#fde68a; }
 
     /* BUTTONS */
     .btn{
@@ -259,6 +262,13 @@
     .pill-btn.decC.active{ background: radial-gradient(circle at top, rgba(56,189,248,0.95), rgba(3,105,161,0.55)); border-color: rgba(56,189,248,0.70); }
     .pill-btn.decI.active{ background: radial-gradient(circle at top, rgba(249,115,22,0.95), rgba(154,52,18,0.55)); border-color: rgba(249,115,22,0.70); }
 
+    .pill-btn.typeL.active{ background: radial-gradient(circle at top, rgba(168,85,247,0.95), rgba(107,33,168,0.58)); border-color: rgba(168,85,247,0.75); }
+    .pill-btn.typeJ.active{ background: radial-gradient(circle at top, rgba(14,165,233,0.95), rgba(3,105,161,0.58)); border-color: rgba(14,165,233,0.75); }
+    .pill-btn.foot1.active{ background: radial-gradient(circle at top, rgba(34,197,94,0.95), rgba(21,128,61,0.58)); border-color: rgba(34,197,94,0.75); }
+    .pill-btn.foot2.active{ background: radial-gradient(circle at top, rgba(234,179,8,0.95), rgba(161,98,7,0.58)); border-color: rgba(234,179,8,0.75); }
+    .pill-btn.outM.active{ background: radial-gradient(circle at top, rgba(34,197,94,0.98), rgba(22,163,74,0.62)); border-color: rgba(34,197,94,0.85); }
+    .pill-btn.outX.active{ background: radial-gradient(circle at top, rgba(239,68,68,0.95), rgba(153,27,27,0.58)); border-color: rgba(239,68,68,0.75); }
+
     /* KPI */
     .kpiGrid{
       display:grid;
@@ -266,7 +276,7 @@
       gap:10px;
       margin-top:10px;
     }
-    @media(min-width: 900px){ .kpiGrid{ grid-template-columns: 1fr 1fr 1fr; } }
+    @media(min-width: 900px){ .kpiGrid{ grid-template-columns: repeat(5, 1fr); } }
     .kpi{
       border-radius:18px;
       border:1px solid rgba(148,163,184,0.16);
@@ -345,6 +355,7 @@
       box-shadow: 0 0 14px rgba(34,197,94,0.60);
     }
     .fill.blue{ background: linear-gradient(to right, #38bdf8, #0ea5e9); }
+    .fill.purple{ background: linear-gradient(to right, #a855f7, #c084fc); }
     .scoreBadge{
       border-radius:999px;
       padding:8px 12px;
@@ -401,7 +412,7 @@
       white-space:nowrap;
     }
 
-    /* PLAYER PICKER (force visible + scrollable on iPad landscape) */
+    /* PLAYER PICKER */
     .pickerWrap{
       margin-top:10px;
       border-radius:18px;
@@ -426,7 +437,7 @@
       display:grid;
       grid-template-columns: 1fr;
       gap:10px;
-      max-height: 320px;           /* prevents the “missing player list” feel */
+      max-height: 360px;
       overflow:auto;
       padding-right:6px;
     }
@@ -445,8 +456,6 @@
       user-select:none;
     }
     .playerCard:hover{ transform: translateY(-1px); border-color: rgba(56,189,248,0.40); }
-
-    /* STRONG GREEN HIGHLIGHT (requested) */
     .playerCard.selected{
       border-color: rgba(34,197,94,0.95);
       background:
@@ -534,7 +543,7 @@
         <div class="app-icon"><span>🏀</span></div>
         <div>
           <h1>SHOT<br>TRACKER</h1>
-          <div class="sub">Shot quality & decision quality — by quarter</div>
+          <div class="sub">Shot quality, decision quality & finishing profile — by quarter</div>
         </div>
       </div>
 
@@ -544,14 +553,13 @@
       </div>
     </div>
 
-    <!-- INPUT (MOVED TO TOP) -->
+    <!-- INPUT -->
     <div class="card">
       <div class="title" style="margin-bottom:6px;">POSSESSION INPUT</div>
       <div class="help" style="margin-top:0;">
-        1) Pick the finisher • 2) Shot quality • 3) Decision quality • then Save.
+        1) Pick the finisher • 2) Shot quality • 3) Decision quality • 4) Shot type • 5) Footwork • 6) Outcome • then Save.
       </div>
 
-      <!-- PLAYER PICKER (always visible + scrollable) -->
       <div class="pickerWrap">
         <div class="pickerHeaderRow">
           <div class="title" style="margin:0;">PLAYER</div>
@@ -577,13 +585,37 @@
         </div>
       </div>
 
+      <div style="margin-top:12px;">
+        <div class="title" style="margin-bottom:10px;">SHOT TYPE</div>
+        <div class="pill-row">
+          <button class="pill-btn typeL" data-type="shotType" data-value="LAYUP">Layup</button>
+          <button class="pill-btn typeJ" data-type="shotType" data-value="JUMP">Jump Shot</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <div class="title" style="margin-bottom:10px;">FOOTWORK</div>
+        <div class="pill-row">
+          <button class="pill-btn foot1" data-type="footwork" data-value="ONE">1 Foot</button>
+          <button class="pill-btn foot2" data-type="footwork" data-value="TWO">2 Feet</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <div class="title" style="margin-bottom:10px;">OUTCOME</div>
+        <div class="pill-row">
+          <button class="pill-btn outM" data-type="outcome" data-value="MADE">Made</button>
+          <button class="pill-btn outX" data-type="outcome" data-value="MISS">Missed</button>
+        </div>
+      </div>
+
       <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
         <button class="btn success" id="saveBtn">＋ Save Possession</button>
         <button class="btn disabled" id="undoBtn">↺ Undo Last</button>
       </div>
     </div>
 
-    <!-- QUARTER (MOVED UP WITH INPUT) -->
+    <!-- QUARTER -->
     <div class="card">
       <div class="sectionHead">
         <div class="title">SEGMENT</div>
@@ -602,7 +634,7 @@
       <div class="help">Every saved possession is tagged with the current quarter.</div>
     </div>
 
-    <!-- REPORTING (MOVED BELOW) -->
+    <!-- REPORTING -->
     <div class="card">
       <div class="sectionHead">
         <div class="title">VISUAL SUMMARY</div>
@@ -623,23 +655,21 @@
       </div>
 
       <div class="help" id="summaryHelp">
-        Full view: Team KPIs + ranked Impact Score per player (60% Great + 40% Correct, min 2 possessions).
+        Full view: Team KPIs + ranked Impact Score per player (50% Great + 30% Correct + 20% Make, min 2 possessions).
       </div>
 
       <div class="kpiGrid" id="kpiGrid"></div>
 
-      <!-- TOP TABLE (balanced report includes Incorrect %) -->
       <div class="tableWrap">
         <table class="summaryTable" id="summaryTable"></table>
       </div>
 
-      <!-- FULL -->
       <div class="impactList" id="impactList"></div>
 
-      <!-- SIMPLE -->
       <div class="simpleWrap" id="simpleWrap">
         <div class="simpleSectionTitle">Top 3</div>
         <div class="tileGrid" id="topTiles"></div>
+
         <div class="simpleSectionTitle">Needs attention (Bottom 3)</div>
         <div class="tileGrid" id="bottomTiles"></div>
       </div>
@@ -654,7 +684,7 @@
 
   <script>
     // ========= STORAGE =========
-    const STORAGE_KEY = "shotDecisionTracker_mckinnon_youth_v3";
+    const STORAGE_KEY = "shotDecisionTracker_mckinnon_youth_v4";
 
     function saveToStorage() {
       try {
@@ -684,61 +714,49 @@
         if (typeof parsed.simpleView === "boolean") simpleView = parsed.simpleView;
 
         return true;
-      } catch(e) { return false; }
+      } catch(e) {
+        return false;
+      }
     }
 
-    function clearStorage() { try { localStorage.removeItem(STORAGE_KEY); } catch(e) {} }
+    function clearStorage() {
+      try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+    }
 
- <script>
-  // ========= DATA (THIS WEEK'S TEAM) =========
-  const players = [
-    // STARTERS
-    { id: 1,  number: "#–", name: "Calvin", position: "GUARD" },
-    { id: 2,  number: "#–", name: "T.D.", position: "GUARD" },
-    { id: 3,  number: "#–", name: "Mann", position: "GUARD" },
-    { id: 4,  number: "#–", name: "Ledger", position: "FORWARD" },
-    { id: 5,  number: "#–", name: "Mantas", position: "CENTRE" },
+    // ========= DATA =========
+    const players = [
+      { id: 1,  number: "#–", name: "Calvin",  position: "GUARD" },
+      { id: 2,  number: "#–", name: "T.D.",    position: "GUARD" },
+      { id: 3,  number: "#–", name: "Mann",    position: "GUARD" },
+      { id: 4,  number: "#–", name: "Ledger",  position: "FORWARD" },
+      { id: 5,  number: "#–", name: "Mantas",  position: "CENTRE" },
 
-    // ROTATION
-    { id: 6,  number: "#–", name: "Jun", position: "WING" },
-    { id: 7,  number: "#–", name: "Watts", position: "FORWARD" },
-    { id: 8,  number: "#–", name: "Blaikie", position: "WING" },
-    { id: 9,  number: "#–", name: "Viv", position: "GUARD" },
-    { id: 10, number: "#–", name: "Tyler", position: "WING" },
-    { id: 11, number: "#–", name: "Ansell", position: "FORWARD" },
-    { id: 12, number: "#–", name: "Mitch", position: "FORWARD" },
+      { id: 6,  number: "#–", name: "Jun",     position: "WING" },
+      { id: 7,  number: "#–", name: "Watts",   position: "FORWARD" },
+      { id: 8,  number: "#–", name: "Blaikie", position: "WING" },
+      { id: 9,  number: "#–", name: "Viv",     position: "GUARD" },
+      { id: 10, number: "#–", name: "Tyler",   position: "WING" },
+      { id: 11, number: "#–", name: "Ansell",  position: "FORWARD" },
+      { id: 12, number: "#–", name: "Mitch",   position: "FORWARD" },
 
-    // EMERGENCIES
-    { id: 13, number: "#–", name: "Paddy", position: "WING" },
-    { id: 14, number: "#–", name: "Jordy", position: "GUARD" },
-    { id: 15, number: "#–", name: "Will", position: "WING" }
-  ];
+      { id: 13, number: "#–", name: "Paddy",   position: "WING" },
+      { id: 14, number: "#–", name: "Jordy",   position: "GUARD" },
+      { id: 15, number: "#–", name: "Will",    position: "WING" }
+    ];
 
-  function positionClass(pos){
-    if (pos === "GUARD") return "rP";
-    if (pos === "WING") return "rS";
-    if (pos === "FORWARD") return "rS";
-    return "rC"; // CENTRE
-  }
-
-  function positionLabel(pos){
-    return pos;
-  }
-
-  function getPlayer(id){
-    return players.find(p => p.id === id);
-  }
-</script>
-
-    function roleTagClass(role){
-      if (role === "PRIMARY") return "rP";
-      if (role === "SECONDARY") return "rS";
+    function positionClass(pos){
+      if (pos === "GUARD") return "rP";
+      if (pos === "WING") return "rS";
+      if (pos === "FORWARD") return "rS";
       return "rC";
     }
-    function roleLabel(role){
-      if (role === "PRIMARY") return "PRIMARY";
-      if (role === "SECONDARY") return "SECONDARY";
-      return "CENTRE";
+
+    function positionLabel(pos){
+      return pos;
+    }
+
+    function getPlayer(id){
+      return players.find(p => p.id === id);
     }
 
     // ========= STATE =========
@@ -747,7 +765,15 @@
     let filterQuarter = "ALL";
     let simpleView = false;
 
-    let state = { selectedPlayerId: null, selectedShot: null, selectedDecision: null };
+    let state = {
+      selectedPlayerId: null,
+      selectedShot: null,
+      selectedDecision: null,
+      selectedShotType: null,
+      selectedFootwork: null,
+      selectedOutcome: null
+    };
+
     let lastSavedPlayerId = null;
 
     // ========= ELEMENTS =========
@@ -777,7 +803,7 @@
       toastEl.textContent = msg;
       toastEl.classList.add("visible");
       clearTimeout(showToast._t);
-      showToast._t = setTimeout(()=>toastEl.classList.remove("visible"), 1200);
+      showToast._t = setTimeout(() => toastEl.classList.remove("visible"), 1200);
     }
 
     function setSimpleView(on){
@@ -785,7 +811,7 @@
       toggleViewBtnEl.textContent = simpleView ? "📋 Full View" : "✨ Simple View";
       summaryHelpEl.textContent = simpleView
         ? "Simple view: Top 3 / Bottom 3 tiles (fastest read mid-game)."
-        : "Full view: Team KPIs + ranked Impact Score per player (60% Great + 40% Correct, min 2 possessions).";
+        : "Full view: Team KPIs + ranked Impact Score per player (50% Great + 30% Correct + 20% Make, min 2 possessions).";
 
       impactListEl.style.display = simpleView ? "none" : "flex";
       simpleWrapEl.classList.toggle("show", simpleView);
@@ -798,6 +824,14 @@
       if (score >= 72) return "tGreen";
       if (score >= 52) return "tAmber";
       return "tRed";
+    }
+
+    function pct(a, b){
+      return b ? (a / b) * 100 : 0;
+    }
+
+    function roundPct(a, b){
+      return Math.round(pct(a, b));
     }
 
     // ========= PLAYER PICKER =========
@@ -820,57 +854,118 @@
         `;
         card.onclick = () => {
           state.selectedPlayerId = p.id;
-          renderPlayerPicker(); // re-render so selection is obvious
+          renderPlayerPicker();
         };
         playerPickerEl.appendChild(card);
       });
     }
 
-    // ========= STATS =========
+    // ========= FILTERED DATA =========
     function filteredPossessions(){
       if (filterQuarter === "ALL") return possessions;
       return possessions.filter(p => p.q === filterQuarter);
     }
 
+    // ========= STATS =========
     function computeRows(){
       const poss = filteredPossessions();
       const stats = {};
-      players.forEach(p => stats[p.id] = { total:0, great:0, poor:0, correct:0, incorrect:0 });
+      players.forEach(p => {
+        stats[p.id] = {
+          total: 0,
+          great: 0,
+          ok: 0,
+          poor: 0,
+          correct: 0,
+          incorrect: 0,
+          layup: 0,
+          jump: 0,
+          oneFoot: 0,
+          twoFeet: 0,
+          made: 0,
+          missed: 0
+        };
+      });
 
       poss.forEach(pos => {
-        const s = stats[pos.playerId]; if (!s) return;
+        const s = stats[pos.playerId];
+        if (!s) return;
+
         s.total++;
         if (pos.shot === "G") s.great++;
+        if (pos.shot === "O") s.ok++;
         if (pos.shot === "P") s.poor++;
+
         if (pos.decision === "C") s.correct++;
         if (pos.decision === "I") s.incorrect++;
+
+        if (pos.shotType === "LAYUP") s.layup++;
+        if (pos.shotType === "JUMP") s.jump++;
+
+        if (pos.footwork === "ONE") s.oneFoot++;
+        if (pos.footwork === "TWO") s.twoFeet++;
+
+        if (pos.outcome === "MADE") s.made++;
+        if (pos.outcome === "MISS") s.missed++;
       });
 
-      const rows = players.map(p => {
-        const s = stats[p.id];
-        const t = s.total;
-        const gPct = t ? (s.great/t)*100 : 0;
-        const pPct = t ? (s.poor/t)*100 : 0;
-        const cPct = t ? (s.correct/t)*100 : 0;
-        const iPct = t ? (s.incorrect/t)*100 : 0;
-        const impact = (t >= 2) ? (gPct*0.6 + cPct*0.4) : 0;
-        return { p, t, gPct, pPct, cPct, iPct, impact };
-      });
+      return {
+        poss,
+        rows: players.map(p => {
+          const s = stats[p.id];
+          const t = s.total;
 
-      return { poss, rows };
+          const gPct = pct(s.great, t);
+          const oPct = pct(s.ok, t);
+          const pPct = pct(s.poor, t);
+          const cPct = pct(s.correct, t);
+          const iPct = pct(s.incorrect, t);
+          const layupPct = pct(s.layup, t);
+          const jumpPct = pct(s.jump, t);
+          const onePct = pct(s.oneFoot, t);
+          const twoPct = pct(s.twoFeet, t);
+          const makePct = pct(s.made, t);
+
+          const impact = t >= 2 ? (gPct * 0.5 + cPct * 0.3 + makePct * 0.2) : 0;
+
+          return {
+            p,
+            t,
+            gPct, oPct, pPct,
+            cPct, iPct,
+            layupPct, jumpPct,
+            onePct, twoPct,
+            makePct,
+            impact
+          };
+        })
+      };
     }
 
+    // ========= KPIS + FULL LIST =========
     function renderKpisAndImpact(){
       const { poss, rows } = computeRows();
 
       const totalPoss = poss.length;
-      let teamGreat = 0, teamCorrect = 0;
+      let teamGreat = 0;
+      let teamCorrect = 0;
+      let teamMade = 0;
+      let teamLayups = 0;
+      let teamTwoFeet = 0;
+
       poss.forEach(p => {
         if (p.shot === "G") teamGreat++;
         if (p.decision === "C") teamCorrect++;
+        if (p.outcome === "MADE") teamMade++;
+        if (p.shotType === "LAYUP") teamLayups++;
+        if (p.footwork === "TWO") teamTwoFeet++;
       });
-      const teamGreatPct = totalPoss ? (teamGreat/totalPoss)*100 : 0;
-      const teamCorrectPct = totalPoss ? (teamCorrect/totalPoss)*100 : 0;
+
+      const teamGreatPct = roundPct(teamGreat, totalPoss);
+      const teamCorrectPct = roundPct(teamCorrect, totalPoss);
+      const teamMakePct = roundPct(teamMade, totalPoss);
+      const teamLayupPct = roundPct(teamLayups, totalPoss);
+      const teamTwoFeetPct = roundPct(teamTwoFeet, totalPoss);
 
       kpiGridEl.innerHTML = `
         <div class="kpi">
@@ -880,33 +975,41 @@
         </div>
         <div class="kpi">
           <div class="kpiLabel">Great Look %</div>
-          <div class="kpiValue">${Math.round(teamGreatPct)}%</div>
+          <div class="kpiValue">${teamGreatPct}%</div>
           <div class="kpiSub">How often we create great shots.</div>
         </div>
         <div class="kpi">
           <div class="kpiLabel">Correct Decision %</div>
-          <div class="kpiValue">${Math.round(teamCorrectPct)}%</div>
-          <div class="kpiSub">Choice quality (pass/shot selection).</div>
+          <div class="kpiValue">${teamCorrectPct}%</div>
+          <div class="kpiSub">Choice quality under pressure.</div>
+        </div>
+        <div class="kpi">
+          <div class="kpiLabel">Make %</div>
+          <div class="kpiValue">${teamMakePct}%</div>
+          <div class="kpiSub">Scoring efficiency from tracked shots.</div>
+        </div>
+        <div class="kpi">
+          <div class="kpiLabel">Layup / 2 Feet %</div>
+          <div class="kpiValue">${teamLayupPct}% / ${teamTwoFeetPct}%</div>
+          <div class="kpiSub">Finishing profile mix for this segment.</div>
         </div>
       `;
 
       const sorted = [...rows].sort((a,b) => b.impact - a.impact);
 
-      // Full list
       impactListEl.innerHTML = "";
       sorted.forEach(r => {
         const num = (r.p.number || "#–").replace("#","");
-        const isRecent = (r.p.id === lastSavedPlayerId);
+        const isRecent = r.p.id === lastSavedPlayerId;
 
         const row = document.createElement("div");
         row.className = "impactRow" + (isRecent ? " recentRow" : "");
-
         row.innerHTML = `
           <div class="impactLeft">
             <div class="numBubble">${num}</div>
             <div>
               <div class="impactName">${r.p.name}</div>
-              <div class="impactMeta">${positionLabel(r.p.position)} • ${r.t} poss
+              <div class="impactMeta">${positionLabel(r.p.position)} • ${r.t} poss • Make ${Math.round(r.makePct)}%</div>
             </div>
           </div>
 
@@ -921,6 +1024,11 @@
               <div class="track"><div class="fill blue" style="width:${r.cPct}%;"></div></div>
             </div>
 
+            <div class="miniMetric">
+              <div class="miniLabel"><span>Make</span><span>${Math.round(r.makePct)}%</span></div>
+              <div class="track"><div class="fill purple" style="width:${r.makePct}%;"></div></div>
+            </div>
+
             <div class="scoreBadge">
               Impact: <strong>${Math.round(r.impact)}</strong>
             </div>
@@ -929,13 +1037,13 @@
         impactListEl.appendChild(row);
       });
 
-      // Simple tiles
       const eligible = sorted.filter(r => r.t >= 2);
       const top3 = eligible.slice(0, 3);
       const bottom3 = eligible.slice(-3).reverse();
 
       function renderTiles(list, targetEl){
         targetEl.innerHTML = "";
+
         list.forEach(r => {
           const num = (r.p.number || "#–").replace("#","");
           const dot = trafficClass(r.impact);
@@ -952,9 +1060,9 @@
             </div>
             <div class="tileRight">
               <div class="miniPill">G ${Math.round(r.gPct)}%</div>
-              <div class="miniPill">P ${Math.round(r.pPct)}%</div>
               <div class="miniPill">C ${Math.round(r.cPct)}%</div>
-              <div class="miniPill">I ${Math.round(r.iPct)}%</div>
+              <div class="miniPill">M ${Math.round(r.makePct)}%</div>
+              <div class="miniPill">L ${Math.round(r.layupPct)}%</div>
             </div>
           `;
           targetEl.appendChild(tile);
@@ -974,42 +1082,52 @@
       renderTiles(bottom3, bottomTilesEl);
     }
 
-    // ========= BALANCED TOP SUMMARY TABLE =========
+    // ========= SUMMARY TABLE =========
     function renderSummaryTable(){
       const { rows } = computeRows();
-      const sortedByName = [...rows].sort((a,b)=> a.p.name.localeCompare(b.p.name));
+      const sortedByName = [...rows].sort((a, b) => a.p.name.localeCompare(b.p.name));
 
       let html = `
         <thead>
           <tr>
             <th>Player</th>
-            <th>Role</th>
+            <th>Position</th>
             <th>Poss</th>
             <th>Great %</th>
             <th>Poor %</th>
             <th>Correct %</th>
             <th>Incorrect %</th>
+            <th>Layup %</th>
+            <th>Jump %</th>
+            <th>1 Foot %</th>
+            <th>2 Feet %</th>
+            <th>Make %</th>
           </tr>
         </thead>
         <tbody>
       `;
 
       sortedByName.forEach(r => {
-        const recentClass = (r.p.id === lastSavedPlayerId) ? "recentRow" : "";
-        const role = positionLabel(r.p.position);
-        const roleBadgeClass =
-          r.p.role === "PRIMARY" ? "bGreen" :
-          r.p.role === "SECONDARY" ? "bBlue" : "bOrange";
+        const recentClass = r.p.id === lastSavedPlayerId ? "recentRow" : "";
+        const pos = positionLabel(r.p.position);
+        const positionBadgeClass =
+          r.p.position === "GUARD" ? "bGreen" :
+          (r.p.position === "WING" || r.p.position === "FORWARD") ? "bBlue" : "bOrange";
 
         html += `
           <tr class="${recentClass}">
             <td><strong>${r.p.number} ${r.p.name}</strong></td>
-            <td><span class="miniBadge ${roleBadgeClass}">${role}</span></td>
+            <td><span class="miniBadge ${positionBadgeClass}">${pos}</span></td>
             <td>${r.t}</td>
             <td><span class="miniBadge bGreen">${Math.round(r.gPct)}%</span></td>
             <td><span class="miniBadge bRed">${Math.round(r.pPct)}%</span></td>
             <td><span class="miniBadge bBlue">${Math.round(r.cPct)}%</span></td>
             <td><span class="miniBadge bOrange">${Math.round(r.iPct)}%</span></td>
+            <td><span class="miniBadge bPurple">${Math.round(r.layupPct)}%</span></td>
+            <td><span class="miniBadge bBlue">${Math.round(r.jumpPct)}%</span></td>
+            <td><span class="miniBadge bAmber">${Math.round(r.onePct)}%</span></td>
+            <td><span class="miniBadge bGreen">${Math.round(r.twoPct)}%</span></td>
+            <td><span class="miniBadge bPurple">${Math.round(r.makePct)}%</span></td>
           </tr>
         `;
       });
@@ -1025,8 +1143,8 @@
 
     // ========= PILL HANDLING =========
     function setActivePill(type, value){
-      document.querySelectorAll('.pill-btn[data-type="'+type+'"]').forEach(b => b.classList.remove("active"));
-      document.querySelectorAll('.pill-btn[data-type="'+type+'"][data-value="'+value+'"]').forEach(b => b.classList.add("active"));
+      document.querySelectorAll('.pill-btn[data-type="' + type + '"]').forEach(b => b.classList.remove("active"));
+      document.querySelectorAll('.pill-btn[data-type="' + type + '"][data-value="' + value + '"]').forEach(b => b.classList.add("active"));
     }
 
     allPills.forEach(btn => {
@@ -1050,6 +1168,9 @@
         }
         if (type === "shot") state.selectedShot = value;
         if (type === "decision") state.selectedDecision = value;
+        if (type === "shotType") state.selectedShotType = value;
+        if (type === "footwork") state.selectedFootwork = value;
+        if (type === "outcome") state.selectedOutcome = value;
       });
     });
 
@@ -1058,8 +1179,14 @@
       state.selectedPlayerId = null;
       state.selectedShot = null;
       state.selectedDecision = null;
+      state.selectedShotType = null;
+      state.selectedFootwork = null;
+      state.selectedOutcome = null;
 
-      document.querySelectorAll('.pill-btn[data-type="shot"], .pill-btn[data-type="decision"]').forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(
+        '.pill-btn[data-type="shot"], .pill-btn[data-type="decision"], .pill-btn[data-type="shotType"], .pill-btn[data-type="footwork"], .pill-btn[data-type="outcome"]'
+      ).forEach(b => b.classList.remove("active"));
+
       renderPlayerPicker();
     }
 
@@ -1069,8 +1196,15 @@
     }
 
     saveBtnEl.addEventListener("click", () => {
-      if (state.selectedPlayerId == null || state.selectedShot == null || state.selectedDecision == null){
-        alert("Select Player, Shot Quality, and Decision Quality first.");
+      if (
+        state.selectedPlayerId == null ||
+        state.selectedShot == null ||
+        state.selectedDecision == null ||
+        state.selectedShotType == null ||
+        state.selectedFootwork == null ||
+        state.selectedOutcome == null
+      ){
+        alert("Select Player, Shot Quality, Decision Quality, Shot Type, Footwork, and Outcome first.");
         return;
       }
 
@@ -1078,6 +1212,9 @@
         playerId: state.selectedPlayerId,
         shot: state.selectedShot,
         decision: state.selectedDecision,
+        shotType: state.selectedShotType,
+        footwork: state.selectedFootwork,
+        outcome: state.selectedOutcome,
         q: currentQuarter,
         ts: Date.now()
       });
@@ -1105,9 +1242,24 @@
 
     // ========= EXPORT / RESET =========
     exportCsvBtnEl.addEventListener("click", () => {
-      if (possessions.length === 0){ showToast("Nothing to export"); return; }
+      if (possessions.length === 0){
+        showToast("Nothing to export");
+        return;
+      }
 
-      const header = ["timestamp_iso","quarter","player_number","player_name","position","shot_quality","decision_quality"];
+      const header = [
+        "timestamp_iso",
+        "quarter",
+        "player_number",
+        "player_name",
+        "position",
+        "shot_quality",
+        "decision_quality",
+        "shot_type",
+        "footwork",
+        "outcome"
+      ];
+
       const rows = possessions.map(p => {
         const pl = getPlayer(p.playerId) || {};
         return [
@@ -1117,12 +1269,14 @@
           pl.name || "",
           pl.position || "",
           p.shot,
-          p.decision
+          p.decision,
+          p.shotType,
+          p.footwork,
+          p.outcome
         ];
       });
 
-      // avoid replaceAll for max compatibility
-      const esc = (v) => String(v).replace(/"/g,'""');
+      const esc = (v) => String(v).replace(/"/g, '""');
       const csv = [header, ...rows].map(r => r.map(v => `"${esc(v)}"`).join(",")).join("\n");
 
       const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
@@ -1135,6 +1289,7 @@
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
+
       showToast("Exported");
     });
 
@@ -1151,7 +1306,7 @@
       setActivePill("filter", "ALL");
       currentQuarterLabelEl.textContent = currentQuarter;
 
-      renderPlayerPicker();
+      clearPossessionSelection();
       renderAll();
       updateUndoBtn();
       clearStorage();
@@ -1168,10 +1323,9 @@
     setActivePill("filter", filterQuarter);
     currentQuarterLabelEl.textContent = currentQuarter;
 
-    renderPlayerPicker();   // <- ensures player list appears immediately
+    renderPlayerPicker();
     renderAll();
     updateUndoBtn();
-
     setSimpleView(simpleView);
 
     if (restored) showToast("Restored");
