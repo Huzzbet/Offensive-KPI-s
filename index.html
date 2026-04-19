@@ -1197,13 +1197,15 @@
 
     saveBtnEl.addEventListener("click", () => {
       if (
-        state.selectedPlayerId == null ||
-        state.selectedShot == null ||
-        state.selectedDecision == null ||
-        state.selectedShotType == null ||
-        state.selectedFootwork == null ||
-        state.selectedOutcome == null
-      ){
+  state.selectedPlayerId == null ||
+  state.selectedShot == null ||
+  state.selectedDecision == null ||
+  state.selectedShotType == null ||
+  state.selectedOutcome == null
+){
+  alert("Complete required inputs before saving.");
+  return;
+}{
         alert("Select Player, Shot Quality, Decision Quality, Shot Type, Footwork, and Outcome first.");
         return;
       }
